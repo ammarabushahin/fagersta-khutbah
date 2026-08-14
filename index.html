@@ -138,6 +138,44 @@
         }
         .admin-modal.active .admin-content { transform: scale(1); }
 
+        /* Toast Notification */
+        #toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-150%);
+            padding: 12px 24px; border-radius: 50px; color: white; font-weight: bold;
+            z-index: 9999999; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+            opacity: 0; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        /* Teleprompter Mode */
+        #teleprompter-overlay {
+            position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 999999;
+            display: none; flex-direction: column; overflow-y: auto;
+            padding: 10vh 15vw 30vh 15vw; font-size: 3.5rem; line-height: 1.8;
+            scroll-behavior: smooth;
+        }
+        #teleprompter-overlay.active { display: flex; }
+        .tp-text { margin-bottom: 2rem; }
+        .tp-verse { color: #4ade80; text-align: center; }
+        .tp-hadith { color: #38bdf8; text-align: center; }
+        .tp-controls {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(20,20,20,0.95); padding: 15px 30px; border-radius: 50px;
+            display: flex; gap: 20px; align-items: center; border: 1px solid #333;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+        }
+        .tp-btn {
+            background: #333; color: white; border: none; padding: 15px;
+            border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s; width: 60px; height: 60px;
+        }
+        .tp-btn:hover { background: #555; transform: scale(1.1); }
+        .tp-btn.play { background: #10b981; }
+        .tp-btn.play:hover { background: #059669; }
+        .tp-btn.exit { background: #ef4444; }
+        .tp-btn.exit:hover { background: #dc2626; }
+        .tp-speed { font-size: 1.5rem; font-weight: bold; width: 40px; text-align: center; font-family: sans-serif;}
+
     </style>
 </head>
 <body class="bg-stone-50 text-stone-800 transition-colors duration-300 overflow-x-hidden pb-24">
@@ -149,6 +187,23 @@
 
     <!-- Reading Progress Bar -->
     <div id="progress-bar"></div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="font-ui text-lg">تم الإجراء بنجاح!</div>
+
+    <!-- TELEPROMPTER OVERLAY -->
+    <div id="teleprompter-overlay" class="font-arabic" dir="rtl">
+        <div id="tp-content"></div>
+        <div class="tp-controls" dir="ltr">
+            <button onclick="window.exitTeleprompter()" class="tp-btn exit" title="إغلاق شاشة التلقين"><i data-lucide="x" class="w-8 h-8"></i></button>
+            <div class="w-px h-10 bg-stone-700 mx-2"></div>
+            <button onclick="window.changeTpSpeed(-0.5)" class="tp-btn" title="إبطاء"><i data-lucide="turtle" class="w-8 h-8"></i></button>
+            <span id="tp-speed-display" class="tp-speed">1x</span>
+            <button onclick="window.changeTpSpeed(0.5)" class="tp-btn" title="تسريع"><i data-lucide="rabbit" class="w-8 h-8"></i></button>
+            <div class="w-px h-10 bg-stone-700 mx-2"></div>
+            <button onclick="window.toggleTpPlay()" id="tp-play-btn" class="tp-btn play" title="تشغيل / إيقاف"><i data-lucide="play" class="w-8 h-8"></i></button>
+        </div>
+    </div>
 
     <!-- UPDATE DATE BANNER -->
     <div id="date-banner" class="date-banner bg-stone-900 text-brand-400 py-2.5 text-center text-sm tracking-wider font-bold font-ui shadow-md">
@@ -234,8 +289,8 @@
     <!-- IMAM TOOLS (FAB) -->
     <div id="imam-tools" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3" dir="ltr">
         <div id="imam-tools-menu" class="flex flex-col gap-2 scale-0 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right">
-            <button onclick="window.toggleAutoScroll()" id="btn-autoscroll" class="flex items-center gap-3 bg-white text-stone-700 px-4 py-3 rounded-full shadow-lg border border-stone-100 hover:bg-brand-50 hover:text-brand-600 transition-colors font-bold font-ui">
-                <span class="text-sm">تلقين آلي</span><i data-lucide="chevrons-down" class="w-5 h-5"></i>
+            <button onclick="window.startTeleprompter()" class="flex items-center gap-3 bg-white text-stone-700 px-4 py-3 rounded-full shadow-lg border border-stone-100 hover:bg-brand-50 hover:text-brand-600 transition-colors font-bold font-ui">
+                <span class="text-sm">شاشة الخطيب (تلقين)</span><i data-lucide="monitor-play" class="w-5 h-5"></i>
             </button>
             <button onclick="window.toggleZenMode()" id="btn-zen" class="flex items-center gap-3 bg-white text-stone-700 px-4 py-3 rounded-full shadow-lg border border-stone-100 hover:bg-amber-50 hover:text-amber-600 transition-colors font-bold font-ui">
                 <span class="text-sm">وضع التركيز</span><i data-lucide="focus" class="w-5 h-5"></i>
@@ -315,11 +370,6 @@
                                 <p class="text-xs text-stone-400 mt-2">ضع رابط صورة الشعار هنا لتغيير شكل الكتاب في الأعلى.</p>
                             </div>
                             <div class="col-span-2 border-t pt-4">
-                                <label class="block text-sm font-bold text-stone-500 mb-2">مفتاح الذكاء الاصطناعي (Gemini API Key) للترجمة التلقائية</label>
-                                <input type="password" id="set-gemini-key" placeholder="AIzaSy..." class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none text-left" dir="ltr">
-                                <p class="text-xs text-stone-400 mt-2">احصل على المفتاح مجاناً من Google AI Studio لتفعيل زر الترجمة الآلية في محرر الخطب.</p>
-                            </div>
-                            <div class="col-span-2 border-t pt-4">
                                 <label class="block text-sm font-bold text-stone-500 mb-2">لون الموقع (Theme)</label>
                                 <div class="flex gap-4">
                                     <button onclick="window.setTheme('emerald')" class="w-12 h-12 rounded-full bg-emerald-600 border-4 border-white shadow-md ring-2 ring-transparent focus:ring-emerald-400"></button>
@@ -359,12 +409,6 @@
                         <div class="mb-4">
                             <label class="block text-sm font-bold text-stone-500 mb-1">عنوان الخطبة</label>
                             <input type="text" id="edit-title" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none text-lg font-bold">
-                        </div>
-
-                        <!-- Translation Buttons -->
-                        <div class="flex gap-2 mb-6 bg-stone-50 p-3 rounded-xl border border-stone-200">
-                             <button onclick="window.autoTranslate('sv')" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 flex items-center justify-center gap-2 transition-colors"><i data-lucide="bot" class="w-4 h-4"></i> ترجمة آلية للسويدية</button>
-                             <button onclick="window.autoTranslate('so')" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-emerald-700 flex items-center justify-center gap-2 transition-colors"><i data-lucide="bot" class="w-4 h-4"></i> ترجمة آلية للصومالية</button>
                         </div>
 
                         <!-- SMART PARSER -->
@@ -444,6 +488,15 @@
         let editingId = null;
         let editLang = 'ar';
         let editingData = null; 
+
+        // Toast Function
+        window.showToast = (msg, isError = false) => {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.backgroundColor = isError ? '#ef4444' : '#10b981';
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        };
 
         // Backup Data if DB is empty
         const FALLBACK_ARCHIVE = {
@@ -645,7 +698,6 @@
         // ==========================================
         // 5. IMAM TOOLS (FAB)
         // ==========================================
-        let autoScrollInterval = null;
         let isZenMode = false;
 
         window.toggleImamTools = () => {
@@ -657,12 +709,6 @@
             fab.classList.toggle('rotate-45');
             fab.classList.toggle('bg-rose-600');
             fab.classList.toggle('bg-stone-900');
-        }
-
-        window.toggleAutoScroll = () => {
-            if(autoScrollInterval) { clearInterval(autoScrollInterval); autoScrollInterval = null; } 
-            else { autoScrollInterval = setInterval(() => window.scrollBy(0, 1), 40); }
-            window.toggleImamTools();
         }
 
         window.toggleZenMode = () => {
@@ -726,7 +772,6 @@
             document.getElementById('set-mosque-ar').value = siteSettings.mosqueNameAr || '';
             document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat || '';
             document.getElementById('set-logo-url').value = siteSettings.logoUrl || '';
-            document.getElementById('set-gemini-key').value = siteSettings.geminiApiKey || '';
             
             window.switchAdminTab('settings');
         }
@@ -760,11 +805,15 @@
         window.setTheme = (themeName) => { siteSettings.theme = themeName; }
 
         window.saveAllSettings = async () => {
+            const saveBtn = document.querySelector('button[onclick="window.saveAllSettings()"]');
+            const originalHTML = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<div class="spinner w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-block align-middle mr-2"></div> جاري الحفظ...';
+            saveBtn.disabled = true;
+
             // Save Settings
             siteSettings.mosqueNameAr = document.getElementById('set-mosque-ar').value;
             siteSettings.mosqueNameLat = document.getElementById('set-mosque-lat').value;
             siteSettings.logoUrl = document.getElementById('set-logo-url').value;
-            siteSettings.geminiApiKey = document.getElementById('set-gemini-key').value;
             
             try {
                 await setDoc(doc(db, "config", "settings"), siteSettings);
@@ -774,18 +823,21 @@
                     syncEditorToData(); // save current tab state to memory
                     await setDoc(doc(db, "khutbahs", editingId), editingData);
                     khutbahsDb[editingId] = JSON.parse(JSON.stringify(editingData)); // update local
+                    currentKhutbahId = editingId; // Switch view to the newly saved khutbah
                 }
                 
-                alert("تم الحفظ بنجاح!");
+                window.showToast("تم حفظ التغييرات بنجاح!");
                 applySettingsToUI();
+                populateArchiveDropdown(Object.keys(khutbahsDb).sort().reverse());
                 renderAdminKhutbahList();
-                
-                // Update live view if editing current
-                if(currentKhutbahId === editingId) { populateArchiveDropdown(Object.keys(khutbahsDb).sort().reverse()); renderKhutbah(); }
+                renderKhutbah();
                 
             } catch (e) {
-                alert("حدث خطأ أثناء الحفظ. تأكد من الصلاحيات.");
+                window.showToast("حدث خطأ أثناء الحفظ! تأكد من صلاحيات قاعدة البيانات.", true);
                 console.error(e);
+            } finally {
+                saveBtn.innerHTML = originalHTML;
+                saveBtn.disabled = false;
             }
         }
 
@@ -940,87 +992,6 @@
             }
         };
 
-        window.autoTranslate = async (targetLang) => {
-            if (!siteSettings.geminiApiKey) {
-                alert("يرجى إضافة مفتاح الذكاء الاصطناعي (Gemini API Key) في إعدادات الموقع أولاً للحصول على الترجمة المجانية!");
-                window.switchAdminTab('settings');
-                return;
-            }
-
-            if (!editingData.ar || !editingData.ar.sections || editingData.ar.sections.length === 0) {
-                alert("يرجى تفكيك وإضافة نص الخطبة باللغة العربية أولاً قبل البدء بالترجمة!");
-                return;
-            }
-
-            const langName = targetLang === 'sv' ? "Swedish" : "Somali";
-            const sectionsJson = JSON.stringify(editingData.ar.sections);
-            
-            const prompt = `You are an expert Islamic translator. Translate the following JSON array of Friday Khutbah sections from Arabic to ${langName}.
-Rules:
-1. Keep the EXACT same JSON array structure.
-2. DO NOT change the "type" field values (keep them as "text", "verse", "hadith", "dua", "intro", "highlight", "divider").
-3. Translate ONLY the "content" and "title" fields into highly accurate and spiritual ${langName}.
-4. Return ONLY the raw JSON array. Do not wrap it in markdown blockquotes like \`\`\`json. Just the raw array starting with [ and ending with ].
-
-Input JSON:
-${sectionsJson}`;
-
-            try {
-                document.getElementById('loading-overlay').style.display = 'flex';
-                document.querySelector('#loading-overlay h2').innerText = `جاري ترجمة الخطبة إلى ${langName} بواسطة الذكاء الاصطناعي...`;
-
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${siteSettings.geminiApiKey}`;
-
-                // Translate Sections
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { responseMimeType: "application/json" }
-                    })
-                });
-
-                const result = await response.json();
-                if (result.error) throw new Error(result.error.message);
-
-                const translatedText = result.candidates[0].content.parts[0].text;
-                let translatedSections;
-                try {
-                    translatedSections = JSON.parse(translatedText.replace(/```json/g, '').replace(/```/g, '').trim());
-                } catch(err) {
-                    throw new Error("فشل الذكاء الاصطناعي في تنسيق النتيجة. حاول الترجمة مرة أخرى.");
-                }
-
-                // Translate Title
-                const titlePrompt = `Translate this Arabic Khutbah title to ${langName}. Return only the translated text. Title: "${editingData.ar.title}"`;
-                const titleResponse = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: titlePrompt }] }] })
-                });
-                const titleResult = await titleResponse.json();
-                const translatedTitle = titleResult.candidates[0].content.parts[0].text.trim();
-
-                // Apply Translations
-                if (!editingData[targetLang]) {
-                    editingData[targetLang] = { dir: "ltr", fontClass: "font-latin" };
-                }
-                editingData[targetLang].title = translatedTitle;
-                editingData[targetLang].sections = translatedSections;
-
-                window.switchEditorLang(targetLang);
-                alert("🎉 تمت الترجمة بنجاح! راجع النص الآن في الأسفل ثم اضغط حفظ التغييرات.");
-
-            } catch (error) {
-                console.error("Translation Error:", error);
-                alert("حدث خطأ أثناء الترجمة: " + error.message);
-            } finally {
-                document.getElementById('loading-overlay').style.display = 'none';
-                document.querySelector('#loading-overlay h2').innerText = "جاري تحميل المنصة...";
-            }
-        };
-
         window.parseSmartText = () => {
             const raw = document.getElementById('smart-text').value;
             if(!raw.trim()) return;
@@ -1061,11 +1032,87 @@ ${sectionsJson}`;
             editingData[editLang].sections = editingData[editLang].sections.concat(newSections);
             document.getElementById('smart-text').value = ''; // clear
             renderEditorBlocks();
-            alert(`تم استخراج ${newSections.length} فقرة بنجاح! راجعها في الأسفل ثم اضغط حفظ.`);
+            window.showToast(`تم تفكيك وإضافة ${newSections.length} فقرة بنجاح!`);
         }
 
         // ==========================================
-        // 9. START APP
+        // 9. TELEPROMPTER MODE (شاشة التلقين - المكافأة)
+        // ==========================================
+        let tpAnimationId = null;
+        let isTpPlaying = false;
+        let tpSpeed = 1.0;
+
+        window.startTeleprompter = () => {
+            if(!currentKhutbahId || !khutbahsDb[currentKhutbahId]) return;
+            const data = khutbahsDb[currentKhutbahId][currentLang];
+            const tpContent = document.getElementById('tp-content');
+            
+            // Build content for teleprompter
+            tpContent.innerHTML = `<h1 class="text-6xl md:text-8xl font-bold text-center mb-24 mt-12 text-brand-400">${data.title}</h1>`;
+            data.sections.forEach(sec => {
+                if (sec.type === 'verse') {
+                    tpContent.innerHTML += `<div class="tp-text tp-verse">﴿ ${sec.content} ﴾</div>`;
+                } else if (sec.type === 'hadith') {
+                    tpContent.innerHTML += `<div class="tp-text tp-hadith">« ${sec.content} »</div>`;
+                } else if (sec.type === 'divider') {
+                    tpContent.innerHTML += `<div class="tp-text text-amber-500 text-center text-4xl border-t border-b border-amber-500 py-8 my-16">${sec.content}</div>`;
+                } else {
+                    tpContent.innerHTML += `<div class="tp-text">${sec.content}</div>`;
+                }
+            });
+
+            document.getElementById('teleprompter-overlay').classList.add('active');
+            document.getElementById('teleprompter-overlay').scrollTop = 0;
+            isTpPlaying = false;
+            tpSpeed = 1.0;
+            document.getElementById('tp-speed-display').innerText = tpSpeed + 'x';
+            updateTpPlayBtn();
+            window.toggleImamTools(); // close FAB menu
+            if(tpAnimationId) cancelAnimationFrame(tpAnimationId);
+            lucide.createIcons();
+        };
+
+        window.exitTeleprompter = () => {
+            isTpPlaying = false;
+            if(tpAnimationId) cancelAnimationFrame(tpAnimationId);
+            document.getElementById('teleprompter-overlay').classList.remove('active');
+        };
+
+        window.toggleTpPlay = () => {
+            isTpPlaying = !isTpPlaying;
+            updateTpPlayBtn();
+            if(isTpPlaying) tpScroll();
+        };
+
+        window.changeTpSpeed = (delta) => {
+            tpSpeed = Math.max(0.5, Math.min(5.0, tpSpeed + delta));
+            document.getElementById('tp-speed-display').innerText = tpSpeed + 'x';
+        };
+
+        function updateTpPlayBtn() {
+            const btn = document.getElementById('tp-play-btn');
+            btn.innerHTML = isTpPlaying ? '<i data-lucide="pause" class="w-8 h-8"></i>' : '<i data-lucide="play" class="w-8 h-8"></i>';
+            if(isTpPlaying) { btn.classList.remove('play'); btn.classList.add('bg-amber-500'); }
+            else { btn.classList.add('play'); btn.classList.remove('bg-amber-500'); }
+            lucide.createIcons();
+        }
+
+        function tpScroll() {
+            if(!isTpPlaying) return;
+            const tpOverlay = document.getElementById('teleprompter-overlay');
+            tpOverlay.scrollTop += tpSpeed;
+            
+            // Stop if reached the very bottom
+            if(tpOverlay.scrollTop + tpOverlay.clientHeight >= tpOverlay.scrollHeight - 10) {
+                isTpPlaying = false;
+                updateTpPlayBtn();
+                return;
+            }
+            tpAnimationId = requestAnimationFrame(tpScroll);
+        }
+
+        // ==========================================
+        // 10. START APP
         // ==========================================
         window.onload = () => {
             lucide.createIcons();
