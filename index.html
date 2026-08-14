@@ -80,6 +80,83 @@
         .data-safety-note { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
         .danger-note { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; }
 
+        /* v2 visual system: lightweight, responsive, mosque-oriented */
+        body {
+            background:
+              radial-gradient(circle at 15% 0%, rgba(16,185,129,.08), transparent 32rem),
+              radial-gradient(circle at 90% 18%, rgba(180,140,60,.06), transparent 28rem),
+              #fafaf9;
+        }
+        .site-shell { position: relative; isolation: isolate; }
+        .site-shell::before {
+            content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; opacity: .18;
+            background-image:
+              linear-gradient(30deg, rgba(6,95,70,.09) 12%, transparent 12.5%, transparent 87%, rgba(6,95,70,.09) 87.5%, rgba(6,95,70,.09)),
+              linear-gradient(150deg, rgba(6,95,70,.09) 12%, transparent 12.5%, transparent 87%, rgba(6,95,70,.09) 87.5%, rgba(6,95,70,.09));
+            background-size: 44px 76px;
+        }
+        .premium-card {
+            border: 1px solid rgba(120,113,108,.14);
+            box-shadow: 0 18px 55px -28px rgba(28,25,23,.34);
+            transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+        .premium-card:hover { transform: translateY(-2px); box-shadow: 0 24px 64px -30px rgba(28,25,23,.42); border-color: rgba(5,150,105,.24); }
+        .hero-orbit {
+            position: absolute; width: 290px; height: 290px; border: 1px solid rgba(255,255,255,.08);
+            border-radius: 9999px; right: -110px; top: -130px;
+        }
+        .hero-orbit::after { content:""; position:absolute; inset:28px; border:1px dashed rgba(52,211,153,.16); border-radius:9999px; }
+        .prayer-icon-ring { width: 42px; height: 42px; border-radius: 14px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+        .jumuah-card {
+            background: linear-gradient(135deg, #fffdf6 0%, #fffbeb 55%, #fef3c7 100%);
+            border: 1px solid #fde68a;
+            box-shadow: 0 16px 38px -28px rgba(146,64,14,.6);
+        }
+        .jumuah-minaret {
+            width: 46px; height: 46px; border-radius: 16px; display:flex; align-items:center; justify-content:center;
+            background: linear-gradient(145deg,#92400e,#d97706); color:white; box-shadow: 0 8px 20px -10px rgba(146,64,14,.8);
+        }
+        .qibla-compass {
+            width: 230px; height: 230px; border-radius: 9999px; position: relative; margin-inline:auto;
+            background:
+              radial-gradient(circle at center, rgba(16,185,129,.16) 0 4px, transparent 5px),
+              repeating-conic-gradient(from 0deg, rgba(255,255,255,.15) 0deg 1deg, transparent 1deg 15deg),
+              radial-gradient(circle, #132a23 0 55%, #0c1b17 56% 72%, #07120f 73%);
+            border: 1px solid rgba(167,243,208,.24);
+            box-shadow: inset 0 0 50px rgba(0,0,0,.45), 0 24px 50px -25px rgba(0,0,0,.8);
+        }
+        .qibla-compass::before {
+            content:"N"; position:absolute; top:11px; left:50%; transform:translateX(-50%);
+            font: 700 11px/1 Inter,sans-serif; color:#a7f3d0; letter-spacing:.15em;
+        }
+        .qibla-arrow {
+            position:absolute; left:50%; top:50%; width:48px; height:94px; margin-left:-24px; margin-top:-76px;
+            transform-origin: 24px 76px; transition: transform .18s linear; will-change: transform;
+            filter: drop-shadow(0 8px 8px rgba(0,0,0,.35));
+        }
+        .qibla-arrow::before {
+            content:""; position:absolute; left:13px; top:0; width:0; height:0;
+            border-left:11px solid transparent; border-right:11px solid transparent; border-bottom:40px solid #34d399;
+        }
+        .qibla-arrow::after { content:""; position:absolute; left:21px; top:34px; width:6px; height:48px; border-radius:999px; background:#d1fae5; }
+        .qibla-kaaba {
+            position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+            width:56px; height:56px; border-radius:14px; background:#09090b; border:2px solid #d4a853;
+            display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 20px rgba(0,0,0,.4);
+        }
+        .qibla-kaaba::before { content:""; width:100%; height:8px; background:#d4a853; position:absolute; top:14px; }
+        .qibla-status-ok { color:#a7f3d0; }
+        .qibla-status-warn { color:#fde68a; }
+        .content-kind-badge { letter-spacing:.03em; }
+        @media (max-width: 640px) {
+            .qibla-compass { width: 190px; height: 190px; }
+            .qibla-arrow { transform-origin: 24px 66px; margin-top:-66px; height:82px; }
+            .admin-content { width: 98%; border-radius: 1rem; }
+            #dashboard-modal .admin-content > .flex.flex-1 { flex-direction: column; overflow-y:auto; }
+            #dashboard-modal .w-1\/4, #dashboard-modal .w-3\/4 { width: 100% !important; }
+            #dashboard-modal .w-1\/4 { max-height: 210px; border-left:0; border-bottom:1px solid #e7e5e4; }
+        }
+
         @media print {
             body * { visibility: hidden; }
             #printable-a4-area, #printable-a4-area * { visibility: visible; }
@@ -88,7 +165,7 @@
         }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800 transition-colors duration-300 font-latin" dir="ltr">
+<body class="site-shell bg-stone-50 text-stone-800 transition-colors duration-300 font-latin" dir="ltr">
 
     <div id="loading-overlay">
         <div class="spinner mb-4"></div>
@@ -146,11 +223,11 @@
         <div id="view-home" class="min-h-screen flex flex-col justify-between">
             <div class="pb-12">
                 <div class="max-w-5xl mx-auto px-4 pt-8 pb-4 text-center">
-                    <div id="home-logo-container" class="w-20 h-20 bg-brand-600 text-white rounded-3xl mx-auto flex items-center justify-center shadow-xl shadow-brand-200 mb-4 hover:scale-105 transition-transform cursor-pointer overflow-hidden" onclick="window.switchView('home')">
+                    <div id="home-logo-container" class="w-20 h-20 bg-gradient-to-br from-brand-600 to-brand-800 text-white rounded-[1.7rem] mx-auto flex items-center justify-center shadow-xl shadow-brand-200 mb-4 hover:scale-105 transition-transform cursor-pointer overflow-hidden" onclick="window.switchView('home')">
                         <img id="custom-mosque-logo-img" src="" class="w-full h-full object-cover hidden" alt="Logo">
                         <i id="default-logo-icon" data-lucide="book-open" class="w-10 h-10"></i>
                     </div>
-                    <h1 id="home-title-main" class="text-3xl md:text-5xl font-extrabold text-stone-900 mb-1">Fagersta Moské</h1>
+                    <h1 id="home-title-main" class="text-3xl md:text-5xl font-extrabold text-stone-950 mb-1 tracking-tight">Fagersta Moské</h1>
                     <p id="home-subtitle-main" class="text-brand-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-6">Fagersta Islamiska Kulturförening</p>
 
                     <div class="flex flex-wrap justify-center gap-3 mb-8">
@@ -168,14 +245,16 @@
                         </div>
                         <div class="relative z-10 max-w-3xl mx-auto min-h-[120px] flex flex-col justify-center items-center">
                             <span class="inline-block px-3 py-1 bg-brand-800/80 text-brand-300 rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-brand-700/50" data-i18n="verifiedBadge">
-                                100% Verifierad Hadith / Koranen
+                                Källhänvisad Koran / Sahih hadith
                             </span>
                             <p id="carousel-text" class="text-base md:text-xl font-medium leading-relaxed mb-3 transition-opacity duration-500 font-latin">
                                 "Den bästa ibland er är den som lär sig Koranen och undervisar den."
                             </p>
-                            <span id="carousel-source" class="text-xs text-brand-400 font-bold tracking-wide">
-                                — Sahih Al-Bukhari #5027
-                            </span>
+                            <div class="flex flex-wrap justify-center items-center gap-2">
+                                <span id="carousel-kind" class="content-kind-badge text-[10px] px-2 py-1 rounded-full bg-white/10 text-brand-200 font-bold">حديث صحيح</span>
+                                <span id="carousel-source" class="text-xs text-brand-400 font-bold tracking-wide">— Sahih al-Bukhari 5027</span>
+                            </div>
+                            <p id="carousel-tafsir" class="hidden mt-3 max-w-2xl text-[11px] md:text-xs text-stone-300 leading-relaxed border-t border-white/10 pt-3"></p>
                         </div>
                         <div class="flex justify-center items-center gap-4 mt-4">
                             <button onclick="window.prevVerse()" class="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
@@ -184,7 +263,7 @@
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200">
+                    <div class="glass-card premium-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200">
                         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b border-stone-200/60 gap-4">
                             <div>
                                 <h2 class="text-2xl font-extrabold text-stone-900 flex items-center gap-2">
@@ -202,16 +281,23 @@
 
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3" id="prayer-times-grid"></div>
 
-                        <div id="section-jumuah-banner" class="mt-6 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-950 flex flex-col sm:flex-row justify-between items-center gap-3 shadow-sm">
-                            <div class="flex items-center gap-3">
-                                <div class="p-2.5 bg-amber-500 text-white rounded-xl shadow-sm"><i data-lucide="users" class="w-5 h-5"></i></div>
-                                <div>
-                                    <h4 class="font-bold text-sm" data-i18n="jumuahTitle">Fredagsbön (Jumu'ah) i Fagersta Moské</h4>
-                                    <p id="jumuah-desc-text" class="text-xs text-amber-800">Predikan & Bön hålls varje fredag på svenska och arabiska.</p>
+                        <div id="section-jumuah-banner" class="jumuah-card mt-6 p-4 md:p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <div class="flex items-center gap-3.5 min-w-0">
+                                <div class="jumuah-minaret" aria-hidden="true"><i data-lucide="landmark" class="w-6 h-6"></i></div>
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="text-[10px] uppercase tracking-[.18em] font-extrabold text-amber-700" data-i18n="fridayBadge">Fredag / Jumu'ah</span>
+                                    </div>
+                                    <h4 class="font-extrabold text-sm md:text-base text-stone-900" data-i18n="jumuahTitle">Fredagsbön (Jumu'ah) i Fagersta Moské</h4>
+                                    <p id="jumuah-desc-text" class="text-xs text-amber-900/70 mt-1">Predikan & Bön hålls varje fredag på svenska och arabiska.</p>
                                 </div>
                             </div>
-                            <div class="text-right sm:text-left font-mono font-bold text-sm bg-white/80 px-4 py-2 rounded-xl border border-amber-300">
-                                <span data-i18n="jumuahTime">Khutbah:</span> <span id="jumuah-time-display" class="text-amber-700">13:00</span>
+                            <div class="flex items-center gap-3 bg-white/80 px-4 py-3 rounded-2xl border border-amber-200 shadow-sm flex-shrink-0">
+                                <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center"><i data-lucide="mic-2" class="w-4 h-4"></i></div>
+                                <div>
+                                    <div class="text-[10px] uppercase tracking-wider font-bold text-stone-500" data-i18n="jumuahTime">Khutbah:</div>
+                                    <div id="jumuah-time-display" class="text-xl leading-none mt-1 font-extrabold font-mono text-amber-800">13:00</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -252,18 +338,58 @@
                         </div>
                     </div>
 
-                    <div id="section-qibla" class="bg-stone-900 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-800 mb-10">
-                        <div class="text-left mb-4 flex justify-between items-center flex-wrap gap-3">
-                            <div>
-                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-900 text-brand-300 rounded-full text-xs font-bold mb-2 border border-brand-800">
-                                    <i data-lucide="compass" class="w-3.5 h-3.5"></i> Qibla-hitta
+                    <div id="section-qibla" class="premium-card bg-gradient-to-br from-stone-950 via-[#0d211b] to-brand-950 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-brand-900/60 mb-10 relative overflow-hidden">
+                        <div class="hero-orbit"></div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start flex-wrap gap-4 mb-6">
+                                <div class="text-left">
+                                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-900/80 text-brand-200 rounded-full text-xs font-bold mb-2 border border-brand-700/60">
+                                        <i data-lucide="navigation" class="w-3.5 h-3.5"></i> <span data-i18n="qiblaBadge">Qibla-kompass</span>
+                                    </div>
+                                    <h3 class="text-xl md:text-2xl font-extrabold" data-i18n="qiblaTitle">Qibla direkt i webbplatsen</h3>
+                                    <p class="text-xs md:text-sm text-stone-400 mt-1 max-w-2xl" data-i18n="qiblaDesc">Använd din plats och telefonens kompass för att visa riktningen mot Kaaba.</p>
                                 </div>
-                                <h3 class="text-xl font-bold" data-i18n="qiblaTitle">Exakt Qibla-riktning (Google Qibla Finder)</h3>
-                                <p class="text-xs text-stone-400" data-i18n="qiblaDesc">Inbyggd interaktiv Qibla-kompass skräddarsydd för Fagersta direkt.</p>
+                                <a href="https://qiblafinder.withgoogle.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-stone-200">
+                                    <i data-lucide="external-link" class="w-4 h-4"></i><span data-i18n="openGoogleQibla">Google Qibla Finder</span>
+                                </a>
                             </div>
-                        </div>
-                        <div class="w-full h-[450px] rounded-2xl overflow-hidden border border-stone-800 shadow-inner bg-stone-950 relative">
-                            <iframe src="https://qiblafinder.withgoogle.com/" class="w-full h-full border-0 rounded-2xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <div class="grid md:grid-cols-[280px_1fr] gap-6 items-center">
+                                <div>
+                                    <div class="qibla-compass" aria-label="Qibla compass">
+                                        <div id="qibla-arrow" class="qibla-arrow"></div>
+                                        <div class="qibla-kaaba"><span class="relative z-10 text-[9px] font-bold text-[#e6c66d]">الكعبة</span></div>
+                                    </div>
+                                    <div class="text-center mt-4">
+                                        <div id="qibla-bearing" class="text-2xl font-extrabold font-mono text-brand-300">-°</div>
+                                        <div id="qibla-location" class="text-[11px] text-stone-500 mt-1">Fagersta fallback</div>
+                                    </div>
+                                </div>
+                                <div class="text-left space-y-4">
+                                    <div class="grid sm:grid-cols-2 gap-3">
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                                            <div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaDirectionLabel">Riktning till Kaaba</div>
+                                            <div id="qibla-cardinal" class="font-extrabold text-brand-200">-</div>
+                                        </div>
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
+                                            <div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaDistanceLabel">Avstånd</div>
+                                            <div id="qibla-distance" class="font-extrabold text-brand-200">-</div>
+                                        </div>
+                                    </div>
+                                    <p id="qibla-status" class="text-xs leading-relaxed text-stone-400" data-i18n="qiblaReady">Tryck på knappen för att tillåta plats och kompass. På dator visas den geografiska riktningen i grader.</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <button onclick="window.activateQibla()" id="qibla-activate-btn" class="bg-brand-600 hover:bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg">
+                                            <i data-lucide="locate-fixed" class="w-4 h-4"></i><span data-i18n="activateQibla">Aktivera exakt Qibla</span>
+                                        </button>
+                                        <button onclick="window.toggleGoogleQiblaEmbed()" class="bg-white/10 hover:bg-white/15 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 border border-white/10">
+                                            <i data-lucide="panel-bottom-open" class="w-4 h-4"></i><span data-i18n="showGoogleQibla">Visa Google inuti sidan</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="google-qibla-embed-wrap" class="hidden mt-6 rounded-2xl overflow-hidden border border-white/10 bg-black/30">
+                                <div class="px-4 py-2 text-[11px] text-stone-400 border-b border-white/10" data-i18n="googleQiblaNote">Google-ramen får geolocation, accelerometer, gyroscope och magnetometer. Om Google blockerar inbäddning används knappen ovan.</div>
+                                <iframe id="google-qibla-frame" title="Google Qibla Finder" loading="lazy" src="about:blank" class="w-full h-[430px] border-0" allow="geolocation; accelerometer; gyroscope; magnetometer" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                            </div>
                         </div>
                     </div>
 
@@ -310,12 +436,21 @@
                 </div>
             </div>
 
-            <footer class="bg-stone-900 text-stone-400 py-6 text-center text-xs border-t border-stone-800 mt-auto">
-                <p id="footer-custom-text">Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.</p>
+            <footer class="bg-stone-950 text-stone-400 py-7 text-center text-xs border-t border-stone-800 mt-auto">
+                <div class="max-w-5xl mx-auto px-4">
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-5 mb-3">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400">
+                            <i data-lucide="users" class="w-3.5 h-3.5 text-brand-500"></i>
+                            <span data-i18n="visitorsLabel">Besökare:</span> <strong data-visitor-count class="text-stone-200 font-mono">...</strong>
+                        </span>
+                        <span class="text-[10px] text-stone-600" data-i18n="privacyCounter">Räknaren sparar ingen IP-adress.</span>
+                    </div>
+                    <p id="footer-custom-text">Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.</p>
                 <div class="mt-3">
                     <button onclick="window.openAdminLogin()" class="text-stone-700 hover:text-stone-500 transition-colors inline-flex items-center gap-1 text-[10px]" title="Admin">
                         <i data-lucide="lock" class="w-2.5 h-2.5"></i> <span>Admin</span>
                     </button>
+                </div>
                 </div>
             </footer>
         </div>
@@ -375,6 +510,10 @@
         <footer class="bg-stone-900 text-stone-400 py-6 mt-12 text-center text-xs border-t border-stone-800">
             <p id="footer-mosque-lat" class="text-white font-bold text-sm mb-1">Fagersta Moské - Fagersta Islamiska Kulturförening</p>
             <p id="footer-mosque-ar" class="text-stone-500 font-arabic text-sm mb-4">مسجد فاغشتا - السويد</p>
+            <div class="mb-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-stone-950 border border-stone-800">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-brand-500"></i>
+                <span data-i18n="visitorsLabel">Besökare:</span> <strong data-visitor-count class="text-stone-300 font-mono">...</strong>
+            </div>
             <button onclick="window.openAdminLogin()" class="text-stone-700 hover:text-stone-500 transition-colors inline-flex items-center gap-1 text-[10px]">
                 <i data-lucide="lock" class="w-2.5 h-2.5"></i> <span>Admin</span>
             </button>
@@ -533,9 +672,19 @@
                                 <input type="text" id="set-jumuah-time" class="w-full sm:w-48 p-3 border rounded-xl outline-none text-sm font-bold" dir="ltr">
                             </div>
 
-                            <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">نص وصف صلاة الجمعة (بالعربية)</label>
-                                <input type="text" id="set-jumuah-desc-ar" class="w-full p-3 border rounded-xl outline-none text-xs font-bold font-arabic">
+                            <div class="col-span-2 grid md:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-bold text-stone-500 mb-2">وصف الجمعة - العربية</label>
+                                    <input type="text" id="set-jumuah-desc-ar" class="w-full p-3 border rounded-xl outline-none text-xs font-bold font-arabic" dir="rtl">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-stone-500 mb-2">وصف الجمعة - السويدية</label>
+                                    <input type="text" id="set-jumuah-desc-sv" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" dir="ltr">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-stone-500 mb-2">وصف الجمعة - الصومالية</label>
+                                    <input type="text" id="set-jumuah-desc-so" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" dir="ltr">
+                                </div>
                             </div>
                             <div class="col-span-2">
                                 <label class="block text-xs font-bold text-stone-500 mb-2">إعلان أعلى الموقع</label>
@@ -555,6 +704,20 @@
                         <div class="flex justify-between items-center mb-4 border-b pb-2">
                             <h3 class="text-xl font-bold">إدارة الأحاديث والآيات</h3>
                             <button onclick="window.addNewHadithRow()" class="bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-brand-700 flex items-center gap-1"><i data-lucide="plus" class="w-3.5 h-3.5"></i> إضافة حديث</button>
+                        </div>
+                        <div class="mb-5 p-4 rounded-2xl bg-brand-50 border border-brand-200 text-right">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                                <div>
+                                    <h4 class="font-extrabold text-sm text-brand-900">استيراد دفعة أحاديث وآيات وتفاسير</h4>
+                                    <p class="text-[11px] text-brand-800/70 mt-1">يدعم XLSX وCSV وJSON. الحقول: type, ar, sv, so, source, tafsirAr, tafsirSv, tafsirSo.</p>
+                                </div>
+                                <div class="flex flex-wrap gap-2">
+                                    <a href="islamic_content_import_example.xlsx" download class="px-3 py-2 rounded-xl bg-white border border-brand-200 text-brand-800 text-xs font-bold flex items-center gap-1.5"><i data-lucide="file-down" class="w-4 h-4"></i> ملف مثال</a>
+                                    <input type="file" id="islamic-content-file-input" accept=".xlsx,.xls,.csv,.json" class="hidden" onchange="window.handleIslamicContentUpload(event)">
+                                    <button onclick="document.getElementById('islamic-content-file-input').click()" class="px-3 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold flex items-center gap-1.5"><i data-lucide="upload" class="w-4 h-4"></i> رفع دفعة</button>
+                                </div>
+                            </div>
+                            <p id="islamic-content-upload-status" class="text-[11px] font-bold text-brand-700 mt-2"></p>
                         </div>
                         <div id="admin-hadiths-container" class="space-y-4"></div>
                     </div>
@@ -621,7 +784,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, addDoc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, addDoc, serverTimestamp, writeBatch, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC9A9oO6KS8hT-yEBoMSkG99obaqixa4xY",
@@ -647,11 +810,11 @@
                 inLabel: "om",
                 jumuahTitle: "Fredagsbön (Jumu'ah) i Fagersta Moské",
                 jumuahTime: "Khutbah:",
-                verifiedBadge: "100% Verifierad Hadith / Koranen",
+                verifiedBadge: "Källhänvisad Koran / Sahih hadith",
                 fajr: "Fajr", shurooq: "Soluppg.", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
                 swishAppBtn: "Öppna Swish-appen",
-                qiblaTitle: "Exakt Qibla-riktning (Google Qibla Finder)",
-                qiblaDesc: "Inbyggd interaktiv Qibla-kompass skräddarsydd för Fagersta.",
+                qiblaTitle: "Qibla direkt i webbplatsen",
+                qiblaDesc: "Använd din plats och telefonens kompass för att visa riktningen mot Kaaba.",
                 pressBtn: "Tryck",
                 resetBtn: "Nollställ",
                 dhikrBadge: "Post-Prayer Dhikr",
@@ -666,6 +829,17 @@
                 feedbackDesc: "Har du ett förslag på fredagspredikan eller ett råd? Skicka det direkt till moskéledningen.",
                 sendFeedbackBtn: "Skicka meddelandet till Imamen",
                 teleprompterBtn: "Imam Teleprompter",
+                fridayBadge: "Fredag / Jumu'ah",
+                qiblaBadge: "Qibla-kompass",
+                qiblaDirectionLabel: "Riktning till Kaaba",
+                qiblaDistanceLabel: "Avstånd",
+                qiblaReady: "Tryck på knappen för att tillåta plats och kompass. På dator visas den geografiska riktningen i grader.",
+                activateQibla: "Aktivera exakt Qibla",
+                showGoogleQibla: "Visa Google inuti sidan",
+                openGoogleQibla: "Google Qibla Finder",
+                googleQiblaNote: "Google-ramen får geolocation och rörelsesensorer. Om inbäddning blockeras används länken ovan.",
+                visitorsLabel: "Besökare:",
+                privacyCounter: "Räknaren sparar ingen IP-adress.",
                 zenModeBtn: "Fokusläge"
             },
             ar: {
@@ -677,11 +851,11 @@
                 inLabel: "بعد",
                 jumuahTitle: "صلاة الجمعة في مسجد فاغشتا",
                 jumuahTime: "وقت الخطبة:",
-                verifiedBadge: "حديث صحيح / آية قرآنية موثقة 100%",
+                verifiedBadge: "محتوى موثق بالمصدر: قرآن وحديث صحيح",
                 fajr: "الفجر", shurooq: "الشروق", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء",
                 swishAppBtn: "فتح تطبيق سويش",
-                qiblaTitle: "اتجاه القبلة بدقة (Google Qibla Finder)",
-                qiblaDesc: "بوصلة القبلة الرسمية المدمجة لمدينة فاغشتا.",
+                qiblaTitle: "اتجاه القبلة مباشرة داخل الموقع",
+                qiblaDesc: "تستخدم موقع الزائر وبوصلة الهاتف لحساب اتجاه الكعبة بدقة جغرافية.",
                 pressBtn: "اضغط",
                 resetBtn: "إعادة",
                 dhikrBadge: "أذكار ما بعد الصلاة",
@@ -696,7 +870,18 @@
                 feedbackDesc: "هل لديك اقتراح لخطبة الجمعة أو نصيحة؟ أرسلها مباشرة إلى إدارة ومسؤولي المسجد.",
                 sendFeedbackBtn: "إرسال الملاحظة إلى الإمام",
                 teleprompterBtn: "شاشة الخطيب",
-                zenModeBtn: "فصل التركيز"
+                fridayBadge: "الجمعة / Jumu'ah",
+                qiblaBadge: "بوصلة القبلة",
+                qiblaDirectionLabel: "اتجاه الكعبة",
+                qiblaDistanceLabel: "المسافة",
+                qiblaReady: "اضغط الزر للسماح بالموقع والبوصلة. على الكمبيوتر سيظهر الاتجاه الجغرافي بالدرجات.",
+                activateQibla: "تفعيل القبلة الدقيقة",
+                showGoogleQibla: "عرض Google داخل الصفحة",
+                openGoogleQibla: "فتح Google Qibla Finder",
+                googleQiblaNote: "تم تفويض الإطار للوصول إلى الموقع ومستشعرات الحركة. إذا منع Google التضمين استخدم رابط الفتح المباشر.",
+                visitorsLabel: "عدد الزوار:",
+                privacyCounter: "العداد لا يخزن عنوان IP.",
+                zenModeBtn: "وضع التركيز"
             },
             so: {
                 navMosque: "Masjidka Fagersta",
@@ -707,11 +892,11 @@
                 inLabel: "gudahooda",
                 jumuahTitle: "Salaadda Jimcaha ee Masjidka Fagersta",
                 jumuahTime: "Waqtiga Khudbadda:",
-                verifiedBadge: "Xadiis / Aayad suuban oo la xaqiijiyay",
+                verifiedBadge: "Qur’aan iyo Xadiis Saxiix oo tixraac leh",
                 fajr: "Subax", shurooq: "Arooryo", dhuhr: "Duhur", asr: "Cassar", maghrib: "Magrib", isha: "Cisha",
                 swishAppBtn: "Furo Swish App",
-                qiblaTitle: "Qiblada Fagersta (Google Qibla)",
-                qiblaDesc: "Compass-ka Qiblada ee Fagersta.",
+                qiblaTitle: "Qiblada si toos ah bogga",
+                qiblaDesc: "Waxay isticmaashaa goobtaada iyo compass-ka telefoonka si ay u muujiso jihada Kacbada.",
                 pressBtn: "Riix",
                 resetBtn: "Nollställ",
                 dhikrBadge: "Post-Prayer Dhikr",
@@ -726,24 +911,433 @@
                 feedbackDesc: "Ma haysaa talo ama fikrad?",
                 sendFeedbackBtn: "Dir Fariinta",
                 teleprompterBtn: "Imam Teleprompter",
+                fridayBadge: "Jimce / Jumu'ah",
+                qiblaBadge: "Jiheeyaha Qiblada",
+                qiblaDirectionLabel: "Jihada Kacbada",
+                qiblaDistanceLabel: "Masaafada",
+                qiblaReady: "Riix badhanka si aad u oggolaato goobta iyo compass-ka. Kombiyuutarka wuxuu muujinayaa darajada jihada.",
+                activateQibla: "Daar Qiblada saxda ah",
+                showGoogleQibla: "Google gudaha bogga",
+                openGoogleQibla: "Google Qibla Finder",
+                googleQiblaNote: "Frame-ka waxaa loo oggolaaday goobta iyo dareemayaasha. Haddii Google xannibo ku-dhex-jirka isticmaal xiriirka kore.",
+                visitorsLabel: "Booqdayaasha:",
+                privacyCounter: "Tiriyuhu ma kaydiyo IP address.",
                 zenModeBtn: "Focus Mode"
             }
         };
 
         const DEFAULT_VERIFIED_VERSES = [
-            {
-                sv: "“Den bästa ibland er är den som lär sig Koranen och undervisar den.”",
-                ar: "« خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ »",
-                so: "“Middinna ugu kheyrka badan waa kan bartay Qur'aanka dadkana bara.”",
-                source: "Sahih Al-Bukhari #5027"
-            },
-            {
-                sv: "“Sannerligen, handlingar bedöms efter avsikterna.”",
-                ar: "« إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ وَإِنَّمَا لِكُلِّ امْرِئٍ مَا نَوَى »",
-                so: "“Lama oga amallada illaa niyadda inteeda ah.”",
-                source: "Sahih Al-Bukhari & Muslim"
-            }
+                    {
+                                "type": "quran",
+                                "ar": "يا أيها الذين آمنوا استعينوا بالصبر والصلاة إن الله مع الصابرين",
+                                "sv": "Sök hjälp genom tålamod och bön. Allah är med de tålmodiga.",
+                                "so": "Samir iyo salaad kaalmo ka raadsada. Alle wuxuu la jiraa kuwa samra.",
+                                "source": "القرآن 2:153",
+                                "tafsirAr": "الآية ترشد المؤمن إلى أن الصبر والصلاة من أعظم أسباب الثبات وطلب العون من الله.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "كتب عليكم الصيام كما كتب على الذين من قبلكم لعلكم تتقون",
+                                "sv": "Fastan har föreskrivits för er för att ni ska utveckla gudsmedvetenhet.",
+                                "so": "Soonka waa laydinku waajib yeelay si aad u yeelataan taqwo.",
+                                "source": "القرآن 2:183",
+                                "tafsirAr": "المقصود الأعظم من الصيام تحقيق التقوى بتربية النفس على الطاعة وترك المحرمات.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "ولا تلقوا بأيديكم إلى التهلكة وأحسنوا إن الله يحب المحسنين",
+                                "sv": "Utsätt inte er själva för undergång, och gör gott. Allah älskar dem som gör gott.",
+                                "so": "Naftiinna halaag ha ku ridina, wanaagna sameeya. Alle wuxuu jecel yahay samafalayaasha.",
+                                "source": "القرآن 2:195",
+                                "tafsirAr": "تجمع الآية بين اجتناب أسباب الهلاك وبين الإحسان في القول والعمل والإنفاق.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "مثل الذين ينفقون أموالهم في سبيل الله كمثل حبة أنبتت سبع سنابل في كل سنبلة مائة حبة",
+                                "sv": "Den som ger för Allahs sak liknas vid ett frö som ger mångdubblad skörd.",
+                                "so": "Qofka wax ku bixiya jidka Alle wuxuu la mid yahay iniin dhalisa miro badan.",
+                                "source": "القرآن 2:261",
+                                "tafsirAr": "فيها بيان عظيم فضل الصدقة وأن الله يضاعف أجر الإنفاق المخلص أضعافا كثيرة.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "لا يكلف الله نفسا إلا وسعها",
+                                "sv": "Allah belastar ingen människa utöver hennes förmåga.",
+                                "so": "Alle nafna kuma waajibiyo wax ka badan awooddeeda.",
+                                "source": "القرآن 2:286",
+                                "tafsirAr": "من رحمة الله أن التكاليف الشرعية في حدود الاستطاعة، وفيها طمأنينة عند الشدائد.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "واعتصموا بحبل الله جميعا ولا تفرقوا",
+                                "sv": "Håll alla fast vid Allahs band och splittras inte.",
+                                "so": "Dhammaantiin xarigga Alle qabsada, hana kala tegin.",
+                                "source": "القرآن 3:103",
+                                "tafsirAr": "أمر بالاجتماع على الحق والكتاب والسنة، ونهي عن أسباب الفرقة والتنازع.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "والكاظمين الغيظ والعافين عن الناس والله يحب المحسنين",
+                                "sv": "De håller tillbaka sin vrede och förlåter människor; Allah älskar dem som gör gott.",
+                                "so": "Waxay liqaan cadhada oo dadka cafiyaan; Alle wuxuu jecel yahay samafalayaasha.",
+                                "source": "القرآن 3:134",
+                                "tafsirAr": "من صفات أهل التقوى ضبط الغضب والتجاوز عن إساءة الناس مع الإحسان إليهم.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "فبما رحمة من الله لنت لهم ولو كنت فظا غليظ القلب لانفضوا من حولك",
+                                "sv": "Genom Allahs barmhärtighet var du mild mot dem; hårdhet hade fått dem att lämna dig.",
+                                "so": "Naxariista Alle darteed ayaad ugu jilicsanayd; adkaantu dadka way kala fogeysaa.",
+                                "source": "القرآن 3:159",
+                                "tafsirAr": "تقرر الآية أن الرفق واللين من أعظم أسباب اجتماع القلوب وحسن القيادة والدعوة.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "واعبدوا الله ولا تشركوا به شيئا وبالوالدين إحسانا",
+                                "sv": "Dyrka Allah utan att sätta något vid Hans sida, och gör gott mot föräldrarna.",
+                                "so": "Alle caabuda, waxna ha la wadaajinina, waalidkana u wanaagsanaada.",
+                                "source": "القرآن 4:36",
+                                "tafsirAr": "بدأت الآية بحق الله ثم قرنت به الإحسان إلى الوالدين، مما يدل على عظم حقهما.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "اعدلوا هو أقرب للتقوى",
+                                "sv": "Var rättvisa; det ligger närmare gudsmedvetenhet.",
+                                "so": "Caddaalad sameeya; taas ayaa taqwada u dhow.",
+                                "source": "القرآن 5:8",
+                                "tafsirAr": "العدل واجب حتى مع من نختلف معه، ولا يجوز أن يحمل البغض على الظلم.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "وأطيعوا الله ورسوله ولا تنازعوا فتفشلوا وتذهب ريحكم واصبروا",
+                                "sv": "Lyd Allah och Hans sändebud, tvista inte så att ni tappar styrka, och ha tålamod.",
+                                "so": "Alle iyo Rasuulka adeeca, ha murmina si xooggiinnu u lumin, samrana.",
+                                "source": "القرآن 8:46",
+                                "tafsirAr": "التنازع سبب للضعف، والاجتماع على الطاعة والصبر سبب للقوة والثبات.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "ألا بذكر الله تطمئن القلوب",
+                                "sv": "I åminnelsen av Allah finner hjärtan ro.",
+                                "so": "Xuska Alle ayay qalbiyadu ku xasillaan.",
+                                "source": "القرآن 13:28",
+                                "tafsirAr": "طمأنينة القلب الحقيقية تكون بقرب العبد من ربه ودوام ذكره وثقته به.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "إن الله يأمر بالعدل والإحسان وإيتاء ذي القربى",
+                                "sv": "Allah befaller rättvisa, godhet och att ge till nära släktingar.",
+                                "so": "Alle wuxuu farayaa caddaalad, samafal iyo wax-siinta qaraabada.",
+                                "source": "القرآن 16:90",
+                                "tafsirAr": "آية جامعة لأصول الأخلاق: العدل الواجب، والإحسان الزائد، وصلة الأقارب.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "وقضى ربك ألا تعبدوا إلا إياه وبالوالدين إحسانا",
+                                "sv": "Din Herre har föreskrivit att ni bara dyrkar Honom och visar godhet mot föräldrarna.",
+                                "so": "Rabbigaa wuxuu xukumay inaad Isaga oo keliya caabuddaan oo waalidka u wanaagsanaataan.",
+                                "source": "القرآن 17:23",
+                                "tafsirAr": "عظم حق الوالدين ظاهر في اقترانه بتوحيد الله، وخاصة عند كبرهما وحاجتهما.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "ولقد كرمنا بني آدم",
+                                "sv": "Vi har sannerligen hedrat Adams barn.",
+                                "so": "Dhab ahaan waxaan sharfay carruurta Aadam.",
+                                "source": "القرآن 17:70",
+                                "tafsirAr": "الأصل في الإنسان الكرامة التي وهبها الله له، ومن آثارها حفظ النفس والحقوق.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "إن الصلاة تنهى عن الفحشاء والمنكر",
+                                "sv": "Bönen motverkar skamliga och onda handlingar.",
+                                "so": "Salaaddu waxay ka reebtaa xumaanta iyo munkarka.",
+                                "source": "القرآن 29:45",
+                                "tafsirAr": "الصلاة التي يحضر فيها القلب وتؤدى بحقها تزكي النفس وتعين على ترك المعاصي.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "قل يا عبادي الذين أسرفوا على أنفسهم لا تقنطوا من رحمة الله",
+                                "sv": "Säg: Mina tjänare som gått för långt mot er själva, misströsta inte om Allahs barmhärtighet.",
+                                "so": "Addoomahayga naftooda ku xadgudbayow, naxariista Alle ha ka quusanina.",
+                                "source": "القرآن 39:53",
+                                "tafsirAr": "من أعظم آيات الرجاء: باب التوبة مفتوح لمن رجع إلى الله بصدق مهما عظمت ذنوبه.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "إنما المؤمنون إخوة فأصلحوا بين أخويكم",
+                                "sv": "De troende är syskon; medla därför mellan era bröder.",
+                                "so": "Mu'miniintu waa walaalo; sidaas darteed heshiisiiya walaalihiinna.",
+                                "source": "القرآن 49:10",
+                                "tafsirAr": "الأخوة الإيمانية تقتضي النصرة والإصلاح وترك أسباب الخصومة والقطيعة.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "وجعلناكم شعوبا وقبائل لتعارفوا إن أكرمكم عند الله أتقاكم",
+                                "sv": "Vi gjorde er till folk och stammar för att ni ska lära känna varandra; den ädlaste inför Allah är den mest gudsmedvetne.",
+                                "so": "Waxaan idinka dhignay shucuub iyo qabiilooyin si aad isu taqaannaan; kan Alle ugu sharaf badan waa kan ugu taqwada badan.",
+                                "source": "القرآن 49:13",
+                                "tafsirAr": "التنوع بين البشر للتعارف والتعاون، والتفاضل الحقيقي عند الله بالتقوى لا بالنسب.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "وما خلقت الجن والإنس إلا ليعبدون",
+                                "sv": "Jag skapade jinner och människor endast för att de ska dyrka Mig.",
+                                "so": "Jinniga iyo insiga uma aan abuurin waxaan ahayn inay I caabudaan.",
+                                "source": "القرآن 51:56",
+                                "tafsirAr": "تبين الآية الغاية الكبرى من الخلق: عبادة الله وحده، والعبادة تشمل كل ما يحبه ويرضاه.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "يا أيها الذين آمنوا اتقوا الله ولتنظر نفس ما قدمت لغد",
+                                "sv": "Ni som tror, var medvetna om Allah och låt varje själ se vad den skickat fram till morgondagen.",
+                                "so": "Kuwa rumeeyow Alle ka cabsada, naf kastana ha eegto waxay berri u sii hormarsatay.",
+                                "source": "القرآن 59:18",
+                                "tafsirAr": "دعوة إلى محاسبة النفس والاستعداد للآخرة بإصلاح العمل قبل فوات الأوان.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "quran",
+                                "ar": "فإن مع العسر يسرا إن مع العسر يسرا",
+                                "sv": "Med svårighet kommer lättnad; ja, med svårighet kommer lättnad.",
+                                "so": "Dhibka waxaa la socda fudayd; runtii dhibka waxaa la socda fudayd.",
+                                "source": "القرآن 94:5-6",
+                                "tafsirAr": "تكرار الوعد باليسر يثبت القلب ويعلّم المؤمن ألا ييأس عند الشدة.",
+                                "tafsirSv": "Kort förklaring: Versen påminner om en central vägledning för tro, etik och vardagsliv.",
+                                "tafsirSo": "Sharaxaad kooban: Aayaddu waxay xusuusinaysaa hanuun muhiim u ah iimaanka, akhlaaqda iyo nolosha."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "خيركم من تعلم القرآن وعلمه",
+                                "sv": "Den bästa bland er är den som lär sig Koranen och lär ut den.",
+                                "so": "Kan idiinku kheyr badan waa kan Qur'aanka barta oo bara.",
+                                "source": "Sahih al-Bukhari 5027",
+                                "tafsirAr": "حث على تعلم القرآن وتعليمه ونشر العلم النافع.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "إنما الأعمال بالنيات وإنما لكل امرئ ما نوى",
+                                "sv": "Handlingar bedöms efter avsikterna, och var och en får enligt sin avsikt.",
+                                "so": "Camalladu waxay ku xiran yihiin niyadda, qof kastana wuxuu helayaa wixii uu niyeystay.",
+                                "source": "Sahih al-Bukhari 1",
+                                "tafsirAr": "صلاح العمل مرتبط بصلاح القصد والإخلاص لله.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "من سلك طريقا يلتمس فيه علما سهل الله له به طريقا إلى الجنة",
+                                "sv": "Den som går en väg för att söka kunskap får genom den en väg till Paradiset underlättad av Allah.",
+                                "so": "Qofkii jid u mara raadinta cilmi, Alle wuxuu ugu fududeeyaa jid Jannada.",
+                                "source": "Sahih Muslim 2699a",
+                                "tafsirAr": "فضل طلب العلم الشرعي والعمل به وتعليمه.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "لا ينظر الله إلى صوركم وأموالكم ولكن ينظر إلى قلوبكم وأعمالكم",
+                                "sv": "Allah ser inte till era kroppar eller rikedomar, utan till era hjärtan och handlingar.",
+                                "so": "Alle ma eego muuqaalkiinna iyo maalkiinna, balse wuxuu eegaa qalbiyadiinna iyo camalladiinna.",
+                                "source": "Sahih Muslim 2564c",
+                                "tafsirAr": "ميزان التفاضل هو صلاح القلب والعمل لا المظاهر.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "الدين النصيحة",
+                                "sv": "Religionen är uppriktig rådgivning och trofast välvilja.",
+                                "so": "Diintu waa nasiixo iyo daacadnimo.",
+                                "source": "Sahih Muslim 55a",
+                                "tafsirAr": "النصيحة تشمل إرادة الخير والصدق مع الله وكتابه ورسوله والمسلمين.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "ما نقصت صدقة من مال",
+                                "sv": "Välgörenhet minskar inte en människas förmögenhet.",
+                                "so": "Sadaqadu maal ma dhimayso.",
+                                "source": "Sahih Muslim 2588",
+                                "tafsirAr": "الصدقة سبب للبركة والأجر وإن بدا أنها تنقص المال ظاهرا.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "المؤمن للمؤمن كالبنيان يشد بعضه بعضا",
+                                "sv": "En troende är för en annan troende som en byggnad vars delar stärker varandra.",
+                                "so": "Mu'minku mu'minka kale wuxuu la mid yahay dhisme qaybihiisu is xoojiyaan.",
+                                "source": "Sahih al-Bukhari 481",
+                                "tafsirAr": "المؤمنون يتعاونون ويتناصرون على الخير كما تتماسك أجزاء البناء.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "لا يؤمن أحدكم حتى يحب لأخيه ما يحب لنفسه",
+                                "sv": "Ingen av er fullkomnar sin tro förrän han önskar för sin broder det han önskar för sig själv.",
+                                "so": "Iimaanka qofku ma dhamaystirmo ilaa uu walaalkii la jeclaado waxa uu naftiisa la jecel yahay.",
+                                "source": "Sahih al-Bukhari 13",
+                                "tafsirAr": "من كمال الإيمان سلامة الصدر ومحبة الخير للآخرين.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "المسلم من سلم المسلمون من لسانه ويده",
+                                "sv": "En muslim är den vars tunga och hand andra muslimer är trygga från.",
+                                "so": "Muslimku waa kan Muslimiintu ka nabad galaan carrabkiisa iyo gacantiisa.",
+                                "source": "Sahih al-Bukhari 10",
+                                "tafsirAr": "حفظ اللسان واليد عن أذية الناس من علامات حسن الإسلام.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "ليس الشديد بالصرعة إنما الشديد الذي يملك نفسه عند الغضب",
+                                "sv": "Den verkligt starke är inte den som besegrar andra, utan den som behärskar sig vid ilska.",
+                                "so": "Xoogga dhabta ahi ma aha kan dadka legda, ee waa kan naftiisa xakameeya marka uu cadhoodo.",
+                                "source": "Sahih al-Bukhari 6114",
+                                "tafsirAr": "القوة المحمودة هي ضبط النفس عند ثوران الغضب.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "من كان يؤمن بالله واليوم الآخر فليقل خيرا أو ليصمت",
+                                "sv": "Den som tror på Allah och den yttersta dagen ska säga gott eller vara tyst.",
+                                "so": "Qofkii Alle iyo maalinta dambe rumeeya ha hadlo kheyr ama ha aamuso.",
+                                "source": "Sahih al-Bukhari 6475",
+                                "tafsirAr": "قاعدة عظيمة في حفظ اللسان وترك الكلام الضار.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "أحب الأعمال إلى الله أدومها وإن قل",
+                                "sv": "De handlingar Allah älskar mest är de som görs regelbundet, även om de är små.",
+                                "so": "Camallada Alle ugu jecel yahay waa kuwa joogto loo sameeyo, xitaa haddii ay yar yihiin.",
+                                "source": "Sahih al-Bukhari 6464",
+                                "tafsirAr": "الدوام على الطاعة القليلة خير من الانقطاع بعد كثرة مؤقتة.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "الطهور شطر الإيمان",
+                                "sv": "Renhet är halva tron.",
+                                "so": "Nadaafaddu waa nuska iimaanka.",
+                                "source": "Sahih Muslim 223",
+                                "tafsirAr": "يدل على عظم شأن الطهارة الحسية والمعنوية في حياة المسلم.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "من رأى منكم منكرا فليغيره بيده فإن لم يستطع فبلسانه فإن لم يستطع فبقلبه",
+                                "sv": "Den som ser något ont ska ändra det efter sin förmåga: med hand, tunga eller hjärta.",
+                                "so": "Qofkii arka munkar ha beddelo sida uu awoodo: gacanta, carrabka ama qalbiga.",
+                                "source": "Sahih Muslim 49a",
+                                "tafsirAr": "إنكار المنكر مرتبط بالاستطاعة والحكمة والضوابط الشرعية.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "انصر أخاك ظالما أو مظلوما",
+                                "sv": "Hjälp din broder, vare sig han förtrycker eller blir förtryckt.",
+                                "so": "Walaalkaa u gargaar, ha ahaado dulmiile ama la dulmiyay.",
+                                "source": "Sahih al-Bukhari 2444",
+                                "tafsirAr": "نصرة الظالم تكون بمنعه من الظلم، ونصرة المظلوم برفع الظلم عنه.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "وما اجتمع قوم في بيت من بيوت الله يتلون كتاب الله ويتدارسونه بينهم إلا نزلت عليهم السكينة",
+                                "sv": "När människor samlas i ett av Allahs hus för att läsa och studera Allahs bok sänks lugn över dem.",
+                                "so": "Dad marka ay ku kulmaan guri ka mid ah guryaha Alle iyagoo Qur'aanka akhrinaya oo baranaya, xasillooni ayaa ku degta.",
+                                "source": "Sahih Muslim 2699a",
+                                "tafsirAr": "فضل حلق القرآن في المساجد وما يترتب عليها من السكينة والرحمة.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "المؤمن القوي خير وأحب إلى الله من المؤمن الضعيف وفي كل خير",
+                                "sv": "Den starke troende är bättre och mer älskad av Allah än den svage troende, men det finns gott i båda.",
+                                "so": "Mu'minka xooggan ayaa ka kheyr badan oo Alle uga jecel mu'minka daciifka ah, labadabana kheyr baa ku jira.",
+                                "source": "Sahih Muslim 2664",
+                                "tafsirAr": "القوة تشمل قوة الإيمان والعزيمة والقدرة النافعة مع التوكل على الله.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    },
+                    {
+                                "type": "hadith",
+                                "ar": "لا يدخل الجنة من لا يأمن جاره بوائقه",
+                                "sv": "Den vars granne inte är trygg från hans skada kommer inte in i Paradiset.",
+                                "so": "Jannada ma galo qofka deriskiisu aanu ka nabadgelin dhibkiisa.",
+                                "source": "Sahih Muslim 46",
+                                "tafsirAr": "تعظيم حق الجار وتحريم إيذائه بالقول أو الفعل.",
+                                "tafsirSv": "Kort förklaring: Hadithen lyfter en central profetisk vägledning för tro och gott uppförande.",
+                                "tafsirSo": "Sharaxaad kooban: Xadiisku wuxuu tilmaamayaa hanuun Nebinimo oo muhiim u ah iimaanka iyo akhlaaqda wanaagsan."
+                    }
         ];
+
+        function mergeDefaultVerifiedContent(existing) {
+            const merged = [...DEFAULT_VERIFIED_VERSES];
+            const seen = new Set(merged.map(x => `${String(x.source||'').trim()}|${String(x.ar||'').trim()}`));
+            for (const item of (Array.isArray(existing) ? existing : [])) {
+                const key = `${String(item?.source||'').trim()}|${String(item?.ar||'').trim()}`;
+                if (!seen.has(key)) { merged.push(item); seen.add(key); }
+            }
+            return merged;
+        }
 
         const POST_PRAYER_STEPS = [
             { titleAr: "سُبْحَانَ اللَّهِ", titleSv: "Subhanallah", target: 33, desc: "تكرار 33 مرة / 33 gånger" },
@@ -881,6 +1475,9 @@
             jumuahTime: "13:00",
             footerText: "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.",
             jumuahDescAr: "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.",
+            jumuahDescSv: "Predikan och bön hålls varje fredag på svenska och arabiska.",
+            jumuahDescSo: "Khudbadda iyo salaadda Jimcaha waxaa lagu qabtaa Iswiidhish iyo Carabi.",
+            contentLibraryVersion: 2,
             announcement: { enabled: false, text: "" },
             logoUrl: "",
             donationTitle: "Ge en Gåva / Sadaqa via Swish",
@@ -927,6 +1524,16 @@
                         features: { ...(siteSettings.features || {}), ...(remote.features || {}) },
                         announcement: { ...(siteSettings.announcement || {}), ...(remote.announcement || {}) }
                     };
+                    // Upgrade the built-in religious library once without deleting or replacing
+                    // any existing Firestore entries. After an admin saves v2, manual removals stay removed.
+                    if (Number(remote.contentLibraryVersion || 0) < 2) {
+                        siteSettings.verifiedVerses = mergeDefaultVerifiedContent(remote.verifiedVerses);
+                        siteSettings.contentLibraryVersion = 2;
+                    } else if (!Array.isArray(siteSettings.verifiedVerses) || !siteSettings.verifiedVerses.length) {
+                        siteSettings.verifiedVerses = [...DEFAULT_VERIFIED_VERSES];
+                    }
+                } else {
+                    siteSettings.verifiedVerses = [...DEFAULT_VERIFIED_VERSES];
                 }
                 applySettingsToUI();
 
@@ -955,8 +1562,22 @@
             }
         }
 
+        function detectPreferredSiteLanguage() {
+            const primary = String((Array.isArray(navigator.languages) && navigator.languages[0]) || navigator.language || 'sv').toLowerCase();
+            if (primary === 'ar' || primary.startsWith('ar-')) return 'ar';
+            if (primary === 'so' || primary.startsWith('so-')) return 'so';
+            return 'sv';
+        }
+
         window.setSiteLanguage = (lang) => {
+            if (!I18N[lang]) lang = 'sv';
             currentSiteLang = lang;
+            const rtl = lang === 'ar';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+            document.body.dir = rtl ? 'rtl' : 'ltr';
+            document.body.classList.toggle('font-ui', rtl);
+            document.body.classList.toggle('font-latin', !rtl);
             document.querySelectorAll('#nav-lang-sv, #nav-lang-ar, #nav-lang-so').forEach(btn => {
                 btn.classList.remove('bg-brand-600', 'text-white');
                 btn.classList.add('text-stone-300');
@@ -986,6 +1607,12 @@
 
             document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || dict.donationTitle;
             document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || dict.donationDesc;
+            const jDesc = document.getElementById('jumuah-desc-text');
+            if (jDesc) {
+                if (lang === 'ar') jDesc.innerText = siteSettings.jumuahDescAr || "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.";
+                else if (lang === 'so') jDesc.innerText = siteSettings.jumuahDescSo || "Khudbadda iyo salaadda Jimcaha waxaa lagu qabtaa Iswiidhish iyo Carabi.";
+                else jDesc.innerText = siteSettings.jumuahDescSv || "Predikan och bön hålls varje fredag på svenska och arabiska.";
+            }
         };
 
         function applySettingsToUI() {
@@ -998,7 +1625,6 @@
             document.getElementById('footer-custom-text').innerText = siteSettings.footerText || "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.";
             document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || "Ge en Gåva / Sadaqa via Swish";
             document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.";
-            document.getElementById('jumuah-desc-text').innerText = siteSettings.jumuahDescAr || "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.";
 
             const ann = siteSettings.announcement || {};
             const annContainer = document.getElementById('announcement-ticker-container');
@@ -1148,12 +1774,25 @@
             const txt = item[currentSiteLang] || item.sv;
             const elText = document.getElementById('carousel-text');
             const elSource = document.getElementById('carousel-source');
+            const elKind = document.getElementById('carousel-kind');
+            const elTafsir = document.getElementById('carousel-tafsir');
 
             if (elText) {
                 elText.style.opacity = '0';
                 setTimeout(() => {
                     elText.innerText = txt;
                     elSource.innerText = `— ${item.source}`;
+                    if (elKind) {
+                        const isQuran = item.type === 'quran';
+                        elKind.innerText = currentSiteLang === 'ar' ? (isQuran ? 'آية قرآنية' : 'حديث صحيح') :
+                                           currentSiteLang === 'so' ? (isQuran ? 'Aayad Qur’aan' : 'Xadiis Saxiix') :
+                                           (isQuran ? 'Koranvers' : 'Sahih hadith');
+                    }
+                    if (elTafsir) {
+                        const tafsir = item[`tafsir${currentSiteLang === 'ar' ? 'Ar' : currentSiteLang === 'so' ? 'So' : 'Sv'}`] || '';
+                        elTafsir.textContent = tafsir;
+                        elTafsir.classList.toggle('hidden', !tafsir);
+                    }
                     elText.style.opacity = '1';
                 }, 250);
             }
@@ -1353,6 +1992,8 @@
             document.getElementById('set-jumuah-time').value = siteSettings.jumuahTime || '13:00';
             document.getElementById('set-footer-text').value = siteSettings.footerText || '';
             document.getElementById('set-jumuah-desc-ar').value = siteSettings.jumuahDescAr || '';
+            document.getElementById('set-jumuah-desc-sv').value = siteSettings.jumuahDescSv || '';
+            document.getElementById('set-jumuah-desc-so').value = siteSettings.jumuahDescSo || '';
             document.getElementById('set-announcement-enabled').checked = !!siteSettings.announcement?.enabled;
             document.getElementById('set-announcement-text').value = siteSettings.announcement?.text || '';
             document.getElementById('set-logo-url').value = siteSettings.logoUrl || '';
@@ -1411,20 +2052,39 @@
         function renderAdminHadithsList() {
             const container = document.getElementById('admin-hadiths-container');
             const list = siteSettings.verifiedVerses || DEFAULT_VERIFIED_VERSES;
-            container.innerHTML = list.map((item, index) => `
-                <div class="p-4 bg-stone-50 border rounded-xl space-y-2 relative" data-hadith-index="${index}">
-                    <button onclick="window.removeHadithRow(${index})" class="absolute top-3 left-3 text-rose-500 hover:text-rose-700 text-xs font-bold"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (العربية)</label><input type="text" value="${escapeHtml(item.ar)}" class="hadith-ar w-full p-2 border rounded-lg text-xs font-arabic" dir="rtl"></div>
-                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (السويدية)</label><input type="text" value="${escapeHtml(item.sv)}" class="hadith-sv w-full p-2 border rounded-lg text-xs"></div>
-                    <div><label class="block text-[10px] font-bold text-stone-500">المصدر (Source)</label><input type="text" value="${escapeHtml(item.source)}" class="hadith-source w-full p-2 border rounded-lg text-xs font-mono" dir="ltr"></div>
-                </div>
-            `).join('');
+            container.replaceChildren();
+            list.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'p-4 bg-stone-50 border rounded-xl space-y-2 relative';
+                card.dataset.hadithIndex = index;
+                card.innerHTML = `
+                    <button type="button" class="remove-content absolute top-3 left-3 text-rose-500 hover:text-rose-700" title="حذف"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    <div class="grid md:grid-cols-2 gap-2 pr-0">
+                        <div><label class="block text-[10px] font-bold text-stone-500">النوع</label><select class="content-type w-full p-2 border rounded-lg text-xs"><option value="hadith">حديث صحيح</option><option value="quran">آية قرآنية</option></select></div>
+                        <div><label class="block text-[10px] font-bold text-stone-500">المصدر</label><input type="text" class="hadith-source w-full p-2 border rounded-lg text-xs font-mono" dir="ltr"></div>
+                    </div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">العربية</label><textarea rows="2" class="hadith-ar w-full p-2 border rounded-lg text-xs font-arabic" dir="rtl"></textarea></div>
+                    <div class="grid md:grid-cols-2 gap-2">
+                        <div><label class="block text-[10px] font-bold text-stone-500">السويدية</label><textarea rows="2" class="hadith-sv w-full p-2 border rounded-lg text-xs"></textarea></div>
+                        <div><label class="block text-[10px] font-bold text-stone-500">الصومالية</label><textarea rows="2" class="hadith-so w-full p-2 border rounded-lg text-xs"></textarea></div>
+                    </div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">تفسير/شرح عربي مختصر</label><textarea rows="2" class="tafsir-ar w-full p-2 border rounded-lg text-xs font-arabic" dir="rtl"></textarea></div>
+                `;
+                card.querySelector('.content-type').value = item.type === 'quran' ? 'quran' : 'hadith';
+                card.querySelector('.hadith-source').value = item.source || '';
+                card.querySelector('.hadith-ar').value = item.ar || '';
+                card.querySelector('.hadith-sv').value = item.sv || '';
+                card.querySelector('.hadith-so').value = item.so || '';
+                card.querySelector('.tafsir-ar').value = item.tafsirAr || '';
+                card.querySelector('.remove-content').addEventListener('click', () => window.removeHadithRow(index));
+                container.appendChild(card);
+            });
             if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         window.addNewHadithRow = () => {
             if(!siteSettings.verifiedVerses) siteSettings.verifiedVerses = [...DEFAULT_VERIFIED_VERSES];
-            siteSettings.verifiedVerses.push({ sv: "Ny hadith...", ar: "حديث جديد...", source: "Sahih" });
+            siteSettings.verifiedVerses.push({ type:'hadith', sv: 'Ny hadith...', ar: 'حديث جديد...', so: 'Xadiis cusub...', source: 'Sahih', tafsirAr: '' });
             renderAdminHadithsList();
         };
 
@@ -1529,6 +2189,8 @@
             siteSettings.jumuahTime = document.getElementById('set-jumuah-time').value;
             siteSettings.footerText = document.getElementById('set-footer-text').value;
             siteSettings.jumuahDescAr = document.getElementById('set-jumuah-desc-ar').value;
+            siteSettings.jumuahDescSv = document.getElementById('set-jumuah-desc-sv').value;
+            siteSettings.jumuahDescSo = document.getElementById('set-jumuah-desc-so').value;
             siteSettings.announcement = { ...(siteSettings.announcement || {}), enabled: document.getElementById('set-announcement-enabled').checked, text: document.getElementById('set-announcement-text').value };
             siteSettings.logoUrl = document.getElementById('set-logo-url').value.trim();
 
@@ -1547,21 +2209,193 @@
             hadithRows.forEach(row => {
                 const ar = row.querySelector('.hadith-ar').value;
                 const sv = row.querySelector('.hadith-sv').value;
+                const so = row.querySelector('.hadith-so')?.value || '';
                 const source = row.querySelector('.hadith-source').value;
+                const type = row.querySelector('.content-type')?.value === 'quran' ? 'quran' : 'hadith';
+                const tafsirAr = row.querySelector('.tafsir-ar')?.value || '';
                 const idx = newHadiths.length;
                 const old = siteSettings.verifiedVerses?.[idx] || {};
-                newHadiths.push({ ...old, ar, sv, source, so: old.so || sv });
+                newHadiths.push({ ...old, type, ar, sv, so: so || old.so || sv, source, tafsirAr });
             });
-            if(newHadiths.length > 0) siteSettings.verifiedVerses = newHadiths;
+            siteSettings.verifiedVerses = newHadiths;
 
             try {
-                await setDoc(doc(db, "config", "settings"), { ...siteSettings, schemaVersion: APP_SCHEMA_VERSION, updatedAt: serverTimestamp(), updatedBy: adminUser.uid }, { merge: true });
+                siteSettings.contentLibraryVersion = 2;
+                await setDoc(doc(db, "config", "settings"), { ...siteSettings, schemaVersion: APP_SCHEMA_VERSION, contentLibraryVersion: 2, updatedAt: serverTimestamp(), updatedBy: adminUser.uid }, { merge: true });
                 window.showToast("تم حفظ كافة الإعدادات بنجاح!");
                 applySettingsToUI();
                 initPrayerTimes();
             } catch (e) {
                 window.showToast("خطأ في الحفظ: " + e.message, true);
             }
+        };
+
+
+        // Qibla: local bearing works even when Google iframe permissions are restricted.
+        const KAABA = { lat: 21.422487, lon: 39.826206 };
+        const FAGERSTA_FALLBACK = { lat: 60.0042, lon: 15.7932 };
+        let qiblaBearingDeg = null;
+        let qiblaOrientationHandler = null;
+
+        function toRad(d){ return d * Math.PI / 180; }
+        function toDeg(r){ return r * 180 / Math.PI; }
+        function bearingToKaaba(lat, lon) {
+            const φ1 = toRad(lat), φ2 = toRad(KAABA.lat), Δλ = toRad(KAABA.lon - lon);
+            const y = Math.sin(Δλ) * Math.cos(φ2);
+            const x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
+            return (toDeg(Math.atan2(y,x)) + 360) % 360;
+        }
+        function haversineKm(lat1, lon1, lat2, lon2) {
+            const R=6371.0088, dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
+            const a=Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+            return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+        }
+        function qiblaCardinal(deg) {
+            const labels = currentSiteLang === 'ar' ? ['شمال','شمال شرقي','شرق','جنوب شرقي','جنوب','جنوب غربي','غرب','شمال غربي'] :
+                           currentSiteLang === 'so' ? ['Waqooyi','Waqooyi-bari','Bari','Koonfur-bari','Koonfur','Koonfur-galbeed','Galbeed','Waqooyi-galbeed'] :
+                           ['Norr','Nordost','Öst','Sydost','Syd','Sydväst','Väst','Nordväst'];
+            return labels[Math.round(deg/45)%8];
+        }
+        function renderQiblaPosition(lat, lon, label) {
+            qiblaBearingDeg = bearingToKaaba(lat, lon);
+            const dist = haversineKm(lat, lon, KAABA.lat, KAABA.lon);
+            document.getElementById('qibla-bearing').textContent = `${qiblaBearingDeg.toFixed(1)}°`;
+            document.getElementById('qibla-cardinal').textContent = `${qiblaCardinal(qiblaBearingDeg)} · ${qiblaBearingDeg.toFixed(1)}°`;
+            document.getElementById('qibla-distance').textContent = `${Math.round(dist).toLocaleString()} km`;
+            document.getElementById('qibla-location').textContent = label || `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+            document.getElementById('qibla-arrow').style.transform = `rotate(${qiblaBearingDeg}deg)`;
+        }
+        function startDeviceOrientation() {
+            if (!('DeviceOrientationEvent' in window)) return false;
+            if (qiblaOrientationHandler) window.removeEventListener('deviceorientationabsolute', qiblaOrientationHandler, true);
+            qiblaOrientationHandler = (e) => {
+                let heading = null;
+                if (typeof e.webkitCompassHeading === 'number') heading = e.webkitCompassHeading;
+                else if (e.absolute === true && typeof e.alpha === 'number') heading = (360 - e.alpha) % 360;
+                if (heading !== null && qiblaBearingDeg !== null) {
+                    document.getElementById('qibla-arrow').style.transform = `rotate(${qiblaBearingDeg - heading}deg)`;
+                }
+            };
+            window.addEventListener('deviceorientationabsolute', qiblaOrientationHandler, true);
+            window.addEventListener('deviceorientation', qiblaOrientationHandler, true);
+            return true;
+        }
+        window.activateQibla = async () => {
+            const status = document.getElementById('qibla-status');
+            const btn = document.getElementById('qibla-activate-btn');
+            btn.disabled = true; btn.classList.add('opacity-70');
+            try {
+                if (!window.isSecureContext && location.hostname !== 'localhost') {
+                    throw new Error(currentSiteLang === 'ar' ? 'الموقع يحتاج HTTPS لاستخدام الموقع الجغرافي.' : currentSiteLang === 'so' ? 'Goobtu waxay u baahan tahay HTTPS si ay u isticmaasho goobtaada.' : 'Webbplatsen behöver HTTPS för geolocation.');
+                }
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    try { await DeviceOrientationEvent.requestPermission(); } catch(_) {}
+                }
+                if (!navigator.geolocation) throw new Error('Geolocation API unavailable');
+                status.textContent = currentSiteLang === 'ar' ? 'جارٍ تحديد موقعك وحساب اتجاه الكعبة...' : currentSiteLang === 'so' ? 'Goobtaada ayaa la raadinayaa...' : 'Hämtar din plats och beräknar Qibla...';
+                const pos = await new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:12000,maximumAge:300000}));
+                const {latitude,longitude,accuracy}=pos.coords;
+                renderQiblaPosition(latitude,longitude,`${latitude.toFixed(4)}, ${longitude.toFixed(4)} · ±${Math.round(accuracy)} m`);
+                const sensor = startDeviceOrientation();
+                status.className = 'text-xs leading-relaxed qibla-status-ok';
+                status.textContent = currentSiteLang === 'ar'
+                    ? (sensor ? 'تم تحديد القبلة. حرّك الهاتف وسيبقى السهم متجهاً نحو الكعبة.' : 'تم تحديد اتجاه القبلة جغرافياً. جهازك لا يوفّر مستشعر اتجاه متوافقاً، استخدم الدرجة الظاهرة.')
+                    : currentSiteLang === 'so'
+                    ? (sensor ? 'Qiblada waa la helay. Telefoonka dhaqaaji, fallaadhu Kacbada ayay tilmaamaysaa.' : 'Jihada juqraafiyeed waa la helay; qalabku compass la jaanqaadaya ma bixiyo.')
+                    : (sensor ? 'Qibla är klar. När du vrider telefonen fortsätter pilen att peka mot Kaaba.' : 'Geografisk Qibla är beräknad. Enheten saknar kompatibel riktningssensor; använd gradtalet.');
+            } catch(e) {
+                renderQiblaPosition(FAGERSTA_FALLBACK.lat,FAGERSTA_FALLBACK.lon,'Fagersta · fallback');
+                status.className='text-xs leading-relaxed qibla-status-warn';
+                status.textContent = (currentSiteLang === 'ar' ? 'تعذر الحصول على صلاحية الموقع؛ يعرض الآن اتجاه القبلة من فاغشتا. يمكنك السماح بالموقع من إعدادات المتصفح ثم المحاولة مجدداً. ' :
+                                     currentSiteLang === 'so' ? 'Oggolaanshaha goobta lama helin; hadda waxaa la muujinayaa Qiblada Fagersta. ' :
+                                     'Platsbehörighet kunde inte hämtas; Qibla från Fagersta visas nu. ') + (e?.message || '');
+            } finally { btn.disabled=false; btn.classList.remove('opacity-70'); }
+        };
+        window.toggleGoogleQiblaEmbed = () => {
+            const wrap=document.getElementById('google-qibla-embed-wrap'), frame=document.getElementById('google-qibla-frame');
+            const opening=wrap.classList.contains('hidden');
+            wrap.classList.toggle('hidden');
+            if (opening && frame.src === 'about:blank') frame.src='https://qiblafinder.withgoogle.com/';
+        };
+
+        function getVisitorId() {
+            let id = localStorage.getItem('fagerstaVisitorId');
+            if (!id) {
+                id = (crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+                localStorage.setItem('fagerstaVisitorId', id);
+            }
+            return id.replace(/[^a-zA-Z0-9_-]/g,'').slice(0,80);
+        }
+        async function initVisitorCounter() {
+            const setCount = n => document.querySelectorAll('[data-visitor-count]').forEach(el => el.textContent = Number(n||0).toLocaleString(currentSiteLang==='ar'?'ar-SE':currentSiteLang==='so'?'so-SO':'sv-SE'));
+            try {
+                const visitorId=getVisitorId();
+                const visitRef=doc(db,'visits',visitorId);
+                const existing=await getDoc(visitRef);
+                if (!existing.exists()) {
+                    await setDoc(visitRef,{createdAt:serverTimestamp(), language:currentSiteLang, day:dateKey(swedenWallClockNow())});
+                }
+                const agg=await getCountFromServer(collection(db,'visits'));
+                setCount(agg.data().count);
+            } catch(e) {
+                console.warn('Visitor counter unavailable:',e);
+                document.querySelectorAll('[data-visitor-count]').forEach(el => el.textContent='—');
+            }
+        }
+
+        function normalizeIslamicContentRow(row) {
+            const pick=(...keys)=>{ for(const k of keys){ const v=row[k] ?? row[Object.keys(row).find(x=>normalizeHeader(x)===normalizeHeader(k))]; if(v!==undefined&&v!==null&&String(v).trim()!=='') return String(v).trim(); } return ''; };
+            const rawType=pick('type','نوع').toLowerCase();
+            const ar=pick('ar','arabic','العربية','النص العربي');
+            const sv=pick('sv','swedish','السويدية');
+            const so=pick('so','somali','الصومالية');
+            const source=pick('source','reference','المصدر','المرجع');
+            if (!ar || !source) return null;
+            return {
+                type: /quran|ayah|آية|قرآن/.test(rawType) ? 'quran' : 'hadith',
+                ar, sv:sv||ar, so:so||sv||ar, source,
+                tafsirAr:pick('tafsirAr','tafsir_ar','تفسير','الشرح العربي'),
+                tafsirSv:pick('tafsirSv','tafsir_sv','الشرح السويدي'),
+                tafsirSo:pick('tafsirSo','tafsir_so','الشرح الصومالي')
+            };
+        }
+        window.handleIslamicContentUpload = async (event) => {
+            const file=event.target.files[0], status=document.getElementById('islamic-content-upload-status');
+            if(!file) return;
+            try {
+                requireAdmin();
+                status.textContent='جارٍ قراءة الملف والتحقق من المحتوى...';
+                let rows=[];
+                const ext=(file.name.split('.').pop()||'').toLowerCase();
+                if (ext==='json') {
+                    const parsed=JSON.parse(await file.text());
+                    rows=Array.isArray(parsed)?parsed:(Array.isArray(parsed.items)?parsed.items:[]);
+                } else if (ext==='csv') {
+                    const wb=XLSX.read(await file.text(),{type:'string'});
+                    rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+                } else {
+                    const wb=XLSX.read(new Uint8Array(await file.arrayBuffer()),{type:'array'});
+                    rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:''});
+                }
+                const parsed=rows.map(normalizeIslamicContentRow).filter(Boolean);
+                if(!parsed.length) throw new Error('لا توجد صفوف صالحة. يجب وجود ar و source على الأقل.');
+                const current=[...(siteSettings.verifiedVerses||DEFAULT_VERIFIED_VERSES)];
+                const seen=new Set(current.map(x=>`${String(x.source||'').trim()}|${String(x.ar||'').trim()}`));
+                let added=0;
+                for(const item of parsed){
+                    const key=`${item.source}|${item.ar}`;
+                    if(seen.has(key)) continue;
+                    current.push(item); seen.add(key); added++;
+                }
+                siteSettings.verifiedVerses=current;
+                await setDoc(doc(db,'config','settings'),{verifiedVerses:current,contentLibraryVersion:2,updatedAt:serverTimestamp(),updatedBy:adminUser.uid},{merge:true});
+                renderAdminHadithsList(); updateVerseCarousel();
+                status.textContent=`تمت إضافة ${added} مادة جديدة. تم تجاهل ${parsed.length-added} مادة مكررة. الإجمالي الآن ${current.length}.`;
+                window.showToast('تم استيراد المحتوى الديني وحفظه في Firestore.');
+            } catch(e) {
+                status.textContent='فشل الاستيراد: '+e.message;
+                window.showToast('تعذر استيراد الملف: '+e.message,true);
+            } finally { event.target.value=''; }
         };
 
         function normalizeHeader(s) {
@@ -1689,7 +2523,7 @@
                 const backup = { schemaVersion: APP_SCHEMA_VERSION, exportedAt: new Date().toISOString(), projectId: firebaseConfig.projectId, collections: {} };
                 const settingsSnap = await getDoc(doc(db, 'config', 'settings'));
                 backup.collections.config = { settings: settingsSnap.exists() ? settingsSnap.data() : null };
-                for (const name of ['khutbahs','feedback','prayerTimes']) {
+                for (const name of ['khutbahs','feedback','prayerTimes','visits']) {
                     const snap = await getDocs(collection(db, name));
                     backup.collections[name] = {};
                     snap.forEach(d => { backup.collections[name][d.id] = d.data(); });
@@ -1718,13 +2552,17 @@
             }
         }
 
-        window.onload = () => {
+        window.onload = async () => {
             updateConnectivityUI();
             populateYearOptions();
+            const preferredLang = detectPreferredSiteLanguage();
+            window.setSiteLanguage(preferredLang);
+            renderQiblaPosition(FAGERSTA_FALLBACK.lat, FAGERSTA_FALLBACK.lon, 'Fagersta · fallback');
             if(typeof lucide !== 'undefined') lucide.createIcons();
-            initApp();
-            window.setSiteLanguage('sv');
+            await initApp();
+            window.setSiteLanguage(preferredLang);
+            initVisitorCounter();
         };
     </script>
 </body>
-</html>
+    </html>
