@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#064e3b">
+    <meta name="description" content="Fagersta Moské - bönetider, fredagspredikningar, Qibla och information från Fagersta Islamiska Kulturförening.">
+    <meta name="color-scheme" content="light">
+    <link rel="manifest" href="fagersta-moske.webmanifest">
+    <link rel="icon" href="mosque-icon.svg" type="image/svg+xml">
     <title>Fagersta Moské - Officiell Portalen & Bönereglerna</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
@@ -157,6 +162,98 @@
             #dashboard-modal .w-1\/4 { max-height: 210px; border-left:0; border-bottom:1px solid #e7e5e4; }
         }
 
+
+
+        /* v3 professional design system */
+        :root {
+            --accent-gold: #d4a853;
+            --surface: rgba(255,255,255,.92);
+            --surface-strong: #ffffff;
+            --ink: #1c1917;
+        }
+        body[data-theme="emerald-gold"] {
+            --brand-50:#ecfdf5; --brand-100:#d1fae5; --brand-200:#a7f3d0; --brand-300:#6ee7b7; --brand-400:#34d399;
+            --brand-500:#10b981; --brand-600:#059669; --brand-700:#047857; --brand-800:#065f46; --brand-900:#064e3b; --brand-950:#022c22;
+            --accent-gold:#d4a853;
+        }
+        body[data-theme="nordic"] {
+            --brand-50:#eff6ff; --brand-100:#dbeafe; --brand-200:#bfdbfe; --brand-300:#93c5fd; --brand-400:#60a5fa;
+            --brand-500:#3b82f6; --brand-600:#2563eb; --brand-700:#1d4ed8; --brand-800:#1e40af; --brand-900:#1e3a8a; --brand-950:#172554;
+            --accent-gold:#d6a64b;
+        }
+        body[data-theme="classic"] {
+            --brand-50:#f0fdf4; --brand-100:#dcfce7; --brand-200:#bbf7d0; --brand-300:#86efac; --brand-400:#4ade80;
+            --brand-500:#22c55e; --brand-600:#15803d; --brand-700:#166534; --brand-800:#14532d; --brand-900:#0f3d24; --brand-950:#052e16;
+            --accent-gold:#c99b3d;
+        }
+        .hero-frame {
+            background: linear-gradient(135deg, rgba(2,44,34,.98), rgba(6,78,59,.96) 55%, rgba(28,25,23,.98));
+            border: 1px solid rgba(212,168,83,.24);
+            box-shadow: 0 28px 80px -38px rgba(2,44,34,.75);
+        }
+        .hero-frame::after {
+            content:""; position:absolute; inset:0; pointer-events:none; opacity:.22;
+            background-image: radial-gradient(circle at 20% 15%, rgba(255,255,255,.22) 0 1px, transparent 1.5px), radial-gradient(circle at 80% 75%, rgba(212,168,83,.22) 0 1px, transparent 1.5px);
+            background-size: 38px 38px, 54px 54px;
+            mask-image: linear-gradient(to bottom, black, transparent 88%);
+        }
+        .smart-overview {
+            background: linear-gradient(145deg, rgba(255,255,255,.97), rgba(250,250,249,.93));
+            border:1px solid rgba(120,113,108,.16); box-shadow:0 22px 60px -36px rgba(28,25,23,.42);
+        }
+        .smart-stat { min-height:92px; position:relative; overflow:hidden; }
+        .smart-stat::after { content:""; position:absolute; width:62px; height:62px; border-radius:999px; right:-22px; bottom:-30px; background:var(--brand-100); opacity:.58; }
+        [dir="rtl"] .smart-stat::after { right:auto; left:-22px; }
+        .section-kicker { letter-spacing:.16em; text-transform:uppercase; font-size:.65rem; font-weight:800; color:var(--brand-700); }
+        .prayer-source-badge { display:inline-flex; align-items:center; gap:.4rem; padding:.3rem .6rem; border-radius:999px; font-size:.65rem; font-weight:800; }
+        .prayer-source-official { background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0; }
+        .prayer-source-fallback { background:#fff7ed; color:#9a3412; border:1px solid #fed7aa; }
+        .prayer-progress-track { height:5px; border-radius:999px; background:#e7e5e4; overflow:hidden; }
+        .prayer-progress-fill { height:100%; width:0%; border-radius:999px; background:linear-gradient(90deg,var(--brand-400),var(--brand-700)); transition:width .8s ease; }
+        .quick-action { transition:transform .2s ease, background .2s ease, border-color .2s ease; }
+        .quick-action:hover { transform:translateY(-2px); border-color:var(--brand-300); }
+        .qibla-compass-v3 {
+            width:260px; height:260px; border-radius:9999px; position:relative; margin-inline:auto;
+            background:
+              repeating-conic-gradient(from -1deg, rgba(255,255,255,.18) 0deg 1deg, transparent 1deg 10deg),
+              radial-gradient(circle at 50% 50%, #16362c 0 45%, #0d251e 46% 65%, #071813 66% 100%);
+            border:1px solid rgba(212,168,83,.36); box-shadow:inset 0 0 70px rgba(0,0,0,.52),0 28px 60px -28px rgba(0,0,0,.85);
+        }
+        .qibla-compass-v3::before { content:"N"; position:absolute; top:10px; left:50%; transform:translateX(-50%); color:#f7e4aa; font-weight:900; font-size:.7rem; letter-spacing:.18em; }
+        .qibla-compass-v3::after { content:""; position:absolute; inset:18px; border:1px solid rgba(212,168,83,.22); border-radius:9999px; }
+        .qibla-needle-v3 { position:absolute; left:50%; top:50%; width:56px; height:112px; margin-left:-28px; margin-top:-92px; transform-origin:28px 92px; transition:transform .16s linear; z-index:4; }
+        .qibla-needle-v3::before { content:""; position:absolute; top:0; left:14px; border-left:14px solid transparent; border-right:14px solid transparent; border-bottom:49px solid #f3c969; filter:drop-shadow(0 7px 9px rgba(0,0,0,.45)); }
+        .qibla-needle-v3::after { content:""; position:absolute; top:43px; left:25px; width:6px; height:52px; border-radius:999px; background:#ecfdf5; box-shadow:0 2px 8px rgba(0,0,0,.25); }
+        .qibla-center-v3 { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:70px; height:70px; border-radius:20px; background:#08090a; border:2px solid #d4a853; z-index:5; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 28px rgba(0,0,0,.5); }
+        .qibla-center-v3::before { content:""; position:absolute; left:0; right:0; top:18px; height:9px; background:#d4a853; }
+        .qibla-align-ring { position:absolute; inset:-9px; border:2px solid transparent; border-radius:9999px; transition:border-color .2s, box-shadow .2s; }
+        .qibla-compass-v3.aligned .qibla-align-ring { border-color:#34d399; box-shadow:0 0 0 7px rgba(52,211,153,.12),0 0 34px rgba(52,211,153,.35); animation:qiblaPulse 1.7s ease-in-out infinite; }
+        @keyframes qiblaPulse { 50% { transform:scale(1.018); opacity:.72; } }
+        .accuracy-meter { height:6px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
+        .accuracy-meter > span { display:block; height:100%; width:0%; background:linear-gradient(90deg,#f59e0b,#34d399); border-radius:inherit; transition:width .3s ease; }
+        .qibla-step { display:flex; gap:.8rem; align-items:flex-start; padding:.8rem; border-radius:1rem; background:rgba(255,255,255,.045); border:1px solid rgba(255,255,255,.08); }
+        .qibla-step-num { width:26px; height:26px; border-radius:9px; flex:none; display:flex; align-items:center; justify-content:center; background:rgba(212,168,83,.16); color:#f5d88e; font-weight:900; font-size:.72rem; border:1px solid rgba(212,168,83,.22); }
+        .contact-grid a, .contact-grid button { transition:transform .18s ease, box-shadow .18s ease; }
+        .contact-grid a:hover, .contact-grid button:hover { transform:translateY(-2px); }
+        #accessibility-panel { box-shadow:0 24px 70px -28px rgba(0,0,0,.55); }
+        body.access-contrast { filter:contrast(1.08); }
+        body.access-contrast .glass-card, body.access-contrast .smart-overview { background:#fff; }
+        body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important; }
+        .admin-metric { border:1px solid #e7e5e4; background:linear-gradient(145deg,#fff,#fafaf9); }
+        .health-ok { color:#047857; background:#ecfdf5; border:1px solid #a7f3d0; }
+        .health-warn { color:#9a3412; background:#fff7ed; border:1px solid #fed7aa; }
+        .developer-credit { color:#78716c; font-size:.65rem; line-height:1.6; }
+        .developer-credit strong { color:#d6d3d1; font-weight:700; }
+        @media (max-width:640px) {
+            .qibla-compass-v3 { width:215px; height:215px; }
+            .qibla-needle-v3 { transform-origin:28px 78px; margin-top:-78px; height:98px; }
+            .qibla-needle-v3::after { height:40px; }
+            .smart-stat { min-height:82px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+        }
+
         @media print {
             body * { visibility: hidden; }
             #printable-a4-area, #printable-a4-area * { visibility: visible; }
@@ -174,6 +271,18 @@
 
     <div id="progress-bar"></div>
     <div id="toast" class="text-sm">Åtgärden genomfördes framgångsrikt!</div>
+    <div id="accessibility-panel" class="hidden fixed top-16 right-4 z-[99998] w-[290px] bg-white border border-stone-200 rounded-2xl p-4 text-stone-800" role="dialog" aria-live="polite">
+        <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-2 font-extrabold text-sm"><i data-lucide="accessibility" class="w-4 h-4 text-brand-600"></i><span data-i18n="accessibilityTitle">Tillgänglighet</span></div>
+            <button onclick="window.toggleAccessibilityPanel(false)" class="p-1.5 rounded-lg hover:bg-stone-100"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <div class="space-y-3 text-xs">
+            <div class="flex items-center justify-between gap-3"><span data-i18n="textSizeLabel">Textstorlek</span><div class="flex gap-1"><button onclick="window.adjustGlobalFont(-1)" class="w-8 h-8 rounded-lg bg-stone-100 font-bold">A-</button><button onclick="window.adjustGlobalFont(1)" class="w-8 h-8 rounded-lg bg-stone-100 font-bold">A+</button></div></div>
+            <label class="flex items-center justify-between gap-3 cursor-pointer"><span data-i18n="highContrastLabel">Högre kontrast</span><input type="checkbox" id="access-contrast-toggle" onchange="window.setAccessibilityPreference('contrast',this.checked)" class="w-4 h-4 accent-brand-600"></label>
+            <label class="flex items-center justify-between gap-3 cursor-pointer"><span data-i18n="reduceMotionLabel">Minska rörelser</span><input type="checkbox" id="access-motion-toggle" onchange="window.setAccessibilityPreference('reduceMotion',this.checked)" class="w-4 h-4 accent-brand-600"></label>
+            <button onclick="window.resetAccessibility()" class="w-full py-2 rounded-xl border border-stone-200 hover:bg-stone-50 font-bold" data-i18n="resetAccessibility">Återställ</button>
+        </div>
+    </div>
     <div id="offline-banner" class="hidden bg-amber-500 text-amber-950 text-center text-xs font-bold px-4 py-2">الاتصال بالإنترنت غير متاح. سيتم عرض البيانات المحملة فقط ولن يتم الادعاء بحفظ أي تغيير قبل تأكيد Firestore.</div>
 
     <div id="teleprompter-overlay" class="font-arabic" dir="rtl">
@@ -210,6 +319,7 @@
             </div>
 
             <div class="flex items-center gap-2">
+                <button onclick="window.toggleAccessibilityPanel()" class="w-9 h-9 rounded-xl bg-stone-800 border border-stone-700 hover:bg-stone-700 flex items-center justify-center text-stone-300" data-i18n-title="accessibilityTitle" title="Tillgänglighet"><i data-lucide="accessibility" class="w-4 h-4"></i></button>
                 <div class="flex bg-stone-800 rounded-xl p-0.5 border border-stone-700 text-xs font-bold">
                     <button onclick="window.setSiteLanguage('sv')" id="nav-lang-sv" class="px-3 py-1 rounded-lg transition-all">🇸🇪 SV</button>
                     <button onclick="window.setSiteLanguage('ar')" id="nav-lang-ar" class="px-3 py-1 rounded-lg transition-all">🇸🇦 AR</button>
@@ -222,7 +332,7 @@
     <div class="content-wrapper">
         <div id="view-home" class="min-h-screen flex flex-col justify-between">
             <div class="pb-12">
-                <div class="max-w-5xl mx-auto px-4 pt-8 pb-4 text-center">
+                <div class="max-w-6xl mx-auto px-4 pt-8 pb-4 text-center">
                     <div id="home-logo-container" class="w-20 h-20 bg-gradient-to-br from-brand-600 to-brand-800 text-white rounded-[1.7rem] mx-auto flex items-center justify-center shadow-xl shadow-brand-200 mb-4 hover:scale-105 transition-transform cursor-pointer overflow-hidden" onclick="window.switchView('home')">
                         <img id="custom-mosque-logo-img" src="" class="w-full h-full object-cover hidden" alt="Logo">
                         <i id="default-logo-icon" data-lucide="book-open" class="w-10 h-10"></i>
@@ -239,7 +349,44 @@
                         </button>
                     </div>
 
-                    <div class="bg-gradient-to-r from-brand-900 via-stone-900 to-brand-950 text-white rounded-3xl p-6 md:p-8 shadow-xl mb-10 relative overflow-hidden text-center border border-brand-800">
+                    <section id="smart-overview" class="smart-overview rounded-[2rem] p-4 md:p-5 mb-8 text-left">
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
+                            <div>
+                                <div class="section-kicker" data-i18n="todayOverviewKicker">Idag i Fagersta</div>
+                                <h2 class="text-xl md:text-2xl font-extrabold text-stone-900 mt-1" data-i18n="todayOverviewTitle">Din snabböversikt</h2>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="document.getElementById('section-qibla')?.scrollIntoView({behavior:'smooth',block:'center'})" class="quick-action px-3 py-2 rounded-xl bg-brand-50 border border-brand-200 text-brand-800 text-xs font-bold flex items-center gap-1.5"><i data-lucide="navigation" class="w-4 h-4"></i><span data-i18n="quickQibla">Qibla</span></button>
+                                <button onclick="window.switchView('archive')" class="quick-action px-3 py-2 rounded-xl bg-white border border-stone-200 text-stone-700 text-xs font-bold flex items-center gap-1.5"><i data-lucide="library" class="w-4 h-4"></i><span data-i18n="quickArchive">Predikningar</span></button>
+                                <button onclick="window.shareSite()" class="quick-action px-3 py-2 rounded-xl bg-white border border-stone-200 text-stone-700 text-xs font-bold flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i><span data-i18n="shareSite">Dela</span></button>
+                                <button id="install-app-btn" onclick="window.installMosqueApp()" class="hidden quick-action px-3 py-2 rounded-xl bg-stone-900 border border-stone-800 text-white text-xs font-bold items-center gap-1.5"><i data-lucide="download" class="w-4 h-4"></i><span data-i18n="installApp">Installera app</span></button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                            <div class="smart-stat rounded-2xl border border-stone-200 bg-white p-4">
+                                <div class="text-[10px] uppercase tracking-wider font-bold text-stone-400" data-i18n="fagerstaTimeLabel">Tid i Fagersta</div>
+                                <div id="overview-clock" class="mt-1 text-xl md:text-2xl font-extrabold font-mono text-stone-900">--:--</div>
+                                <div id="overview-gregorian" class="text-[10px] text-stone-500 mt-1"></div>
+                            </div>
+                            <div class="smart-stat rounded-2xl border border-stone-200 bg-white p-4">
+                                <div class="text-[10px] uppercase tracking-wider font-bold text-stone-400" data-i18n="hijriDateLabel">Hijri-datum</div>
+                                <div id="overview-hijri" class="mt-1 text-sm md:text-base font-extrabold text-brand-800 leading-snug">—</div>
+                                <div id="overview-ramadan" class="hidden text-[10px] text-amber-700 font-bold mt-1"></div>
+                            </div>
+                            <div class="smart-stat rounded-2xl border border-stone-200 bg-white p-4">
+                                <div class="text-[10px] uppercase tracking-wider font-bold text-stone-400" data-i18n="nextPrayerCompactLabel">Nästa bön</div>
+                                <div id="overview-next-prayer" class="mt-1 text-sm md:text-base font-extrabold text-stone-900">—</div>
+                                <div id="overview-next-prayer-time" class="text-[11px] text-brand-700 font-mono font-bold mt-1">—</div>
+                            </div>
+                            <div class="smart-stat rounded-2xl border border-stone-200 bg-white p-4">
+                                <div class="text-[10px] uppercase tracking-wider font-bold text-stone-400" data-i18n="nextJumuahLabel">Nästa Jumu'ah</div>
+                                <div id="overview-jumuah" class="mt-1 text-sm md:text-base font-extrabold text-stone-900">—</div>
+                                <div id="overview-jumuah-countdown" class="text-[11px] text-amber-700 font-mono font-bold mt-1">—</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="hero-frame text-white rounded-[2rem] p-6 md:p-9 shadow-xl mb-10 relative overflow-hidden text-center">
                         <div class="absolute top-3 left-4 opacity-10 text-brand-400">
                             <i data-lucide="quote" class="w-20 h-20"></i>
                         </div>
@@ -255,6 +402,7 @@
                                 <span id="carousel-source" class="text-xs text-brand-400 font-bold tracking-wide">— Sahih al-Bukhari 5027</span>
                             </div>
                             <p id="carousel-tafsir" class="hidden mt-3 max-w-2xl text-[11px] md:text-xs text-stone-300 leading-relaxed border-t border-white/10 pt-3"></p>
+                            <button id="carousel-tafsir-toggle" onclick="window.toggleCarouselExplanation()" class="hidden mt-3 text-[10px] px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/10 font-bold text-brand-100"><span data-i18n="showExplanation">Visa förklaring</span></button>
                         </div>
                         <div class="flex justify-center items-center gap-4 mt-4">
                             <button onclick="window.prevVerse()" class="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
@@ -270,6 +418,7 @@
                                     <i data-lucide="clock" class="text-brand-600"></i> <span data-i18n="prayerTimesTitle">Bönetider i Fagersta</span>
                                 </h2>
                                 <p id="current-date-str" class="text-stone-500 text-xs md:text-sm mt-1 font-medium"></p>
+                                <div class="mt-2"><span id="prayer-source-badge" class="prayer-source-badge prayer-source-fallback"><i data-lucide="triangle-alert" class="w-3 h-3"></i><span data-i18n="prayerSourceFallback">Reservtider - kontrollera med moskén</span></span></div>
                             </div>
                             <div class="flex items-center gap-2">
                                 <span id="next-prayer-countdown" class="px-4 py-2 bg-brand-50 text-brand-800 rounded-2xl font-bold text-xs md:text-sm border border-brand-200 flex items-center gap-2 shadow-sm">
@@ -280,6 +429,10 @@
                         </div>
 
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3" id="prayer-times-grid"></div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-[10px] text-stone-400 mb-1"><span data-i18n="prayerDayProgressLabel">Dagens bönecykel</span><span id="prayer-progress-label">—</span></div>
+                            <div class="prayer-progress-track"><div id="prayer-day-progress" class="prayer-progress-fill"></div></div>
+                        </div>
 
                         <div id="section-jumuah-banner" class="jumuah-card mt-6 p-4 md:p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
                             <div class="flex items-center gap-3.5 min-w-0">
@@ -326,7 +479,7 @@
                                 <a href="swish://payment?data=%7B%22version%22%3A1%2C%22value%22%3Anull%2C%22currency%22%3A%22SEK%22%2C%22payee%22%3A%7B%22value%22%3A%221234345443%22%7D%2C%22message%22%3A%7B%22value%22%3A%22Gava%20Fagersta%20Moske%22%7D%7D" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg transition-all hover:scale-105">
                                     <i data-lucide="smartphone" class="w-4 h-4"></i> <span data-i18n="swishAppBtn">Öppna Swish-appen</span>
                                 </a>
-                                <button onclick="window.navigator.clipboard.writeText('123-434 54 43'); window.showToast('Swish-nummer kopierat: 123-434 54 43');" class="bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-stone-700 flex items-center gap-1.5">
+                                <button onclick="window.copySwishNumber()" class="bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-stone-700 flex items-center gap-1.5">
                                     <i data-lucide="copy" class="w-3.5 h-3.5"></i> 123-434 54 43
                                 </button>
                             </div>
@@ -338,60 +491,64 @@
                         </div>
                     </div>
 
-                    <div id="section-qibla" class="premium-card bg-gradient-to-br from-stone-950 via-[#0d211b] to-brand-950 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-brand-900/60 mb-10 relative overflow-hidden">
+                    <section id="section-qibla" class="premium-card bg-gradient-to-br from-stone-950 via-[#0b241c] to-brand-950 text-white rounded-[2rem] p-6 md:p-8 shadow-xl border border-brand-900/60 mb-10 relative overflow-hidden">
                         <div class="hero-orbit"></div>
                         <div class="relative z-10">
-                            <div class="flex justify-between items-start flex-wrap gap-4 mb-6">
-                                <div class="text-left">
-                                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-900/80 text-brand-200 rounded-full text-xs font-bold mb-2 border border-brand-700/60">
-                                        <i data-lucide="navigation" class="w-3.5 h-3.5"></i> <span data-i18n="qiblaBadge">Qibla-kompass</span>
-                                    </div>
-                                    <h3 class="text-xl md:text-2xl font-extrabold" data-i18n="qiblaTitle">Qibla direkt i webbplatsen</h3>
-                                    <p class="text-xs md:text-sm text-stone-400 mt-1 max-w-2xl" data-i18n="qiblaDesc">Använd din plats och telefonens kompass för att visa riktningen mot Kaaba.</p>
-                                </div>
-                                <a href="https://qiblafinder.withgoogle.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-stone-200">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i><span data-i18n="openGoogleQibla">Google Qibla Finder</span>
-                                </a>
-                            </div>
-                            <div class="grid md:grid-cols-[280px_1fr] gap-6 items-center">
+                            <div class="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6 text-left">
                                 <div>
-                                    <div class="qibla-compass" aria-label="Qibla compass">
-                                        <div id="qibla-arrow" class="qibla-arrow"></div>
-                                        <div class="qibla-kaaba"><span class="relative z-10 text-[9px] font-bold text-[#e6c66d]">الكعبة</span></div>
+                                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-900/80 text-brand-200 rounded-full text-xs font-bold mb-2 border border-brand-700/60"><i data-lucide="navigation" class="w-3.5 h-3.5"></i><span data-i18n="qiblaBadge">Qibla-kompass</span></div>
+                                    <h3 class="text-xl md:text-2xl font-extrabold" data-i18n="qiblaTitle">Exakt Qibla direkt i webbplatsen</h3>
+                                    <p class="text-xs md:text-sm text-stone-400 mt-1 max-w-2xl" data-i18n="qiblaDesc">Beräknar den geografiska riktningen till Kaaba från din plats och använder telefonens kompass när sensorn finns.</p>
+                                </div>
+                                <div class="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-white/5 border border-white/10 text-[11px] text-stone-300"><i data-lucide="shield-check" class="w-4 h-4 text-brand-300"></i><span data-i18n="qiblaPrivacy">Din position stannar i webbläsaren och sparas inte.</span></div>
+                            </div>
+
+                            <div class="grid lg:grid-cols-[300px_1fr] gap-7 items-center">
+                                <div>
+                                    <div id="qibla-compass" class="qibla-compass-v3" aria-label="Qibla compass">
+                                        <div class="qibla-align-ring"></div>
+                                        <div id="qibla-arrow" class="qibla-needle-v3"></div>
+                                        <div class="qibla-center-v3"><span class="relative z-10 text-[10px] font-bold text-[#f3d98c]" data-i18n="kaabaLabel">Kaaba</span></div>
                                     </div>
                                     <div class="text-center mt-4">
-                                        <div id="qibla-bearing" class="text-2xl font-extrabold font-mono text-brand-300">-°</div>
-                                        <div id="qibla-location" class="text-[11px] text-stone-500 mt-1">Fagersta fallback</div>
+                                        <div id="qibla-bearing" class="text-2xl font-extrabold font-mono text-brand-300">—°</div>
+                                        <div id="qibla-location" class="text-[11px] text-stone-500 mt-1">Fagersta</div>
                                     </div>
                                 </div>
+
                                 <div class="text-left space-y-4">
-                                    <div class="grid sm:grid-cols-2 gap-3">
-                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
-                                            <div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaDirectionLabel">Riktning till Kaaba</div>
-                                            <div id="qibla-cardinal" class="font-extrabold text-brand-200">-</div>
-                                        </div>
-                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4">
-                                            <div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaDistanceLabel">Avstånd</div>
-                                            <div id="qibla-distance" class="font-extrabold text-brand-200">-</div>
-                                        </div>
+                                    <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaDirectionLabel">Riktning</div><div id="qibla-cardinal" class="font-extrabold text-brand-200">—</div></div>
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaDistanceLabel">Avstånd</div><div id="qibla-distance" class="font-extrabold text-brand-200">—</div></div>
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaHeadingLabel">Telefonens riktning</div><div id="qibla-heading" class="font-extrabold text-brand-200">—</div></div>
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="text-[10px] uppercase tracking-wider text-stone-500 font-bold mb-1" data-i18n="qiblaTurnLabel">Justera</div><div id="qibla-turn" class="font-extrabold text-amber-200">—</div></div>
                                     </div>
-                                    <p id="qibla-status" class="text-xs leading-relaxed text-stone-400" data-i18n="qiblaReady">Tryck på knappen för att tillåta plats och kompass. På dator visas den geografiska riktningen i grader.</p>
+
+                                    <div class="grid sm:grid-cols-2 gap-3">
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="flex justify-between text-[10px] mb-2"><span class="text-stone-400 font-bold" data-i18n="locationAccuracyLabel">Platsnoggrannhet</span><span id="qibla-location-accuracy" class="text-stone-300">—</span></div><div class="accuracy-meter"><span id="qibla-location-meter"></span></div></div>
+                                        <div class="rounded-2xl bg-white/5 border border-white/10 p-4"><div class="flex justify-between text-[10px] mb-2"><span class="text-stone-400 font-bold" data-i18n="sensorAccuracyLabel">Kompassignal</span><span id="qibla-sensor-accuracy" class="text-stone-300">—</span></div><div class="accuracy-meter"><span id="qibla-sensor-meter"></span></div></div>
+                                    </div>
+
+                                    <div id="qibla-alignment-message" class="rounded-2xl bg-white/5 border border-white/10 p-4 text-xs leading-relaxed text-stone-300" data-i18n="qiblaReady">Aktivera Qibla och ge webbläsaren tillgång till plats och rörelsesensorer.</div>
                                     <div class="flex flex-wrap gap-2">
-                                        <button onclick="window.activateQibla()" id="qibla-activate-btn" class="bg-brand-600 hover:bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg">
-                                            <i data-lucide="locate-fixed" class="w-4 h-4"></i><span data-i18n="activateQibla">Aktivera exakt Qibla</span>
-                                        </button>
-                                        <button onclick="window.toggleGoogleQiblaEmbed()" class="bg-white/10 hover:bg-white/15 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 border border-white/10">
-                                            <i data-lucide="panel-bottom-open" class="w-4 h-4"></i><span data-i18n="showGoogleQibla">Visa Google inuti sidan</span>
-                                        </button>
+                                        <button onclick="window.activateQibla()" id="qibla-activate-btn" class="bg-brand-600 hover:bg-brand-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg"><i data-lucide="locate-fixed" class="w-4 h-4"></i><span data-i18n="activateQibla">Aktivera exakt Qibla</span></button>
+                                        <button onclick="window.recalibrateQibla()" class="bg-white/10 hover:bg-white/15 text-white font-bold px-4 py-2.5 rounded-xl text-xs flex items-center gap-2 border border-white/10"><i data-lucide="refresh-cw" class="w-4 h-4"></i><span data-i18n="recalibrateQibla">Kalibrera igen</span></button>
                                     </div>
                                 </div>
                             </div>
-                            <div id="google-qibla-embed-wrap" class="hidden mt-6 rounded-2xl overflow-hidden border border-white/10 bg-black/30">
-                                <div class="px-4 py-2 text-[11px] text-stone-400 border-b border-white/10" data-i18n="googleQiblaNote">Google-ramen får geolocation, accelerometer, gyroscope och magnetometer. Om Google blockerar inbäddning används knappen ovan.</div>
-                                <iframe id="google-qibla-frame" title="Google Qibla Finder" loading="lazy" src="about:blank" class="w-full h-[430px] border-0" allow="geolocation; accelerometer; gyroscope; magnetometer" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+
+                            <div class="mt-7 pt-6 border-t border-white/10">
+                                <div class="flex items-center gap-2 mb-3 text-left"><i data-lucide="circle-help" class="w-4 h-4 text-amber-300"></i><h4 class="font-extrabold text-sm" data-i18n="qiblaHowTitle">Så använder du Qibla-kompassen</h4></div>
+                                <div class="grid md:grid-cols-4 gap-2 text-left">
+                                    <div class="qibla-step"><span class="qibla-step-num">1</span><p class="text-[11px] leading-relaxed text-stone-300" data-i18n="qiblaStep1">Öppna webbplatsen via HTTPS och tryck Aktivera Qibla.</p></div>
+                                    <div class="qibla-step"><span class="qibla-step-num">2</span><p class="text-[11px] leading-relaxed text-stone-300" data-i18n="qiblaStep2">Tillåt plats och kompass. Håll telefonen plant och borta från metall och magneter.</p></div>
+                                    <div class="qibla-step"><span class="qibla-step-num">3</span><p class="text-[11px] leading-relaxed text-stone-300" data-i18n="qiblaStep3">Om kompassen verkar instabil, rör telefonen i en åtta några gånger för kalibrering.</p></div>
+                                    <div class="qibla-step"><span class="qibla-step-num">4</span><p class="text-[11px] leading-relaxed text-stone-300" data-i18n="qiblaStep4">Rotera dig tills ringen blir grön och texten visar att du är riktad mot Qibla.</p></div>
+                                </div>
+                                <p class="mt-3 text-[10px] text-stone-500 leading-relaxed" data-i18n="qiblaAccuracyNote">Den geografiska Qibla-vinkeln beräknas matematiskt. Telefonens praktiska kompassnoggrannhet kan påverkas av magnetiska störningar och enhetens sensorer.</p>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
                     <div id="section-dhikr" class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200 flex flex-col md:flex-row items-center justify-between gap-6">
                         <div>
@@ -413,6 +570,17 @@
                             <button onclick="window.resetPostDhikr()" class="mt-3 text-[11px] text-stone-400 hover:text-stone-600 underline" data-i18n="resetBtn">إعادة / Nollställ</button>
                         </div>
                     </div>
+
+                    <section id="section-contact" class="hidden premium-card bg-white rounded-[2rem] p-6 md:p-8 text-left mb-10 border border-stone-200">
+                        <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 mb-5">
+                            <div><div class="section-kicker" data-i18n="contactKicker">Kontakt</div><h3 class="text-xl md:text-2xl font-extrabold text-stone-900 mt-1" data-i18n="contactTitle">Kontakta Fagersta Moské</h3><p class="text-xs text-stone-500 mt-1" data-i18n="contactDesc">Praktisk information för besökare och medlemmar.</p></div>
+                        </div>
+                        <div class="contact-grid grid md:grid-cols-3 gap-3">
+                            <a id="contact-address-card" href="#" target="_blank" rel="noopener" class="hidden p-4 rounded-2xl border border-stone-200 bg-stone-50"><div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3"><i data-lucide="map-pin" class="w-5 h-5"></i></div><div class="text-[10px] uppercase tracking-wider text-stone-400 font-bold" data-i18n="addressLabel">Adress</div><div id="contact-address" class="font-bold text-sm mt-1 text-stone-800"></div></a>
+                            <a id="contact-phone-card" href="#" class="hidden p-4 rounded-2xl border border-stone-200 bg-stone-50"><div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3"><i data-lucide="phone" class="w-5 h-5"></i></div><div class="text-[10px] uppercase tracking-wider text-stone-400 font-bold" data-i18n="phoneLabel">Telefon</div><div id="contact-phone" class="font-bold text-sm mt-1 text-stone-800"></div></a>
+                            <a id="contact-email-card" href="#" class="hidden p-4 rounded-2xl border border-stone-200 bg-stone-50"><div class="w-10 h-10 rounded-xl bg-brand-100 text-brand-700 flex items-center justify-center mb-3"><i data-lucide="mail" class="w-5 h-5"></i></div><div class="text-[10px] uppercase tracking-wider text-stone-400 font-bold" data-i18n="emailLabel">E-post</div><div id="contact-email" class="font-bold text-sm mt-1 text-stone-800 break-all"></div></a>
+                        </div>
+                    </section>
 
                     <div id="section-feedback" class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200">
                         <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-100 text-brand-800 rounded-full text-xs font-bold mb-2">
@@ -446,6 +614,7 @@
                         <span class="text-[10px] text-stone-600" data-i18n="privacyCounter">Räknaren sparar ingen IP-adress.</span>
                     </div>
                     <p id="footer-custom-text">Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.</p>
+                    <p id="developer-credit-home" class="developer-credit mt-2"><span data-i18n="developerCredit">Webbplatsen utvecklades av Ammar Abu Shahin</span></p>
                 <div class="mt-3">
                     <button onclick="window.openAdminLogin()" class="text-stone-700 hover:text-stone-500 transition-colors inline-flex items-center gap-1 text-[10px]" title="Admin">
                         <i data-lucide="lock" class="w-2.5 h-2.5"></i> <span>Admin</span>
@@ -482,10 +651,14 @@
                             </div>
                         </div>
 
-                        <div class="w-full md:w-80">
-                            <select id="archive-select" onchange="window.switchArchive(this.value)" class="w-full bg-white border border-stone-300 text-stone-800 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 block px-4 py-2.5 cursor-pointer font-bold shadow-sm outline-none transition-all hover:border-brand-400">
-                                <option>Laddar arkiv...</option>
-                            </select>
+                        <div class="w-full md:w-[30rem] grid grid-cols-[1fr_auto] gap-2">
+                            <div class="space-y-2">
+                                <div class="relative"><i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400"></i><input id="archive-search" oninput="window.filterArchive()" type="search" class="w-full bg-white border border-stone-300 text-stone-800 text-xs rounded-xl pl-9 pr-3 py-2.5 outline-none focus:border-brand-500" placeholder="Sök predikningar..." data-i18n-placeholder="archiveSearchPlaceholder"></div>
+                                <select id="archive-select" onchange="window.switchArchive(this.value)" class="w-full bg-white border border-stone-300 text-stone-800 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 block px-4 py-2.5 cursor-pointer font-bold shadow-sm outline-none transition-all hover:border-brand-400">
+                                    <option>Laddar arkiv...</option>
+                                </select>
+                            </div>
+                            <button onclick="window.shareCurrentKhutbah()" class="self-stretch px-3 rounded-xl bg-brand-50 text-brand-700 border border-brand-200 hover:bg-brand-100" data-i18n-title="shareKhutbah" title="Dela predikan"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>
@@ -510,6 +683,7 @@
         <footer class="bg-stone-900 text-stone-400 py-6 mt-12 text-center text-xs border-t border-stone-800">
             <p id="footer-mosque-lat" class="text-white font-bold text-sm mb-1">Fagersta Moské - Fagersta Islamiska Kulturförening</p>
             <p id="footer-mosque-ar" class="text-stone-500 font-arabic text-sm mb-4">مسجد فاغشتا - السويد</p>
+            <p id="developer-credit-archive" class="developer-credit mb-3"><span data-i18n="developerCredit">Webbplatsen utvecklades av Ammar Abu Shahin</span></p>
             <div class="mb-3 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-stone-950 border border-stone-800">
                 <i data-lucide="users" class="w-3.5 h-3.5 text-brand-500"></i>
                 <span data-i18n="visitorsLabel">Besökare:</span> <strong data-visitor-count class="text-stone-300 font-mono">...</strong>
@@ -566,7 +740,7 @@
 
             <div id="printable-a4-area" class="border p-4 rounded-xl bg-white text-black font-latin">
                 <div class="text-center border-b pb-4 mb-4">
-                    <h1 class="text-2xl font-bold">Fagersta Moské - Fagersta Islamiska Kulturförening</h1>
+                    <h1 id="a4-mosque-title" class="text-2xl font-bold">Fagersta Moské - Fagersta Islamiska Kulturförening</h1>
                     <p class="text-xs text-stone-600">Böneschema för <span id="a4-month-year-str" class="font-bold text-stone-900">Augusti 2026</span> - Fagersta, Sverige (CEST/CET)</p>
                 </div>
 
@@ -574,12 +748,12 @@
                     <thead>
                         <tr class="bg-stone-800 text-white font-bold">
                             <th class="p-2 border">Datum</th>
-                            <th class="p-2 border">Fajr</th>
-                            <th class="p-2 border">Soluppg.</th>
-                            <th class="p-2 border">Dhuhr</th>
-                            <th class="p-2 border">Asr</th>
-                            <th class="p-2 border">Maghrib</th>
-                            <th class="p-2 border">Isha</th>
+                            <th class="p-2 border" data-i18n="fajr">Fajr</th>
+                            <th class="p-2 border" data-i18n="shurooq">Soluppgång</th>
+                            <th class="p-2 border" data-i18n="dhuhr">Dhuhr</th>
+                            <th class="p-2 border" data-i18n="asr">Asr</th>
+                            <th class="p-2 border" data-i18n="maghrib">Maghrib</th>
+                            <th class="p-2 border" data-i18n="isha">Isha</th>
                         </tr>
                     </thead>
                     <tbody id="a4-table-body"></tbody>
@@ -610,7 +784,9 @@
 
             <div class="flex flex-1 overflow-hidden">
                 <div class="w-1/4 bg-stone-100 border-l border-stone-200 p-4 flex flex-col gap-2 overflow-y-auto">
+                    <button onclick="window.switchAdminTab('overview')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="gauge" class="w-4 h-4 text-brand-600"></i> نظرة عامة ذكية</button>
                     <button onclick="window.switchAdminTab('toggles')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="toggle-left" class="w-4 h-4 text-brand-600"></i> تفعيل وإلغاء الميزات</button>
+                    <button onclick="window.switchAdminTab('appearance')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="palette" class="w-4 h-4 text-brand-600"></i> المظهر والهوية البصرية</button>
                     <button onclick="window.switchAdminTab('settings')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="settings" class="w-4 h-4 text-brand-600"></i> إعدادات النصوص والجمعة</button>
                     <button onclick="window.switchAdminTab('hadiths')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="book-open" class="w-4 h-4 text-brand-600"></i> إدارة الأحاديث والآيات</button>
                     <button onclick="window.switchAdminTab('feedback')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="message-square" class="w-4 h-4 text-brand-600"></i> ملاحظات الزوار للإمام</button>
@@ -626,7 +802,22 @@
 
                 <div class="w-3/4 p-6 overflow-y-auto bg-white text-right" id="admin-workspace">
                     
-                    <div id="view-toggles" class="admin-view">
+                    <div id="view-overview" class="admin-view">
+                        <div class="flex justify-between items-center mb-5 border-b pb-3"><div><h3 class="text-xl font-bold">نظرة عامة على الموقع</h3><p class="text-xs text-stone-500 mt-1">ملخص مباشر للمحتوى والبيانات وجودة الإعداد.</p></div><button onclick="window.loadAdminOverview()" class="px-3 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-xs font-bold flex items-center gap-1"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> تحديث</button></div>
+                        <div class="grid grid-cols-2 xl:grid-cols-5 gap-3 mb-5">
+                            <div class="admin-metric rounded-2xl p-4"><div class="text-[10px] text-stone-400 font-bold">الخطب</div><div id="admin-stat-khutbahs" class="text-2xl font-extrabold text-stone-900 mt-1">—</div></div>
+                            <div class="admin-metric rounded-2xl p-4"><div class="text-[10px] text-stone-400 font-bold">المحتوى الموثق</div><div id="admin-stat-content" class="text-2xl font-extrabold text-stone-900 mt-1">—</div></div>
+                            <div class="admin-metric rounded-2xl p-4"><div class="text-[10px] text-stone-400 font-bold">رسائل الزوار</div><div id="admin-stat-feedback" class="text-2xl font-extrabold text-stone-900 mt-1">—</div></div>
+                            <div class="admin-metric rounded-2xl p-4"><div class="text-[10px] text-stone-400 font-bold">أيام المواقيت</div><div id="admin-stat-prayers" class="text-2xl font-extrabold text-stone-900 mt-1">—</div></div>
+                            <div class="admin-metric rounded-2xl p-4"><div class="text-[10px] text-stone-400 font-bold">الزوار</div><div id="admin-stat-visitors" class="text-2xl font-extrabold text-stone-900 mt-1">—</div></div>
+                        </div>
+                        <div class="grid xl:grid-cols-2 gap-4">
+                            <div class="p-4 rounded-2xl border border-stone-200 bg-stone-50"><h4 class="font-extrabold text-sm mb-3">فحص سلامة المحتوى</h4><div id="admin-health-content" class="text-xs leading-relaxed">—</div></div>
+                            <div class="p-4 rounded-2xl border border-stone-200 bg-stone-50"><h4 class="font-extrabold text-sm mb-3">جاهزية مواقيت الصلاة</h4><div id="admin-health-prayers" class="text-xs leading-relaxed">—</div></div>
+                        </div>
+                    </div>
+
+                    <div id="view-toggles" class="admin-view hidden">
                         <h3 class="text-xl font-bold mb-4 border-b pb-2">تفعيل وإلغاء ميزات الموقع</h3>
                         <div class="space-y-4">
                             <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
@@ -656,47 +847,59 @@
                         </div>
                     </div>
 
+                    <div id="view-appearance" class="admin-view hidden">
+                        <h3 class="text-xl font-bold mb-5 border-b pb-2">المظهر والهوية البصرية</h3>
+                        <div class="grid md:grid-cols-2 gap-5">
+                            <div class="p-4 rounded-2xl bg-stone-50 border border-stone-200"><label class="block text-xs font-bold text-stone-500 mb-2">نمط الألوان</label><select id="set-theme-preset" class="w-full p-3 bg-white border rounded-xl text-sm font-bold"><option value="emerald-gold">أخضر زمردي وذهبي</option><option value="classic">أخضر إسلامي كلاسيكي</option><option value="nordic">أزرق نوردي هادئ</option></select><p class="text-[11px] text-stone-500 mt-2">يمكن تغيير الهوية دون المساس بالبيانات أو المحتوى.</p></div>
+                            <div class="space-y-3">
+                                <label class="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-200 cursor-pointer"><span class="text-sm font-bold">الحركات البصرية الناعمة</span><input id="set-ui-motion" type="checkbox" class="w-5 h-5 accent-brand-600"></label>
+                                <label class="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-200 cursor-pointer"><span class="text-sm font-bold">إظهار ملخص اليوم الذكي</span><input id="set-smart-overview" type="checkbox" class="w-5 h-5 accent-brand-600"></label>
+                                <label class="flex items-center justify-between p-4 rounded-2xl bg-stone-50 border border-stone-200 cursor-pointer"><span class="text-sm font-bold">إظهار عداد الزوار</span><input id="set-visitor-counter" type="checkbox" class="w-5 h-5 accent-brand-600"></label>
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="view-settings" class="admin-view hidden">
-                        <h3 class="text-xl font-bold mb-6 border-b pb-2">إعدادات النصوص وحقوق الفوتر</h3>
-                        <div class="grid grid-cols-2 gap-6">
-                            <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد (بالسويدية)</label><input type="text" id="set-mosque-lat" class="w-full p-3 border rounded-xl outline-none text-sm font-bold"></div>
-                            <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد (بالعربية)</label><input type="text" id="set-mosque-ar" class="w-full p-3 border rounded-xl outline-none text-sm font-bold font-arabic"></div>
-                            
-                            <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">نص حقوق الفوتر (Footer Rights)</label>
-                                <textarea id="set-footer-text" rows="2" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" dir="ltr"></textarea>
-                            </div>
-
-                            <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">وقت خطبة الجمعة (Jumu'ah Time)</label>
-                                <input type="text" id="set-jumuah-time" class="w-full sm:w-48 p-3 border rounded-xl outline-none text-sm font-bold" dir="ltr">
-                            </div>
-
-                            <div class="col-span-2 grid md:grid-cols-3 gap-3">
-                                <div>
-                                    <label class="block text-xs font-bold text-stone-500 mb-2">وصف الجمعة - العربية</label>
-                                    <input type="text" id="set-jumuah-desc-ar" class="w-full p-3 border rounded-xl outline-none text-xs font-bold font-arabic" dir="rtl">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-stone-500 mb-2">وصف الجمعة - السويدية</label>
-                                    <input type="text" id="set-jumuah-desc-sv" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" dir="ltr">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-bold text-stone-500 mb-2">وصف الجمعة - الصومالية</label>
-                                    <input type="text" id="set-jumuah-desc-so" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" dir="ltr">
+                        <h3 class="text-xl font-bold mb-6 border-b pb-2">إعدادات النصوص والترجمات ومعلومات المسجد</h3>
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-extrabold text-sm mb-3">هوية المسجد بثلاث لغات</h4>
+                                <div class="grid md:grid-cols-3 gap-3">
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد - السويدية</label><input type="text" id="set-mosque-lat" class="w-full p-3 border rounded-xl outline-none text-sm font-bold" dir="ltr"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد - العربية</label><input type="text" id="set-mosque-ar" class="w-full p-3 border rounded-xl outline-none text-sm font-bold font-arabic" dir="rtl"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد - الصومالية</label><input type="text" id="set-mosque-so" class="w-full p-3 border rounded-xl outline-none text-sm font-bold" dir="ltr"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">الوصف المختصر - السويدية</label><input type="text" id="set-subtitle-sv" class="w-full p-3 border rounded-xl text-xs" dir="ltr"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">الوصف المختصر - العربية</label><input type="text" id="set-subtitle-ar" class="w-full p-3 border rounded-xl text-xs" dir="rtl"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">الوصف المختصر - الصومالية</label><input type="text" id="set-subtitle-so" class="w-full p-3 border rounded-xl text-xs" dir="ltr"></div>
                                 </div>
                             </div>
-                            <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">إعلان أعلى الموقع</label>
-                                <div class="flex gap-3 items-center">
-                                    <input type="checkbox" id="set-announcement-enabled" class="w-5 h-5 accent-brand-600">
-                                    <input type="text" id="set-announcement-text" class="flex-1 p-3 border rounded-xl outline-none text-xs font-bold" placeholder="نص الإعلان / Meddelande">
+                            <div>
+                                <h4 class="font-extrabold text-sm mb-3">الجمعة</h4>
+                                <div class="grid md:grid-cols-4 gap-3">
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">وقت الخطبة</label><input type="text" id="set-jumuah-time" class="w-full p-3 border rounded-xl text-sm font-bold" dir="ltr"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">الوصف - العربية</label><input type="text" id="set-jumuah-desc-ar" class="w-full p-3 border rounded-xl text-xs" dir="rtl"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">الوصف - السويدية</label><input type="text" id="set-jumuah-desc-sv" class="w-full p-3 border rounded-xl text-xs" dir="ltr"></div>
+                                    <div><label class="block text-xs font-bold text-stone-500 mb-2">الوصف - الصومالية</label><input type="text" id="set-jumuah-desc-so" class="w-full p-3 border rounded-xl text-xs" dir="ltr"></div>
                                 </div>
                             </div>
-                            <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">رابط شعار المسجد (اختياري)</label>
-                                <input type="url" id="set-logo-url" class="w-full p-3 border rounded-xl outline-none text-xs" dir="ltr" placeholder="https://...">
+                            <div>
+                                <h4 class="font-extrabold text-sm mb-3">الإعلان العلوي</h4>
+                                <label class="flex items-center gap-2 mb-3 text-xs font-bold"><input type="checkbox" id="set-announcement-enabled" class="w-5 h-5 accent-brand-600"> تفعيل الإعلان</label>
+                                <div class="grid md:grid-cols-3 gap-3"><input type="text" id="set-announcement-sv" class="p-3 border rounded-xl text-xs" placeholder="Svenskt meddelande" dir="ltr"><input type="text" id="set-announcement-ar" class="p-3 border rounded-xl text-xs" placeholder="الإعلان بالعربية" dir="rtl"><input type="text" id="set-announcement-so" class="p-3 border rounded-xl text-xs" placeholder="Farriinta Soomaaliga" dir="ltr"></div>
                             </div>
+                            <div>
+                                <h4 class="font-extrabold text-sm mb-3">التبرعات</h4>
+                                <div class="grid md:grid-cols-3 gap-3"><input type="text" id="set-donation-title-sv" class="p-3 border rounded-xl text-xs" placeholder="Donationstitel" dir="ltr"><input type="text" id="set-donation-title-ar" class="p-3 border rounded-xl text-xs" placeholder="عنوان التبرعات" dir="rtl"><input type="text" id="set-donation-title-so" class="p-3 border rounded-xl text-xs" placeholder="Cinwaanka tabaruca" dir="ltr"><textarea id="set-donation-desc-sv" rows="2" class="p-3 border rounded-xl text-xs" dir="ltr"></textarea><textarea id="set-donation-desc-ar" rows="2" class="p-3 border rounded-xl text-xs" dir="rtl"></textarea><textarea id="set-donation-desc-so" rows="2" class="p-3 border rounded-xl text-xs" dir="ltr"></textarea></div>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-sm mb-3">معلومات التواصل الاختيارية</h4>
+                                <div class="grid md:grid-cols-3 gap-3"><input id="set-contact-address" class="p-3 border rounded-xl text-xs" placeholder="العنوان / Adress"><input id="set-contact-phone" class="p-3 border rounded-xl text-xs" placeholder="الهاتف / Telefon" dir="ltr"><input id="set-contact-email" type="email" class="p-3 border rounded-xl text-xs" placeholder="E-post" dir="ltr"></div>
+                            </div>
+                            <div>
+                                <h4 class="font-extrabold text-sm mb-3">حقوق الفوتر بثلاث لغات</h4>
+                                <div class="grid md:grid-cols-3 gap-3"><textarea id="set-footer-text" rows="2" class="p-3 border rounded-xl text-xs" dir="ltr"></textarea><textarea id="set-footer-text-ar" rows="2" class="p-3 border rounded-xl text-xs" dir="rtl"></textarea><textarea id="set-footer-text-so" rows="2" class="p-3 border rounded-xl text-xs" dir="ltr"></textarea></div>
+                            </div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-2">رابط شعار المسجد (اختياري)</label><input type="url" id="set-logo-url" class="w-full p-3 border rounded-xl outline-none text-xs" dir="ltr" placeholder="https://..."></div>
                         </div>
                     </div>
 
@@ -800,131 +1003,119 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        const I18N = {
-            sv: {
-                navMosque: "Fagersta Moské",
-                browseKhutbahs: "Utforska Fredagspredikningar",
-                downloadMonthlyA4: "Månadsschema (A4 PDF)",
-                prayerTimesTitle: "Bönetider i Fagersta",
-                nextPrayerLabel: "Nästa bön:",
-                inLabel: "om",
-                jumuahTitle: "Fredagsbön (Jumu'ah) i Fagersta Moské",
-                jumuahTime: "Khutbah:",
-                verifiedBadge: "Källhänvisad Koran / Sahih hadith",
-                fajr: "Fajr", shurooq: "Soluppg.", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
-                swishAppBtn: "Öppna Swish-appen",
-                qiblaTitle: "Qibla direkt i webbplatsen",
-                qiblaDesc: "Använd din plats och telefonens kompass för att visa riktningen mot Kaaba.",
-                pressBtn: "Tryck",
-                resetBtn: "Nollställ",
-                dhikrBadge: "Post-Prayer Dhikr",
-                quizBadge: "Islamisk Fråga & Svar",
-                toggleAnswerBtn: "Visa/Dölj svar",
-                answerPrefix: "Svar:",
-                donationBadge: "Stöd Fagersta Moské",
-                donationTitle: "Ge en Gåva / Sadaqa via Swish",
-                donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
-                feedbackBadge: "Skicka feedback till Imamen",
-                feedbackTitle: "Besökarnas förslag och råd",
-                feedbackDesc: "Har du ett förslag på fredagspredikan eller ett råd? Skicka det direkt till moskéledningen.",
-                sendFeedbackBtn: "Skicka meddelandet till Imamen",
-                teleprompterBtn: "Imam Teleprompter",
-                fridayBadge: "Fredag / Jumu'ah",
-                qiblaBadge: "Qibla-kompass",
-                qiblaDirectionLabel: "Riktning till Kaaba",
-                qiblaDistanceLabel: "Avstånd",
-                qiblaReady: "Tryck på knappen för att tillåta plats och kompass. På dator visas den geografiska riktningen i grader.",
-                activateQibla: "Aktivera exakt Qibla",
-                showGoogleQibla: "Visa Google inuti sidan",
-                openGoogleQibla: "Google Qibla Finder",
-                googleQiblaNote: "Google-ramen får geolocation och rörelsesensorer. Om inbäddning blockeras används länken ovan.",
-                visitorsLabel: "Besökare:",
-                privacyCounter: "Räknaren sparar ingen IP-adress.",
-                zenModeBtn: "Fokusläge"
-            },
-            ar: {
-                navMosque: "مسجد فاغشتا",
-                browseKhutbahs: "استكشف خطب الجمعة",
-                downloadMonthlyA4: "جدول الشهر (A4 للطباعة)",
-                prayerTimesTitle: "مواقيت الصلاة في فاغشتا",
-                nextPrayerLabel: "الصلاة القادمة:",
-                inLabel: "بعد",
-                jumuahTitle: "صلاة الجمعة في مسجد فاغشتا",
-                jumuahTime: "وقت الخطبة:",
-                verifiedBadge: "محتوى موثق بالمصدر: قرآن وحديث صحيح",
-                fajr: "الفجر", shurooq: "الشروق", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء",
-                swishAppBtn: "فتح تطبيق سويش",
-                qiblaTitle: "اتجاه القبلة مباشرة داخل الموقع",
-                qiblaDesc: "تستخدم موقع الزائر وبوصلة الهاتف لحساب اتجاه الكعبة بدقة جغرافية.",
-                pressBtn: "اضغط",
-                resetBtn: "إعادة",
-                dhikrBadge: "أذكار ما بعد الصلاة",
-                quizBadge: "زاوية سؤال وجواب",
-                toggleAnswerBtn: "إظهار/إخفاء الإجابة",
-                answerPrefix: "الإجابة:",
-                donationBadge: "Stöd Fagersta Moské",
-                donationTitle: "Ge en Gåva / Sadaqa via Swish",
-                donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
-                feedbackBadge: "رسائل وملاحظات للإمام",
-                feedbackTitle: "صندوق ملاحظات ونصائح الزوار",
-                feedbackDesc: "هل لديك اقتراح لخطبة الجمعة أو نصيحة؟ أرسلها مباشرة إلى إدارة ومسؤولي المسجد.",
-                sendFeedbackBtn: "إرسال الملاحظة إلى الإمام",
-                teleprompterBtn: "شاشة الخطيب",
-                fridayBadge: "الجمعة / Jumu'ah",
-                qiblaBadge: "بوصلة القبلة",
-                qiblaDirectionLabel: "اتجاه الكعبة",
-                qiblaDistanceLabel: "المسافة",
-                qiblaReady: "اضغط الزر للسماح بالموقع والبوصلة. على الكمبيوتر سيظهر الاتجاه الجغرافي بالدرجات.",
-                activateQibla: "تفعيل القبلة الدقيقة",
-                showGoogleQibla: "عرض Google داخل الصفحة",
-                openGoogleQibla: "فتح Google Qibla Finder",
-                googleQiblaNote: "تم تفويض الإطار للوصول إلى الموقع ومستشعرات الحركة. إذا منع Google التضمين استخدم رابط الفتح المباشر.",
-                visitorsLabel: "عدد الزوار:",
-                privacyCounter: "العداد لا يخزن عنوان IP.",
-                zenModeBtn: "وضع التركيز"
-            },
-            so: {
-                navMosque: "Masjidka Fagersta",
-                browseKhutbahs: "Dahfur Khudbadaha Jimcaha",
-                downloadMonthlyA4: "Jadwalka Bisha (A4 PDF)",
-                prayerTimesTitle: "Saa'adaha Salaadda ee Fagersta",
-                nextPrayerLabel: "Salaadda xigta:",
-                inLabel: "gudahooda",
-                jumuahTitle: "Salaadda Jimcaha ee Masjidka Fagersta",
-                jumuahTime: "Waqtiga Khudbadda:",
-                verifiedBadge: "Qur’aan iyo Xadiis Saxiix oo tixraac leh",
-                fajr: "Subax", shurooq: "Arooryo", dhuhr: "Duhur", asr: "Cassar", maghrib: "Magrib", isha: "Cisha",
-                swishAppBtn: "Furo Swish App",
-                qiblaTitle: "Qiblada si toos ah bogga",
-                qiblaDesc: "Waxay isticmaashaa goobtaada iyo compass-ka telefoonka si ay u muujiso jihada Kacbada.",
-                pressBtn: "Riix",
-                resetBtn: "Nollställ",
-                dhikrBadge: "Post-Prayer Dhikr",
-                quizBadge: "Su'aal & Jawaab",
-                toggleAnswerBtn: "Muuji/Qari Jawaabta",
-                answerPrefix: "Jawaabta:",
-                donationBadge: "Stöd Fagersta Moské",
-                donationTitle: "Ge en Gåva / Sadaqa via Swish",
-                donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
-                feedbackBadge: "Fariimaha Imam",
-                feedbackTitle: "Talooyinka Booqashada",
-                feedbackDesc: "Ma haysaa talo ama fikrad?",
-                sendFeedbackBtn: "Dir Fariinta",
-                teleprompterBtn: "Imam Teleprompter",
-                fridayBadge: "Jimce / Jumu'ah",
-                qiblaBadge: "Jiheeyaha Qiblada",
-                qiblaDirectionLabel: "Jihada Kacbada",
-                qiblaDistanceLabel: "Masaafada",
-                qiblaReady: "Riix badhanka si aad u oggolaato goobta iyo compass-ka. Kombiyuutarka wuxuu muujinayaa darajada jihada.",
-                activateQibla: "Daar Qiblada saxda ah",
-                showGoogleQibla: "Google gudaha bogga",
-                openGoogleQibla: "Google Qibla Finder",
-                googleQiblaNote: "Frame-ka waxaa loo oggolaaday goobta iyo dareemayaasha. Haddii Google xannibo ku-dhex-jirka isticmaal xiriirka kore.",
-                visitorsLabel: "Booqdayaasha:",
-                privacyCounter: "Tiriyuhu ma kaydiyo IP address.",
-                zenModeBtn: "Focus Mode"
-            }
-        };
+        const I18N = {"sv":{"pageTitle":"Fagersta Moské | Bönetider, Qibla & Fredagspredikningar","navMosque":"Fagersta Moské","browseKhutbahs":"Utforska fredagspredikningar","downloadMonthlyA4":"Månadsschema (A4 PDF)","prayerTimesTitle":"Bönetider i Fagersta","nextPrayerLabel":"Nästa bön:","inLabel":"om","jumuahTitle":"Fredagsbön (Jumu'ah) i Fagersta Moské","jumuahTime":"Khutbah:","verifiedBadge":"Källhänvisad Koran / Sahih hadith","fajr":"Fajr","shurooq":"Soluppgång","dhuhr":"Dhuhr","asr":"Asr","maghrib":"Maghrib","isha":"Isha","swishAppBtn":"Öppna Swish-appen","pressBtn":"Tryck","resetBtn":"Nollställ","dhikrBadge":"Dhikr efter bönen","quizBadge":"Islamisk fråga & svar","toggleAnswerBtn":"Visa/Dölj svar","answerPrefix":"Svar:","donationBadge":"Stöd Fagersta Moské","donationTitle":"Ge en gåva / Sadaqa via Swish","donationDesc":"Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt.","feedbackBadge":"Skicka feedback till imamen","feedbackTitle":"Förslag och råd från besökare","feedbackDesc":"Har du ett förslag på fredagspredikan eller ett råd? Skicka det direkt till moskéledningen.","sendFeedbackBtn":"Skicka meddelandet till imamen","teleprompterBtn":"Imam Teleprompter","zenModeBtn":"Fokusläge","fridayBadge":"Fredag / Jumu'ah","visitorsLabel":"Besökare:","privacyCounter":"Räknaren sparar ingen IP-adress.","todayOverviewKicker":"Idag i Fagersta","todayOverviewTitle":"Din snabböversikt","quickQibla":"Qibla","quickArchive":"Predikningar","shareSite":"Dela","installApp":"Installera app","fagerstaTimeLabel":"Tid i Fagersta","hijriDateLabel":"Hijri-datum","nextPrayerCompactLabel":"Nästa bön","nextJumuahLabel":"Nästa Jumu'ah","ramadanLabel":"Ramadan Mubarak","prayerSourceOfficial":"Moskéens publicerade tider","prayerSourceFallback":"Reservtider - kontrollera med moskén","prayerDayProgressLabel":"Dagens bönecykel","showExplanation":"Visa förklaring","hideExplanation":"Dölj förklaring","archiveSearchPlaceholder":"Sök predikningar...","shareKhutbah":"Dela predikan","qiblaBadge":"Qibla-kompass","qiblaTitle":"Exakt Qibla direkt i webbplatsen","qiblaDesc":"Beräknar den geografiska riktningen till Kaaba från din plats och använder telefonens kompass när sensorn finns.","qiblaPrivacy":"Din position stannar i webbläsaren och sparas inte.","kaabaLabel":"Kaaba","qiblaDirectionLabel":"Riktning","qiblaDistanceLabel":"Avstånd","qiblaHeadingLabel":"Telefonens riktning","qiblaTurnLabel":"Justera","locationAccuracyLabel":"Platsnoggrannhet","sensorAccuracyLabel":"Kompassignal","qiblaReady":"Aktivera Qibla och ge webbläsaren tillgång till plats och rörelsesensorer.","activateQibla":"Aktivera exakt Qibla","recalibrateQibla":"Kalibrera igen","qiblaHowTitle":"Så använder du Qibla-kompassen","qiblaStep1":"Öppna webbplatsen via HTTPS och tryck Aktivera Qibla.","qiblaStep2":"Tillåt plats och kompass. Håll telefonen plant och borta från metall och magneter.","qiblaStep3":"Om kompassen verkar instabil, rör telefonen i en åtta några gånger för kalibrering.","qiblaStep4":"Rotera dig tills ringen blir grön och texten visar att du är riktad mot Qibla.","qiblaAccuracyNote":"Den geografiska Qibla-vinkeln beräknas matematiskt. Telefonens praktiska kompassnoggrannhet kan påverkas av magnetiska störningar och enhetens sensorer.","qiblaAligned":"Qibla är i linje. Du är riktad mot Kaaba.","qiblaTurnRight":"Vrid åt höger","qiblaTurnLeft":"Vrid åt vänster","qiblaLocationDenied":"Platsåtkomst nekades. Fagersta används som reservplats.","qiblaSensorUnavailable":"Enheten ger ingen kompassignal. Använd den geografiska vinkeln som visas.","qiblaActive":"Qibla är aktiv. Håll telefonen plant och rotera långsamt.","qiblaPermissionDenied":"Kompassbehörighet nekades. Den geografiska Qibla-vinkeln visas ändå.","qiblaExcellent":"utmärkt","qiblaGood":"bra","qiblaWeak":"svag","contactKicker":"Kontakt","contactTitle":"Kontakta Fagersta Moské","contactDesc":"Praktisk information för besökare och medlemmar.","addressLabel":"Adress","phoneLabel":"Telefon","emailLabel":"E-post","accessibilityTitle":"Tillgänglighet","textSizeLabel":"Textstorlek","highContrastLabel":"Högre kontrast","reduceMotionLabel":"Minska rörelser","resetAccessibility":"Återställ","developerCredit":"Webbplatsen utvecklades av Ammar Abu Shahin","footerDefault":"Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.","shareSuccess":"Länken kopierades.","shareError":"Det gick inte att dela just nu.","loadingPrayerTimes":"Laddar bönetider...","contentMissing":"Innehåll saknas","days":"dagar","hours":"tim","minutes":"min"},"ar":{"pageTitle":"مسجد فاغشتا | مواقيت الصلاة والقبلة وخطب الجمعة","navMosque":"مسجد فاغشتا","browseKhutbahs":"استكشف خطب الجمعة","downloadMonthlyA4":"جدول الشهر (A4 للطباعة)","prayerTimesTitle":"مواقيت الصلاة في فاغشتا","nextPrayerLabel":"الصلاة القادمة:","inLabel":"بعد","jumuahTitle":"صلاة الجمعة في مسجد فاغشتا","jumuahTime":"وقت الخطبة:","verifiedBadge":"قرآن وحديث صحيح موثق بالمصدر","fajr":"الفجر","shurooq":"الشروق","dhuhr":"الظهر","asr":"العصر","maghrib":"المغرب","isha":"العشاء","swishAppBtn":"فتح تطبيق Swish","pressBtn":"اضغط","resetBtn":"إعادة","dhikrBadge":"أذكار ما بعد الصلاة","quizBadge":"سؤال وجواب إسلامي","toggleAnswerBtn":"إظهار/إخفاء الإجابة","answerPrefix":"الإجابة:","donationBadge":"دعم مسجد فاغشتا","donationTitle":"صدقة ودعم للمسجد عبر Swish","donationDesc":"ساهم في دعم أنشطة المسجد وصيانته بسهولة عبر Swish.","feedbackBadge":"إرسال ملاحظة للإمام","feedbackTitle":"مقترحات ونصائح الزوار","feedbackDesc":"هل لديك اقتراح لخطبة الجمعة أو نصيحة؟ أرسلها مباشرة إلى إدارة المسجد.","sendFeedbackBtn":"إرسال الملاحظة إلى الإمام","teleprompterBtn":"شاشة الخطيب","zenModeBtn":"وضع التركيز","fridayBadge":"الجمعة","visitorsLabel":"عدد الزوار:","privacyCounter":"العداد لا يخزن عنوان IP.","todayOverviewKicker":"اليوم في فاغشتا","todayOverviewTitle":"ملخصك السريع","quickQibla":"القبلة","quickArchive":"الخطب","shareSite":"مشاركة","installApp":"تثبيت كتطبيق","fagerstaTimeLabel":"الوقت في فاغشتا","hijriDateLabel":"التاريخ الهجري","nextPrayerCompactLabel":"الصلاة القادمة","nextJumuahLabel":"الجمعة القادمة","ramadanLabel":"رمضان مبارك","prayerSourceOfficial":"مواقيت منشورة من المسجد","prayerSourceFallback":"مواقيت احتياطية - تحقق من المسجد","prayerDayProgressLabel":"مسار صلوات اليوم","showExplanation":"إظهار الشرح","hideExplanation":"إخفاء الشرح","archiveSearchPlaceholder":"ابحث في الخطب...","shareKhutbah":"مشاركة الخطبة","qiblaBadge":"بوصلة القبلة","qiblaTitle":"قبلة دقيقة مباشرة داخل الموقع","qiblaDesc":"تحسب الاتجاه الجغرافي إلى الكعبة من موقعك وتستخدم بوصلة الهاتف عند توفر المستشعر.","qiblaPrivacy":"موقعك يبقى داخل المتصفح ولا يتم حفظه.","kaabaLabel":"الكعبة","qiblaDirectionLabel":"اتجاه القبلة","qiblaDistanceLabel":"المسافة","qiblaHeadingLabel":"اتجاه الهاتف","qiblaTurnLabel":"التوجيه","locationAccuracyLabel":"دقة الموقع","sensorAccuracyLabel":"إشارة البوصلة","qiblaReady":"فعّل القبلة واسمح للمتصفح بالوصول إلى الموقع ومستشعرات الحركة.","activateQibla":"تفعيل القبلة الدقيقة","recalibrateQibla":"إعادة المعايرة","qiblaHowTitle":"طريقة استخدام بوصلة القبلة","qiblaStep1":"افتح الموقع عبر HTTPS ثم اضغط تفعيل القبلة الدقيقة.","qiblaStep2":"اسمح بالموقع والبوصلة، وأمسك الهاتف بشكل مستو وبعيدًا عن المعادن والمغناطيس.","qiblaStep3":"إذا كانت البوصلة غير مستقرة، حرّك الهاتف على شكل رقم 8 عدة مرات لمعايرة المستشعر.","qiblaStep4":"استدر ببطء حتى تصبح الحلقة خضراء وتظهر رسالة أنك باتجاه القبلة.","qiblaAccuracyNote":"زاوية القبلة الجغرافية تحسب رياضيًا. دقة بوصلة الهاتف قد تتأثر بالمجالات المغناطيسية وجودة مستشعر الجهاز.","qiblaAligned":"تمت المحاذاة. أنت الآن باتجاه الكعبة.","qiblaTurnRight":"استدر يمينًا","qiblaTurnLeft":"استدر يسارًا","qiblaLocationDenied":"تعذر استخدام موقعك. تم استخدام موقع فاغشتا كخيار احتياطي.","qiblaSensorUnavailable":"لا توجد إشارة بوصلة من الجهاز. استخدم زاوية القبلة الجغرافية الظاهرة.","qiblaActive":"القبلة مفعلة. ضع الهاتف بشكل مستو واستدر ببطء.","qiblaPermissionDenied":"لم يتم السماح بالبوصلة. سيبقى الاتجاه الجغرافي للقبلة ظاهرًا.","qiblaExcellent":"ممتازة","qiblaGood":"جيدة","qiblaWeak":"ضعيفة","contactKicker":"التواصل","contactTitle":"تواصل مع مسجد فاغشتا","contactDesc":"معلومات عملية للزوار وأعضاء الجمعية.","addressLabel":"العنوان","phoneLabel":"الهاتف","emailLabel":"البريد الإلكتروني","accessibilityTitle":"إمكانية الوصول","textSizeLabel":"حجم النص","highContrastLabel":"تباين أعلى","reduceMotionLabel":"تقليل الحركات","resetAccessibility":"إعادة الضبط","developerCredit":"تم تطوير الموقع بواسطة عمار أبو شاهين · Ammar Abu Shahin","footerDefault":"مسجد فاغشتا - الجمعية الثقافية الإسلامية في فاغشتا © 2026. جميع الحقوق محفوظة.","shareSuccess":"تم نسخ الرابط.","shareError":"تعذر تنفيذ المشاركة الآن.","loadingPrayerTimes":"جارٍ تحميل مواقيت الصلاة...","contentMissing":"المحتوى غير متوفر","days":"يوم","hours":"ساعة","minutes":"دقيقة"},"so":{"pageTitle":"Masjidka Fagersta | Waqtiyada Salaadda, Qibla & Khudbadaha Jimcaha","navMosque":"Masjidka Fagersta","browseKhutbahs":"Daawo khudbadaha Jimcaha","downloadMonthlyA4":"Jadwalka bisha (A4 PDF)","prayerTimesTitle":"Waqtiyada salaadda ee Fagersta","nextPrayerLabel":"Salaadda xigta:","inLabel":"ka dib","jumuahTitle":"Salaadda Jimcaha ee Masjidka Fagersta","jumuahTime":"Waqtiga khudbadda:","verifiedBadge":"Qur'aan iyo xadiis saxiix ah oo tixraac leh","fajr":"Fajr","shurooq":"Qorrax-soo-bax","dhuhr":"Duhur","asr":"Casar","maghrib":"Maqrib","isha":"Cisho","swishAppBtn":"Fur Swish","pressBtn":"Riix","resetBtn":"Dib u bilow","dhikrBadge":"Adkaarta salaadda kadib","quizBadge":"Su'aal iyo jawaab Islaami ah","toggleAnswerBtn":"Muuji/Qari jawaabta","answerPrefix":"Jawaabta:","donationBadge":"Taageer Masjidka Fagersta","donationTitle":"Sadaqo iyo taageero via Swish","donationDesc":"Ka qayb qaado hawlaha iyo dayactirka masjidka adigoo isticmaalaya Swish.","feedbackBadge":"Fariin u dir imaamka","feedbackTitle":"Talooyinka booqdayaasha","feedbackDesc":"Ma haysaa talo khudbad ama fikrad? Si toos ah ugu dir maamulka masjidka.","sendFeedbackBtn":"U dir fariinta imaamka","teleprompterBtn":"Shaashadda Imaamka","zenModeBtn":"Habka diiradda","fridayBadge":"Jimce","visitorsLabel":"Booqdayaasha:","privacyCounter":"Tiriyuhu ma kaydiyo IP-ga.","todayOverviewKicker":"Maanta Fagersta","todayOverviewTitle":"Dulmar degdeg ah","quickQibla":"Qibla","quickArchive":"Khudbado","shareSite":"La wadaag","installApp":"Ku rakib app","fagerstaTimeLabel":"Waqtiga Fagersta","hijriDateLabel":"Taariikhda Hijriga","nextPrayerCompactLabel":"Salaadda xigta","nextJumuahLabel":"Jimcaha xiga","ramadanLabel":"Ramadaan Mubaarak","prayerSourceOfficial":"Waqtiyada masjidku daabacay","prayerSourceFallback":"Waqtiyo kayd ah - ka xaqiiji masjidka","prayerDayProgressLabel":"Socodka salaadaha maanta","showExplanation":"Muuji sharaxaadda","hideExplanation":"Qari sharaxaadda","archiveSearchPlaceholder":"Raadi khudbadaha...","shareKhutbah":"La wadaag khudbadda","qiblaBadge":"Jiheeyaha Qiblada","qiblaTitle":"Qibla sax ah oo bogga ku dhex jirta","qiblaDesc":"Waxay xisaabisaa jihada juqraafiyeed ee Kacbada iyadoo adeegsanaysa goobtaada, waxayna isticmaashaa compass-ka telefoonka marka uu jiro.","qiblaPrivacy":"Goobtaadu waxay ku ekaanaysaa browser-ka mana kaydsana.","kaabaLabel":"Kacbada","qiblaDirectionLabel":"Jihada Qiblada","qiblaDistanceLabel":"Masaafada","qiblaHeadingLabel":"Jihada telefoonka","qiblaTurnLabel":"Leexo","locationAccuracyLabel":"Saxnaanta goobta","sensorAccuracyLabel":"Awoodda compass-ka","qiblaReady":"Daar Qiblada oo u oggolow browser-ka goobta iyo dareemayaasha dhaqdhaqaaqa.","activateQibla":"Daar Qiblada saxda ah","recalibrateQibla":"Dib u hagaaji","qiblaHowTitle":"Sida loo isticmaalo jiheeyaha Qiblada","qiblaStep1":"Bogga ku fur HTTPS kadibna riix Daar Qiblada saxda ah.","qiblaStep2":"Oggolow goobta iyo compass-ka. Telefoonka si siman u hay kana fogee biraha iyo birlabta.","qiblaStep3":"Haddii compass-ku qaldo, telefoonka dhowr jeer u dhaqaaji qaabka lambarka 8 si loo hagaajiyo.","qiblaStep4":"Si tartiib ah isu rog ilaa giraantu cagaar noqoto oo fariintu sheegto inaad Qiblada u jeeddo.","qiblaAccuracyNote":"Xagasha Qiblada juqraafi ahaan si xisaabeed ayaa loo helaa. Saxnaanta compass-ka telefoonka waxaa saameyn kara birlabta iyo tayada dareemayaasha.","qiblaAligned":"Qibla waa la waafajiyey. Waxaad u jeeddaa Kacbada.","qiblaTurnRight":"Midig u leexo","qiblaTurnLeft":"Bidix u leexo","qiblaLocationDenied":"Goobta lama heli karin. Fagersta ayaa loo isticmaalay goob kayd ah.","qiblaSensorUnavailable":"Telefoonku ma bixinayo xog compass. Isticmaal xagasha juqraafiyeed ee muuqata.","qiblaActive":"Qibla waa shaqaynaysaa. Telefoonka si siman u hay oo si tartiib ah isu rog.","qiblaPermissionDenied":"Oggolaanshaha compass-ka waa la diiday. Xagasha juqraafiyeed weli way muuqanaysaa.","qiblaExcellent":"aad u fiican","qiblaGood":"fiican","qiblaWeak":"daciif","contactKicker":"Xiriir","contactTitle":"La xiriir Masjidka Fagersta","contactDesc":"Macluumaad waxtar u leh booqdayaasha iyo xubnaha.","addressLabel":"Cinwaan","phoneLabel":"Telefoon","emailLabel":"Iimayl","accessibilityTitle":"Helitaan fudud","textSizeLabel":"Cabbirka qoraalka","highContrastLabel":"Isbarbardhig sare","reduceMotionLabel":"Yaree dhaqdhaqaaqa","resetAccessibility":"Dib u celi","developerCredit":"Bogga waxaa horumariyey Ammar Abu Shahin","footerDefault":"Masjidka Fagersta - Ururka Dhaqanka Islaamiga ee Fagersta © 2026. Dhammaan xuquuqdu way dhawran tahay.","shareSuccess":"Xiriirka waa la koobiyey.","shareError":"Hadda lama wadaagi karo.","loadingPrayerTimes":"Waqtiyada salaadda ayaa la soo rarayaa...","contentMissing":"Nuxurka lama hayo","days":"maalmood","hours":"saac","minutes":"daqiiqo"}};
+
+
+        const STATIC_UI_TRANSLATIONS = {"Laddar Fagersta Moské...":{"sv":"Laddar Fagersta Moské...","ar":"جارٍ تحميل مسجد فاغشتا...","so":"Masjidka Fagersta ayaa la soo rarayaa..."},"Åtgärden genomfördes framgångsrikt!":{"sv":"Åtgärden genomfördes framgångsrikt!","ar":"تمت العملية بنجاح!","so":"Hawsha waa lagu guulaystay!"},"الاتصال بالإنترنت غير متاح. سيتم عرض البيانات المحملة فقط ولن يتم الادعاء بحفظ أي تغيير قبل تأكيد Firestore.":{"sv":"Internetanslutningen saknas. Endast redan laddad data visas och inga ändringar markeras som sparade innan Firestore bekräftar dem.","ar":"الاتصال بالإنترنت غير متاح. سيتم عرض البيانات المحملة فقط ولن يتم اعتبار أي تغيير محفوظًا قبل تأكيد Firestore.","so":"Internet-ka lama heli karo. Kaliya xogtii hore loo soo raray ayaa muuqanaysa, wax isbeddel ahna lama sheegayo inuu kaydsan yahay ilaa Firestore xaqiijiyo."},"Viktigt / إعلان":{"sv":"Viktigt","ar":"مهم","so":"Muhiim"},"Fagersta Islamiska Kulturförening":{"sv":"Fagersta Islamiska Kulturförening","ar":"الجمعية الثقافية الإسلامية في فاغشتا","so":"Ururka Dhaqanka Islaamiga ee Fagersta"},"Text":{"sv":"Text","ar":"النص","so":"Qoraal"},"Laddar arkiv...":{"sv":"Laddar arkiv...","ar":"جارٍ تحميل الأرشيف...","so":"Kaydka ayaa la soo rarayaa..."},"Svenska":{"sv":"Svenska","ar":"السويدية","so":"Iswiidhish"},"العربية":{"sv":"Arabiska","ar":"العربية","so":"Carabi"},"Soomaali":{"sv":"Somaliska","ar":"الصومالية","so":"Soomaali"},"Imam Teleprompter":{"sv":"Imam Teleprompter","ar":"شاشة الخطيب","so":"Shaashadda Imaamka"},"Fokusläge":{"sv":"Fokusläge","ar":"وضع التركيز","so":"Habka diiradda"},"Skriv ut":{"sv":"Skriv ut","ar":"طباعة","so":"Daabac"},"تسجيل دخول المسؤول (Admin)":{"sv":"Administratörsinloggning","ar":"تسجيل دخول المسؤول","so":"Gelitaanka maamulka"},"تسجيل الدخول":{"sv":"Logga in","ar":"تسجيل الدخول","so":"Gal"},"Månatligt Böneschema (A4 Utskrift)":{"sv":"Månatligt böneschema (A4)","ar":"جدول الصلاة الشهري (A4)","so":"Jadwalka salaadda bisha (A4)"},"Skriv ut A4 PDF":{"sv":"Skriv ut A4 PDF","ar":"طباعة A4 PDF","so":"Daabac A4 PDF"},"Böneschema för":{"sv":"Böneschema för","ar":"جدول الصلاة لشهر","so":"Jadwalka salaadda ee"},"- Fagersta, Sverige (CEST/CET)":{"sv":"- Fagersta, Sverige (CEST/CET)","ar":"- فاغشتا، السويد (CEST/CET)","so":"- Fagersta, Iswiidhan (CEST/CET)"},"Datum":{"sv":"Datum","ar":"التاريخ","so":"Taariikh"},"Soluppg.":{"sv":"Soluppgång","ar":"الشروق","so":"Qorrax-soo-bax"},"لوحة تحكم المسؤول (Admin Dashboard)":{"sv":"Administrationspanel","ar":"لوحة تحكم المسؤول","so":"Gudiga maamulka"},"نسخة احتياطية":{"sv":"Säkerhetskopia","ar":"نسخة احتياطية","so":"Nuqul kayd"},"حفظ كافة التغييرات":{"sv":"Spara alla ändringar","ar":"حفظ كافة التغييرات","so":"Kaydi dhammaan isbeddellada"},"نظرة عامة ذكية":{"sv":"Smart översikt","ar":"نظرة عامة ذكية","so":"Dulmar caqli leh"},"تفعيل وإلغاء الميزات":{"sv":"Aktivera/inaktivera funktioner","ar":"تفعيل وإلغاء الميزات","so":"Daar/dami adeegyada"},"المظهر والهوية البصرية":{"sv":"Utseende och visuell identitet","ar":"المظهر والهوية البصرية","so":"Muuqaalka iyo aqoonsiga"},"إعدادات النصوص والجمعة":{"sv":"Text- och fredagsinställningar","ar":"إعدادات النصوص والجمعة","so":"Dejinta qoraalka iyo Jimcaha"},"إدارة الأحاديث والآيات":{"sv":"Hantera hadither och Koranverser","ar":"إدارة الأحاديث والآيات","so":"Maamul xadiisyada iyo aayadaha"},"ملاحظات الزوار للإمام":{"sv":"Besökarmeddelanden till imamen","ar":"ملاحظات الزوار للإمام","so":"Fariimaha booqdayaasha ee imaamka"},"مواقيت الصلاة":{"sv":"Bönetider","ar":"مواقيت الصلاة","so":"Waqtiyada salaadda"},"سلامة البيانات والنسخ الاحتياطي":{"sv":"Datasäkerhet och säkerhetskopiering","ar":"سلامة البيانات والنسخ الاحتياطي","so":"Badbaadada xogta iyo kaydka"},"قائمة الخطب":{"sv":"Predikolista","ar":"قائمة الخطب","so":"Liiska khudbadaha"},"تفعيل وإلغاء ميزات الموقع":{"sv":"Aktivera och inaktivera webbplatsfunktioner","ar":"تفعيل وإلغاء ميزات الموقع","so":"Daar oo dami adeegyada bogga"},"ميزة بوصلة القبلة (Qibla)":{"sv":"Qibla-kompass","ar":"ميزة بوصلة القبلة","so":"Jiheeyaha Qiblada"},"ميزة التبرعات عبر Swish":{"sv":"Donationer via Swish","ar":"ميزة التبرعات عبر Swish","so":"Tabaruca Swish"},"مسبحة أذكار ما بعد الصلاة":{"sv":"Dhikr-räknare efter bönen","ar":"مسبحة أذكار ما بعد الصلاة","so":"Tiriyaha adkaarta salaadda kadib"},"بانر صلاة الجمعة (Jumu'ah Banner)":{"sv":"Jumu'ah-kort","ar":"بطاقة صلاة الجمعة","so":"Kaarka Jimcaha"},"زاوية سؤال وجواب / المسابقة الإسلامية":{"sv":"Islamisk fråga och svar","ar":"زاوية سؤال وجواب / المسابقة الإسلامية","so":"Su'aal iyo jawaab Islaami ah"},"صندوق ملاحظات ونصائح الزوار للإمام":{"sv":"Feedbackruta till imamen","ar":"صندوق ملاحظات ونصائح الزوار للإمام","so":"Sanduuqa fariimaha imaamka"},"إضافة حديث":{"sv":"Lägg till innehåll","ar":"إضافة محتوى","so":"Ku dar nuxur"},"استيراد دفعة أحاديث وآيات وتفاسير":{"sv":"Importera hadither, verser och förklaringar i bulk","ar":"استيراد دفعة أحاديث وآيات وتفاسير","so":"Soo geli xadiisyo, aayado iyo sharaxaad badan"},"يدعم XLSX وCSV وJSON. الحقول: type, ar, sv, so, source, tafsirAr, tafsirSv, tafsirSo.":{"sv":"Stöd för XLSX, CSV och JSON. Fält: type, ar, sv, so, source, tafsirAr, tafsirSv, tafsirSo.","ar":"يدعم XLSX وCSV وJSON. الحقول: type, ar, sv, so, source, tafsirAr, tafsirSv, tafsirSo.","so":"Waxay taageertaa XLSX, CSV iyo JSON. Meelaha: type, ar, sv, so, source, tafsirAr, tafsirSv, tafsirSo."},"ملف مثال":{"sv":"Exempelfil","ar":"ملف مثال","so":"Fayl tusaale"},"رفع دفعة":{"sv":"Importera fil","ar":"رفع دفعة","so":"Soo geli fayl"},"ملاحظات ونصائح الزوار الواردة للإمام":{"sv":"Inkomna besökarmeddelanden","ar":"ملاحظات ونصائح الزوار الواردة للإمام","so":"Fariimaha booqdayaasha ee imaamka"},"تحديث":{"sv":"Uppdatera","ar":"تحديث","so":"Cusboonaysii"},"لا توجد ملاحظات جديدة حالياً.":{"sv":"Det finns inga nya meddelanden just nu.","ar":"لا توجد ملاحظات جديدة حالياً.","so":"Hadda fariimo cusub ma jiraan."},"مواقيت الصلاة وإدارة الأكسل":{"sv":"Bönetider och Excel-import","ar":"مواقيت الصلاة وإدارة Excel","so":"Waqtiyada salaadda iyo Excel"},"رفع ملف مواقيت الصلاة (.xlsx)":{"sv":"Ladda upp bönetider (.xlsx)","ar":"رفع ملف مواقيت الصلاة (.xlsx)","so":"Soo geli waqtiyada salaadda (.xlsx)"},"رفع ملف الأكسل":{"sv":"Ladda upp Excel-fil","ar":"رفع ملف Excel","so":"Soo geli Excel"},"تصدير نسخة JSON":{"sv":"Exportera JSON-säkerhetskopia","ar":"تصدير نسخة JSON","so":"Dhoofso nuqul JSON"},"تنزيل النسخة الاحتياطية الآن":{"sv":"Ladda ned säkerhetskopia nu","ar":"تنزيل النسخة الاحتياطية الآن","so":"Soo dejiso kaydka hadda"},"تعديل أو إضافة خطبة":{"sv":"Redigera eller lägg till predikan","ar":"تعديل أو إضافة خطبة","so":"Wax ka beddel ama ku dar khudbad"},"أرشفة":{"sv":"Arkivera","ar":"أرشفة","so":"Kaydi"},"المعرف (ID)":{"sv":"ID","ar":"المعرف (ID)","so":"ID"},"وصف التاريخ / التصنيف":{"sv":"Datum / kategori","ar":"وصف التاريخ / التصنيف","so":"Taariikh / qayb"},"العنوان السويدي":{"sv":"Svensk titel","ar":"العنوان السويدي","so":"Cinwaanka Iswiidhishka"},"العنوان العربي":{"sv":"Arabisk titel","ar":"العنوان العربي","so":"Cinwaanka Carabiga"},"العنوان الصومالي":{"sv":"Somalisk titel","ar":"العنوان الصومالي","so":"Cinwaanka Soomaaliga"},"محتوى HTML (السويدية)":{"sv":"HTML-innehåll (svenska)","ar":"محتوى HTML (السويدية)","so":"HTML (Iswiidhish)"},"محتوى HTML (العربية)":{"sv":"HTML-innehåll (arabiska)","ar":"محتوى HTML (العربية)","so":"HTML (Carabi)"},"محتوى HTML (الصومالية)":{"sv":"HTML-innehåll (somaliska)","ar":"محتوى HTML (الصومالية)","so":"HTML (Soomaali)"},"حفظ الخطبة":{"sv":"Spara predikan","ar":"حفظ الخطبة","so":"Kaydi khudbadda"},"نظرة عامة على الموقع":{"sv":"Webbplatsöversikt","ar":"نظرة عامة على الموقع","so":"Dulmarka bogga"},"ملخص مباشر للمحتوى والبيانات وجودة الإعداد.":{"sv":"Direkt översikt över innehåll, data och konfigurationens kvalitet.","ar":"ملخص مباشر للمحتوى والبيانات وجودة الإعداد.","so":"Dulmar toos ah oo ku saabsan nuxurka, xogta iyo tayada dejinta."},"الخطب":{"sv":"Predikningar","ar":"الخطب","so":"Khudbado"},"المحتوى الموثق":{"sv":"Källhänvisat innehåll","ar":"المحتوى الموثق","so":"Nuxur tixraac leh"},"رسائل الزوار":{"sv":"Besökarmeddelanden","ar":"رسائل الزوار","so":"Fariimaha booqdayaasha"},"أيام المواقيت":{"sv":"Dagar med bönetider","ar":"أيام المواقيت","so":"Maalmo waqtiyo leh"},"الزوار":{"sv":"Besökare","ar":"الزوار","so":"Booqdayaal"},"فحص سلامة المحتوى":{"sv":"Kontroll av innehållskvalitet","ar":"فحص سلامة المحتوى","so":"Hubinta nuxurka"},"جاهزية مواقيت الصلاة":{"sv":"Bönetidernas täckning","ar":"جاهزية مواقيت الصلاة","so":"Diyaargarowga waqtiyada salaadda"},"نمط الألوان":{"sv":"Färgtema","ar":"نمط الألوان","so":"Qaabka midabka"},"أخضر زمردي وذهبي":{"sv":"Smaragdgrönt och guld","ar":"أخضر زمردي وذهبي","so":"Cagaar sumurud iyo dahab"},"أخضر إسلامي كلاسيكي":{"sv":"Klassiskt islamiskt grönt","ar":"أخضر إسلامي كلاسيكي","so":"Cagaar Islaami ah"},"أزرق نوردي هادئ":{"sv":"Lugnt nordiskt blått","ar":"أزرق نوردي هادئ","so":"Buluug Nordic deggan"},"الحركات البصرية الناعمة":{"sv":"Mjuka visuella rörelser","ar":"الحركات البصرية الناعمة","so":"Dhaqdhaqaaqyo jilicsan"},"إظهار ملخص اليوم الذكي":{"sv":"Visa dagens smarta översikt","ar":"إظهار ملخص اليوم الذكي","so":"Muuji dulmarka maanta"},"إظهار عداد الزوار":{"sv":"Visa besöksräknaren","ar":"إظهار عداد الزوار","so":"Muuji tiriyaha booqdayaasha"},"إعدادات النصوص والترجمات ومعلومات المسجد":{"sv":"Text, översättningar och moskéinformation","ar":"إعدادات النصوص والترجمات ومعلومات المسجد","so":"Qoraal, turjumaad iyo macluumaadka masjidka"},"هوية المسجد بثلاث لغات":{"sv":"Moskéidentitet på tre språk","ar":"هوية المسجد بثلاث لغات","so":"Aqoonsiga masjidka ee saddex luqadood"},"الجمعة":{"sv":"Fredag / Jumu'ah","ar":"الجمعة","so":"Jimce"},"الإعلان العلوي":{"sv":"Toppmeddelande","ar":"الإعلان العلوي","so":"Ogeysiiska kore"},"تفعيل الإعلان":{"sv":"Aktivera meddelandet","ar":"تفعيل الإعلان","so":"Daar ogeysiiska"},"التبرعات":{"sv":"Donationer","ar":"التبرعات","so":"Tabarucaad"},"معلومات التواصل الاختيارية":{"sv":"Valfri kontaktinformation","ar":"معلومات التواصل الاختيارية","so":"Macluumaad xiriir oo ikhtiyaari ah"},"حقوق الفوتر بثلاث لغات":{"sv":"Sidfotstext på tre språk","ar":"حقوق الفوتر بثلاث لغات","so":"Qoraalka hoose ee saddex luqadood"},"رابط شعار المسجد (اختياري)":{"sv":"Länk till moskélogotyp (valfritt)","ar":"رابط شعار المسجد (اختياري)","so":"Xiriirka astaanta masjidka (ikhtiyaari)"}};
+        STATIC_UI_TRANSLATIONS["Januari"]={"sv":"Januari","ar":"يناير","so":"Jannaayo"};
+        STATIC_UI_TRANSLATIONS["Februari"]={"sv":"Februari","ar":"فبراير","so":"Febraayo"};
+        STATIC_UI_TRANSLATIONS["Mars"]={"sv":"Mars","ar":"مارس","so":"Maarso"};
+        STATIC_UI_TRANSLATIONS["April"]={"sv":"April","ar":"أبريل","so":"Abriil"};
+        STATIC_UI_TRANSLATIONS["Maj"]={"sv":"Maj","ar":"مايو","so":"Maajo"};
+        STATIC_UI_TRANSLATIONS["Juni"]={"sv":"Juni","ar":"يونيو","so":"Juun"};
+        STATIC_UI_TRANSLATIONS["Juli"]={"sv":"Juli","ar":"يوليو","so":"Luulyo"};
+        STATIC_UI_TRANSLATIONS["Augusti"]={"sv":"Augusti","ar":"أغسطس","so":"Agoosto"};
+        STATIC_UI_TRANSLATIONS["September"]={"sv":"September","ar":"سبتمبر","so":"Sebteembar"};
+        STATIC_UI_TRANSLATIONS["Oktober"]={"sv":"Oktober","ar":"أكتوبر","so":"Oktoobar"};
+        STATIC_UI_TRANSLATIONS["November"]={"sv":"November","ar":"نوفمبر","so":"Nofeembar"};
+        STATIC_UI_TRANSLATIONS["December"]={"sv":"December","ar":"ديسمبر","so":"Diseembar"};
+        STATIC_UI_TRANSLATIONS["Admin"]={"sv":"Admin","ar":"الإدارة","so":"Maamul"};
+        STATIC_UI_TRANSLATIONS["Stäng"]={"sv":"Stäng","ar":"إغلاق","so":"Xir"};
+        STATIC_UI_TRANSLATIONS["Långsammare"]={"sv":"Långsammare","ar":"أبطأ","so":"Gaabi"};
+        STATIC_UI_TRANSLATIONS["Snabbare"]={"sv":"Snabbare","ar":"أسرع","so":"Dedeji"};
+        STATIC_UI_TRANSLATIONS["Spela/Pausa"]={"sv":"Spela/Pausa","ar":"تشغيل/إيقاف","so":"Ciyaar/Hakad"};
+        STATIC_UI_TRANSLATIONS["Hem"]={"sv":"Hem","ar":"الرئيسية","so":"Bogga hore"};
+        STATIC_UI_TRANSLATIONS["Minska text"]={"sv":"Minska text","ar":"تصغير النص","so":"Yaree qoraalka"};
+        STATIC_UI_TRANSLATIONS["Öka text"]={"sv":"Öka text","ar":"تكبير النص","so":"Weynee qoraalka"};
+        STATIC_UI_TRANSLATIONS["Sök predikningar..."]={"sv":"Sök predikningar...","ar":"ابحث في الخطب...","so":"Raadi khudbadaha..."};
+        STATIC_UI_TRANSLATIONS["Dela predikan"]={"sv":"Dela predikan","ar":"مشاركة الخطبة","so":"La wadaag khudbadda"};
+        STATIC_UI_TRANSLATIONS["اسمك (اختياري) / Ditt namn"]={"sv":"Ditt namn (valfritt)","ar":"اسمك (اختياري)","so":"Magacaaga (ikhtiyaari)"};
+        STATIC_UI_TRANSLATIONS["البريد أو الهاتف / E-post eller telefon"]={"sv":"E-post eller telefon (valfritt)","ar":"البريد أو الهاتف (اختياري)","so":"E-mail ama telefoon (ikhtiyaari)"};
+        STATIC_UI_TRANSLATIONS["اكتب ملاحظتك أو اقتراحك هنا... / Skriv ditt meddelande här..."]={"sv":"Skriv ditt meddelande här...","ar":"اكتب ملاحظتك أو اقتراحك هنا...","so":"Halkan ku qor fariintaada ama taladaada..."};
+        STATIC_UI_TRANSLATIONS["البريد الإلكتروني"]={"sv":"E-post","ar":"البريد الإلكتروني","so":"E-mail"};
+        STATIC_UI_TRANSLATIONS["كلمة المرور"]={"sv":"Lösenord","ar":"كلمة المرور","so":"Furaha sirta"};
+        STATIC_UI_TRANSLATIONS["تصدير نسخة JSON من بيانات التطبيق"]={"sv":"Exportera en JSON-säkerhetskopia av appdata","ar":"تصدير نسخة JSON من بيانات التطبيق","so":"Dhoofso nuqul JSON oo xogta ah"};
+        STATIC_UI_TRANSLATIONS["تسجيل خروج"]={"sv":"Logga ut","ar":"تسجيل الخروج","so":"Ka bax"};
+        STATIC_UI_TRANSLATIONS["إضافة خطبة"]={"sv":"Lägg till predikan","ar":"إضافة خطبة","so":"Ku dar khudbad"};
+        STATIC_UI_TRANSLATIONS["Svenskt meddelande"]={"sv":"Svenskt meddelande","ar":"الإعلان باللغة السويدية","so":"Ogeysiiska Iswiidhishka"};
+        STATIC_UI_TRANSLATIONS["الإعلان بالعربية"]={"sv":"Arabiskt meddelande","ar":"الإعلان بالعربية","so":"Ogeysiiska Carabiga"};
+        STATIC_UI_TRANSLATIONS["Farriinta Soomaaliga"]={"sv":"Somaliskt meddelande","ar":"الإعلان باللغة الصومالية","so":"Farriinta Soomaaliga"};
+        STATIC_UI_TRANSLATIONS["Donationstitel"]={"sv":"Donationstitel","ar":"عنوان التبرعات بالسويدية","so":"Cinwaanka tabaruca ee Iswiidhishka"};
+        STATIC_UI_TRANSLATIONS["عنوان التبرعات"]={"sv":"Donationstitel på arabiska","ar":"عنوان التبرعات","so":"Cinwaanka tabaruca ee Carabiga"};
+        STATIC_UI_TRANSLATIONS["Cinwaanka tabaruca"]={"sv":"Donationstitel på somaliska","ar":"عنوان التبرعات بالصومالية","so":"Cinwaanka tabaruca"};
+        STATIC_UI_TRANSLATIONS["العنوان / Adress"]={"sv":"Adress","ar":"العنوان","so":"Cinwaan"};
+        STATIC_UI_TRANSLATIONS["الهاتف / Telefon"]={"sv":"Telefon","ar":"الهاتف","so":"Telefoon"};
+        STATIC_UI_TRANSLATIONS["يمكن تغيير الهوية دون المساس بالبيانات أو المحتوى."]={"sv":"Identiteten kan ändras utan att data eller innehåll påverkas.","ar":"يمكن تغيير الهوية دون المساس بالبيانات أو المحتوى.","so":"Aqoonsiga waa la beddeli karaa iyadoo aan xogta ama nuxurka la taaban."};
+        STATIC_UI_TRANSLATIONS["اسم المسجد - السويدية"]={"sv":"Moskéens namn - svenska","ar":"اسم المسجد - السويدية","so":"Magaca masjidka - Iswiidhish"};
+        STATIC_UI_TRANSLATIONS["اسم المسجد - العربية"]={"sv":"Moskéens namn - arabiska","ar":"اسم المسجد - العربية","so":"Magaca masjidka - Carabi"};
+        STATIC_UI_TRANSLATIONS["اسم المسجد - الصومالية"]={"sv":"Moskéens namn - somaliska","ar":"اسم المسجد - الصومالية","so":"Magaca masjidka - Soomaali"};
+        STATIC_UI_TRANSLATIONS["الوصف المختصر - السويدية"]={"sv":"Kort beskrivning - svenska","ar":"الوصف المختصر - السويدية","so":"Sharaxaad kooban - Iswiidhish"};
+        STATIC_UI_TRANSLATIONS["الوصف المختصر - العربية"]={"sv":"Kort beskrivning - arabiska","ar":"الوصف المختصر - العربية","so":"Sharaxaad kooban - Carabi"};
+        STATIC_UI_TRANSLATIONS["الوصف المختصر - الصومالية"]={"sv":"Kort beskrivning - somaliska","ar":"الوصف المختصر - الصومالية","so":"Sharaxaad kooban - Soomaali"};
+        STATIC_UI_TRANSLATIONS["وقت الخطبة"]={"sv":"Khutbah-tid","ar":"وقت الخطبة","so":"Waqtiga khudbadda"};
+        STATIC_UI_TRANSLATIONS["الوصف - العربية"]={"sv":"Beskrivning - arabiska","ar":"الوصف - العربية","so":"Sharaxaad - Carabi"};
+        STATIC_UI_TRANSLATIONS["الوصف - السويدية"]={"sv":"Beskrivning - svenska","ar":"الوصف - السويدية","so":"Sharaxaad - Iswiidhish"};
+        STATIC_UI_TRANSLATIONS["الوصف - الصومالية"]={"sv":"Beskrivning - somaliska","ar":"الوصف - الصومالية","so":"Sharaxaad - Soomaali"};
+        STATIC_UI_TRANSLATIONS["يتم حفظ الصفوف الصالحة في مجموعة"]={"sv":"Giltiga rader sparas i samlingen","ar":"يتم حفظ الصفوف الصالحة في مجموعة","so":"Safafka saxda ah waxaa lagu kaydiyaa ururinta"};
+        STATIC_UI_TRANSLATIONS["بمفتاح التاريخ YYYY-MM-DD وباستخدام merge، لذلك لا يتم حذف أي حقول قديمة أو غير معروفة."]={"sv":"med datumet YYYY-MM-DD som nyckel och merge, så äldre eller okända fält raderas inte.","ar":"بمفتاح التاريخ YYYY-MM-DD وباستخدام merge، لذلك لا يتم حذف أي حقول قديمة أو غير معروفة.","so":"iyadoo furaha taariikhdu yahay YYYY-MM-DD lana adeegsanayo merge, sidaas darteed meelo hore lama tirtiro."};
+        STATIC_UI_TRANSLATIONS["هذه النسخة لا تنفذ حذفاً نهائياً للخطب من لوحة الإدارة. الحذف يتحول إلى أرشفة قابلة للاستعادة، والحفظ يستخدم merge للحفاظ على الحقول الإضافية الموجودة في Firestore."]={"sv":"Den här versionen tar inte bort predikningar permanent från adminpanelen. Borttagning blir återställningsbar arkivering och sparning använder merge för att bevara extra Firestore-fält.","ar":"هذه النسخة لا تنفذ حذفاً نهائياً للخطب من لوحة الإدارة. الحذف يتحول إلى أرشفة قابلة للاستعادة، والحفظ يستخدم merge للحفاظ على الحقول الإضافية الموجودة في Firestore.","so":"Noocani khudbadaha si joogto ah ugama tirtiro maamulka. Tirtiriddu waxay noqotaa kaydin dib loo soo celin karo, kaydintuna merge ayay isticmaashaa."};
+        STATIC_UI_TRANSLATIONS["يشمل config/settings و khutbahs و feedback و prayerTimes إذا سمحت قواعد Firestore للمستخدم الإداري بقراءتها."]={"sv":"Om Firestore-reglerna tillåter adminläsning omfattar kopian config/settings, khutbahs, feedback och prayerTimes.","ar":"يشمل config/settings و khutbahs و feedback و prayerTimes إذا سمحت قواعد Firestore للمستخدم الإداري بقراءتها.","so":"Haddii xeerarka Firestore oggolaadaan maamulka, kaydku wuxuu ka kooban yahay config/settings, khutbahs, feedback iyo prayerTimes."};
+        STATIC_UI_TRANSLATIONS["ملاحظة أمنية: تسجيل الدخول في الواجهة ليس بديلاً عن Firestore Security Rules. الملف المرفق مع هذه النسخة يتضمن قالب قواعد مقترحاً، لكنه غير مطبق تلقائياً حتى لا يتسبب في قفل قاعدة بياناتك الحالية."]={"sv":"Säkerhetsnotis: Inloggning i gränssnittet ersätter inte Firestore Security Rules. Regler ska hanteras separat för att undvika att låsa befintliga data.","ar":"ملاحظة أمنية: تسجيل الدخول في الواجهة ليس بديلاً عن Firestore Security Rules. تتم إدارة القواعد بشكل منفصل لتجنب قفل البيانات الحالية.","so":"Ogeysiis amni: Gelitaanka maamulka ma beddelo Firestore Security Rules. Xeerarka si gaar ah ayaa loo maamulaa si xogta jirta aan loo xannibin."};
+        STATIC_UI_TRANSLATIONS["النوع"]={"sv":"Typ","ar":"النوع","so":"Nooc"};
+        STATIC_UI_TRANSLATIONS["المصدر"]={"sv":"Källa","ar":"المصدر","so":"Isha"};
+        STATIC_UI_TRANSLATIONS["العربية"]={"sv":"Arabiska","ar":"العربية","so":"Carabi"};
+        STATIC_UI_TRANSLATIONS["السويدية"]={"sv":"Svenska","ar":"السويدية","so":"Iswiidhish"};
+        STATIC_UI_TRANSLATIONS["الصومالية"]={"sv":"Somaliska","ar":"الصومالية","so":"Soomaali"};
+        STATIC_UI_TRANSLATIONS["حديث صحيح"]={"sv":"Sahih hadith","ar":"حديث صحيح","so":"Xadiis Saxiix"};
+        STATIC_UI_TRANSLATIONS["آية قرآنية"]={"sv":"Koranvers","ar":"آية قرآنية","so":"Aayad Qur’aan"};
+        STATIC_UI_TRANSLATIONS["تفسير / شرح عربي مختصر"]={"sv":"Kort arabisk förklaring","ar":"تفسير / شرح عربي مختصر","so":"Sharaxaad Carabi oo kooban"};
+        STATIC_UI_TRANSLATIONS["حذف"]={"sv":"Ta bort","ar":"حذف","so":"Tirtir"};
+        STATIC_UI_TRANSLATIONS["استعادة"]={"sv":"Återställ","ar":"استعادة","so":"Soo celi"};
+        STATIC_UI_TRANSLATIONS["prayerTimes"]={"sv":"prayerTimes","ar":"prayerTimes","so":"prayerTimes"};
+        STATIC_UI_TRANSLATIONS["Swish: 123-434 54 43"]={"sv":"Swish: 123-434 54 43","ar":"Swish: 123-434 54 43","so":"Swish: 123-434 54 43"};
+        STATIC_UI_TRANSLATIONS["E-post"]={"sv":"E-post","ar":"البريد الإلكتروني","so":"E-mail"};
+        STATIC_UI_TRANSLATIONS["https://..."]={"sv":"https://...","ar":"https://...","so":"https://..."};
+        const originalTextNodes = new WeakMap();
+        const originalAttrs = new WeakMap();
+        function localeForLang(lang) { return lang === 'ar' ? 'ar-SE' : lang === 'so' ? 'so-SO' : 'sv-SE'; }
+        function t(key) { return (I18N[currentSiteLang] || I18N.sv)[key] || I18N.sv[key] || key; }
+        const UI_MESSAGES = {"loginError":{"sv":"Inloggningsfel: ","ar":"خطأ في تسجيل الدخول: ","so":"Khalad gelitaan: "},"loggedOut":{"sv":"Du har loggats ut.","ar":"تم تسجيل الخروج.","so":"Waad ka baxday."},"khutbahSaved":{"sv":"Predikan sparades och tidigare fält bevarades.","ar":"تم حفظ الخطبة مع الحفاظ على الحقول السابقة.","so":"Khudbadda waa la kaydiyey, xogtii horena waa la ilaaliyey."},"khutbahSaveError":{"sv":"Predikan kunde inte sparas: ","ar":"خطأ أثناء حفظ الخطبة: ","so":"Khudbadda lama kaydin karin: "},"khutbahArchived":{"sv":"Predikan arkiverades utan att data raderades.","ar":"تمت أرشفة الخطبة دون حذف بياناتها.","so":"Khudbadda waa la kaydiyey iyadoo xogta aan la tirtirin."},"khutbahArchiveError":{"sv":"Arkivering misslyckades: ","ar":"خطأ بالأرشفة: ","so":"Kaydinta khudbadda way fashilantay: "},"khutbahRestored":{"sv":"Predikan återställdes.","ar":"تمت استعادة الخطبة.","so":"Khudbadda waa la soo celiyey."},"restoreError":{"sv":"Återställning misslyckades: ","ar":"تعذر الاستعادة: ","so":"Soo celintu way fashilantay: "},"settingsSaved":{"sv":"Alla inställningar sparades.","ar":"تم حفظ كافة الإعدادات بنجاح!","so":"Dhammaan dejimaha waa la kaydiyey."},"saveError":{"sv":"Kunde inte spara: ","ar":"خطأ في الحفظ: ","so":"Kaydintu way fashilantay: "},"readingFile":{"sv":"Läser filen och validerar innehållet...","ar":"جارٍ قراءة الملف والتحقق من المحتوى...","so":"Faylka waa la akhrinayaa lana hubinayaa..."},"contentImported":{"sv":"Det religiösa innehållet importerades och sparades i Firestore.","ar":"تم استيراد المحتوى الديني وحفظه في Firestore.","so":"Nuxurka diineed waa la soo geliyey laguna kaydiyey Firestore."},"importFailed":{"sv":"Importen misslyckades: ","ar":"فشل الاستيراد: ","so":"Soo gelintu way fashilantay: "},"prayerImported":{"sv":"Bönetiderna sparades i databasen.","ar":"تم حفظ مواقيت الصلاة في قاعدة البيانات بنجاح.","so":"Waqtiyada salaadda waxaa lagu kaydiyey kaydka xogta."},"prayerImportError":{"sv":"Import av bönetider misslyckades: ","ar":"فشل استيراد ملف المواقيت: ","so":"Soo gelinta waqtiyada salaadda way fashilantay: "},"loadingMessages":{"sv":"Laddar meddelanden...","ar":"جارٍ تحميل الرسائل...","so":"Fariimaha waa la soo rarayaa..."},"noMessages":{"sv":"Det finns inga meddelanden just nu.","ar":"لا توجد ملاحظات حالياً.","so":"Hadda fariimo ma jiraan."},"anonymousVisitor":{"sv":"Anonym besökare","ar":"زائر مجهول","so":"Booqde aan la magacaabin"},"contactPrefix":{"sv":"Kontakt: ","ar":"التواصل: ","so":"Xiriir: "},"feedbackLoadError":{"sv":"Meddelanden kunde inte laddas: ","ar":"تعذر تحميل الرسائل: ","so":"Fariimaha lama soo dejin karin: "},"backupPreparing":{"sv":"Förbereder säkerhetskopian...","ar":"جارٍ تجهيز النسخة الاحتياطية...","so":"Nuqulka kaydka waa la diyaarinayaa..."},"backupExported":{"sv":"Säkerhetskopian exporterades.","ar":"تم تصدير النسخة الاحتياطية.","so":"Nuqulka kaydka waa la dhoofiyey."},"backupError":{"sv":"Säkerhetskopian kunde inte skapas: ","ar":"تعذر إنشاء النسخة الاحتياطية: ","so":"Nuqulka kaydka lama abuuri karin: "},"swishCopied":{"sv":"Swish-numret kopierades: 123-434 54 43","ar":"تم نسخ رقم Swish: 123-434 54 43","so":"Lambarka Swish waa la koobiyeeyey: 123-434 54 43"},"archivedLabel":{"sv":"arkiverad","ar":"مؤرشفة","so":"kayd ah"},"healthNeedReview":{"sv":"behöver översättning eller källgranskning","ar":"بحاجة إلى ترجمة أو مراجعة المصدر","so":"waxay u baahan yihiin turjumaad ama hubin ilaha"}};
+        function msg(key){const x=UI_MESSAGES[key]||{};return x[currentSiteLang]||x.sv||key;}
+
+        function applyFullUiTranslation(lang = currentSiteLang, root = document.body) {
+            if (!root) return;
+            const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+            const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+            nodes.forEach(node => {
+                if (!node.parentElement || node.parentElement.closest('script,style') || node.parentElement.closest('[data-i18n]')) return;
+                if (!originalTextNodes.has(node)) originalTextNodes.set(node, node.nodeValue);
+                const original = originalTextNodes.get(node);
+                const trimmed = original.trim();
+                const hit = STATIC_UI_TRANSLATIONS[trimmed];
+                if (!hit) return;
+                const before = original.match(/^\s*/)?.[0] || '', after = original.match(/\s*$/)?.[0] || '';
+                node.nodeValue = before + (hit[lang] || hit.sv || trimmed) + after;
+            });
+            root.querySelectorAll?.('[data-i18n]').forEach(el => { const key=el.dataset.i18n; const val=(I18N[lang]||I18N.sv)[key]; if(val) el.textContent=val; });
+            root.querySelectorAll?.('[data-i18n-placeholder],input[placeholder],textarea[placeholder],[title]').forEach(el => {
+                if (!originalAttrs.has(el)) originalAttrs.set(el, {placeholder:el.getAttribute('placeholder'), title:el.getAttribute('title')});
+                const saved=originalAttrs.get(el);
+                const pKey=el.dataset.i18nPlaceholder;
+                if(pKey && (I18N[lang]||I18N.sv)[pKey]) el.setAttribute('placeholder',(I18N[lang]||I18N.sv)[pKey]);
+                else if(saved.placeholder && STATIC_UI_TRANSLATIONS[saved.placeholder]) el.setAttribute('placeholder',STATIC_UI_TRANSLATIONS[saved.placeholder][lang]||saved.placeholder);
+                const titleKey=el.dataset.i18nTitle;
+                if(titleKey && (I18N[lang]||I18N.sv)[titleKey]) el.setAttribute('title',(I18N[lang]||I18N.sv)[titleKey]);
+                else if(saved.title && STATIC_UI_TRANSLATIONS[saved.title]) el.setAttribute('title',STATIC_UI_TRANSLATIONS[saved.title][lang]||saved.title);
+            });
+        }
+        let translationObserver;
+        function initTranslationObserver() {
+            if (translationObserver) return;
+            translationObserver = new MutationObserver(mutations => {
+                for (const m of mutations) for (const n of m.addedNodes) if (n.nodeType === 1) applyFullUiTranslation(currentSiteLang, n);
+            });
+            translationObserver.observe(document.body, {childList:true,subtree:true});
+        }
 
         const DEFAULT_VERIFIED_VERSES = [
                     {
@@ -1340,10 +1531,10 @@
         }
 
         const POST_PRAYER_STEPS = [
-            { titleAr: "سُبْحَانَ اللَّهِ", titleSv: "Subhanallah", target: 33, desc: "تكرار 33 مرة / 33 gånger" },
-            { titleAr: "الْحَمْدُ لِلَّهِ", titleSv: "Alhamdulillah", target: 33, desc: "تكرار 33 مرة / 33 gånger" },
-            { titleAr: "اللَّهُ أَكْبَرُ", titleSv: "Allahu Akbar", target: 33, desc: "تكرار 33 مرة / 33 gånger" },
-            { titleAr: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", titleSv: "La ilaha illallah wahdahu...", target: 1, desc: "تمام المئة / Completion" }
+            { titleAr:"سُبْحَانَ اللَّهِ", titleSv:"Subhanallah", titleSo:"Subxaanallaah", target:33, descAr:"سبحان الله - 33 مرة", descSv:"Subhanallah - 33 gånger", descSo:"Subxaanallaah - 33 jeer" },
+            { titleAr:"الْحَمْدُ لِلَّهِ", titleSv:"Alhamdulillah", titleSo:"Alxamdulillaah", target:33, descAr:"الحمد لله - 33 مرة", descSv:"Alhamdulillah - 33 gånger", descSo:"Alxamdulillaah - 33 jeer" },
+            { titleAr:"اللَّهُ أَكْبَرُ", titleSv:"Allahu Akbar", titleSo:"Allaahu Akbar", target:33, descAr:"الله أكبر - 33 مرة", descSv:"Allahu Akbar - 33 gånger", descSo:"Allaahu Akbar - 33 jeer" },
+            { titleAr:"لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", titleSv:"La ilaha illallah wahdahu la sharika lah...", titleSo:"Laa ilaaha illallaahu waxdahu laa shariika lah...", target:1, descAr:"تمام المئة", descSv:"Avslutning efter de 99 dhikr", descSo:"Gabagabada 99-ka dikriga" }
         ];
         let currentDhikrStep = 0;
         let postDhikrCount = 33;
@@ -1365,16 +1556,17 @@
 
         function updatePostDhikrUI() {
             const step = POST_PRAYER_STEPS[currentDhikrStep];
-            document.getElementById('dhikr-title').innerText = currentSiteLang === 'sv' ? step.titleSv : step.titleAr;
-            document.getElementById('dhikr-translation').innerText = step.desc;
+            document.getElementById('dhikr-title').innerText = currentSiteLang === 'ar' ? step.titleAr : currentSiteLang === 'so' ? step.titleSo : step.titleSv;
+            document.getElementById('dhikr-translation').innerText = currentSiteLang === 'ar' ? step.descAr : currentSiteLang === 'so' ? step.descSo : step.descSv;
             document.getElementById('tasbih-count').innerText = postDhikrCount;
             document.getElementById('dhikr-step-indicator').innerText = `${currentDhikrStep + 1} / ${POST_PRAYER_STEPS.length}`;
             document.getElementById('dhikr-progress').style.width = `${((currentDhikrStep) / POST_PRAYER_STEPS.length) * 100}%`;
         }
 
-        const APP_SCHEMA_VERSION = 2;
+        const APP_SCHEMA_VERSION = 3;
         const PRAYER_KEYS = ['fajr', 'shurooq', 'dhuhr', 'asr', 'maghrib', 'isha'];
         let currentPrayerTarget = null;
+        let currentPrayerTimesForProgress = null;
         let countdownIntervalId = null;
 
         function escapeHtml(value = '') {
@@ -1444,7 +1636,7 @@
             const message = document.getElementById('feedback-message').value;
 
             if(!message.trim()) {
-                window.showToast("الرجاء كتابة النص أولاً", true);
+                window.showToast(currentSiteLang==='ar'?'الرجاء كتابة الرسالة أولاً':currentSiteLang==='so'?'Fadlan qor fariinta marka hore':'Skriv meddelandet först', true);
                 return;
             }
 
@@ -1457,34 +1649,44 @@
                     createdAt: serverTimestamp(),
                     status: "new"
                 });
-                window.showToast("تم إرسال ملاحظتك بنجاح للإمام!");
+                window.showToast(currentSiteLang==='ar'?'تم إرسال ملاحظتك بنجاح للإمام!':currentSiteLang==='so'?'Fariintaada waxaa loo diray imaamka':'Meddelandet skickades till imamen');
                 document.getElementById('feedback-name').value = '';
                 document.getElementById('feedback-contact').value = '';
                 document.getElementById('feedback-message').value = '';
             } catch(e) {
                 console.error(e);
-                window.showToast("تعذر إرسال الملاحظة. لم يتم حذف النص، حاول مرة أخرى عند عودة الاتصال.", true);
+                window.showToast(currentSiteLang==='ar'?'تعذر إرسال الملاحظة. بقي النص محفوظًا في الحقل.':currentSiteLang==='so'?'Fariinta lama diri karin. Qoraalka weli wuxuu ku jiraa sanduuqa.':'Meddelandet kunde inte skickas. Texten finns kvar i fältet.', true);
             }
         };
 
         let siteSettings = { 
             mosqueNameAr: "مسجد فاغشتا", 
             mosqueNameLat: "Fagersta Moské", 
-            theme: "emerald", 
+            mosqueNameSo: "Masjidka Fagersta",
+            subtitleSv: "Fagersta Islamiska Kulturförening",
+            subtitleAr: "الجمعية الثقافية الإسلامية في فاغشتا",
+            subtitleSo: "Ururka Dhaqanka Islaamiga ee Fagersta",
+            footerTextAr: "مسجد فاغشتا - الجمعية الثقافية الإسلامية في فاغشتا © 2026. جميع الحقوق محفوظة.",
+            footerTextSo: "Masjidka Fagersta - Ururka Dhaqanka Islaamiga ee Fagersta © 2026. Dhammaan xuquuqdu way dhawran tahay.",
+            theme: "emerald-gold",
+            appearance: { theme: "emerald-gold", motion: true },
+            contact: { address: "", phone: "", email: "" }, 
             offsets: { fajr: 0, shurooq: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 },
             jumuahTime: "13:00",
             footerText: "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.",
             jumuahDescAr: "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.",
             jumuahDescSv: "Predikan och bön hålls varje fredag på svenska och arabiska.",
             jumuahDescSo: "Khudbadda iyo salaadda Jimcaha waxaa lagu qabtaa Iswiidhish iyo Carabi.",
-            contentLibraryVersion: 2,
-            announcement: { enabled: false, text: "" },
+            contentLibraryVersion: 3,
+            announcement: { enabled: false, text: "", textSv: "", textAr: "", textSo: "" },
             logoUrl: "",
-            donationTitle: "Ge en Gåva / Sadaqa via Swish",
-            donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
+            donationTitle: "Ge en gåva / Sadaqa via Swish",
+            donationTitleAr: "صدقة ودعم للمسجد عبر Swish", donationTitleSo: "Sadaqo iyo taageero via Swish",
+            donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt.",
+            donationDescAr: "ساهم في دعم أنشطة المسجد وصيانته بسهولة عبر Swish.", donationDescSo: "Ka qayb qaado hawlaha iyo dayactirka masjidka adigoo isticmaalaya Swish.",
             features: { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true },
             verifiedVerses: DEFAULT_VERIFIED_VERSES,
-            quizData: { questionAr: "ما هي السورة التي تسمى قلب القرآن؟", questionSv: "Vilken surah kallas Koranens hjärta?", answerAr: "سورة يس", answerSv: "Surah Yaseen" }
+            quizData: { questionSo: "Suuraddee ayaa loo yaqaan qalbiga Qur'aanka?", answerSo: "Suurat Yaasin", questionAr: "ما هي السورة التي تسمى قلب القرآن؟", questionSv: "Vilken surah kallas Koranens hjärta?", answerAr: "سورة يس", answerSv: "Surah Yaseen" }
         };
 
         let khutbahsDb = {};
@@ -1572,90 +1774,73 @@
         window.setSiteLanguage = (lang) => {
             if (!I18N[lang]) lang = 'sv';
             currentSiteLang = lang;
+            currentLang = lang;
             const rtl = lang === 'ar';
             document.documentElement.lang = lang;
             document.documentElement.dir = rtl ? 'rtl' : 'ltr';
             document.body.dir = rtl ? 'rtl' : 'ltr';
             document.body.classList.toggle('font-ui', rtl);
             document.body.classList.toggle('font-latin', !rtl);
-            document.querySelectorAll('#nav-lang-sv, #nav-lang-ar, #nav-lang-so').forEach(btn => {
-                btn.classList.remove('bg-brand-600', 'text-white');
-                btn.classList.add('text-stone-300');
-            });
-            document.getElementById(`nav-lang-${lang}`).classList.add('bg-brand-600', 'text-white');
-            document.getElementById(`nav-lang-${lang}`).classList.remove('text-stone-300');
-
+            const dashboard = document.getElementById('dashboard-modal'); if (dashboard) dashboard.dir = rtl ? 'rtl' : 'ltr';
+            document.querySelectorAll('#nav-lang-sv, #nav-lang-ar, #nav-lang-so').forEach(btn => { btn.classList.remove('bg-brand-600','text-white'); btn.classList.add('text-stone-300'); });
+            const activeBtn=document.getElementById(`nav-lang-${lang}`); if(activeBtn){activeBtn.classList.add('bg-brand-600','text-white');activeBtn.classList.remove('text-stone-300');}
             const dict = I18N[lang] || I18N.sv;
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (dict[key]) el.innerText = dict[key];
-            });
-
-            document.getElementById('nav-mosque-label').innerText = dict.navMosque;
-            updateVerseCarousel();
-            initPrayerTimes();
-            updatePostDhikrUI();
+            document.title = dict.pageTitle;
+            document.querySelector('meta[name="description"]')?.setAttribute('content', lang==='ar'?'الموقع الرسمي لمسجد فاغشتا: مواقيت الصلاة والقبلة وخطب الجمعة ومعلومات المسجد.':lang==='so'?'Bogga Masjidka Fagersta: waqtiyada salaadda, Qibla, khudbadaha Jimcaha iyo macluumaadka masjidka.':'Fagersta Moské: bönetider, Qibla, fredagspredikningar och moskéinformation.');
+            applyFullUiTranslation(lang);
+            const mosqueName = lang==='ar' ? (siteSettings.mosqueNameAr || dict.navMosque) : lang==='so' ? (siteSettings.mosqueNameSo || dict.navMosque) : (siteSettings.mosqueNameLat || dict.navMosque);
+            const subtitle = lang==='ar' ? (siteSettings.subtitleAr || 'الجمعية الثقافية الإسلامية في فاغشتا') : lang==='so' ? (siteSettings.subtitleSo || 'Ururka Dhaqanka Islaamiga ee Fagersta') : (siteSettings.subtitleSv || 'Fagersta Islamiska Kulturförening');
+            document.getElementById('nav-mosque-label').textContent = mosqueName;
+            document.getElementById('home-title-main').textContent = mosqueName;
+            document.getElementById('home-subtitle-main').textContent = subtitle;
+            const archiveName=document.getElementById('ui-mosque-name-lat'); if(archiveName) archiveName.textContent=mosqueName;
+            const archiveSecondary=document.getElementById('ui-mosque-name-ar'); if(archiveSecondary) archiveSecondary.textContent=subtitle;
+            const footerRights = lang==='ar' ? (siteSettings.footerTextAr || dict.footerDefault) : lang==='so' ? (siteSettings.footerTextSo || dict.footerDefault) : (siteSettings.footerText || dict.footerDefault);
+            const footerCustom=document.getElementById('footer-custom-text'); if(footerCustom) footerCustom.textContent=footerRights;
+            const footerLat=document.getElementById('footer-mosque-lat'); if(footerLat) footerLat.textContent=mosqueName;
+            const footerAr=document.getElementById('footer-mosque-ar'); if(footerAr) footerAr.textContent=subtitle;
 
             const q = siteSettings.quizData || {};
-            if(lang === 'ar') {
-                document.getElementById('quiz-question-display').innerText = q.questionAr || "";
-                document.getElementById('quiz-answer-display').innerText = q.answerAr || "";
-            } else {
-                document.getElementById('quiz-question-display').innerText = q.questionSv || "";
-                document.getElementById('quiz-answer-display').innerText = q.answerSv || "";
-            }
+            const qText = lang==='ar' ? q.questionAr : lang==='so' ? (q.questionSo || '') : q.questionSv;
+            const aText = lang==='ar' ? q.answerAr : lang==='so' ? (q.answerSo || '') : q.answerSv;
+            if(document.getElementById('quiz-question-display')) document.getElementById('quiz-question-display').textContent=qText||'';
+            if(document.getElementById('quiz-answer-display')) document.getElementById('quiz-answer-display').textContent=aText||'';
 
-            document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || dict.donationTitle;
-            document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || dict.donationDesc;
-            const jDesc = document.getElementById('jumuah-desc-text');
-            if (jDesc) {
-                if (lang === 'ar') jDesc.innerText = siteSettings.jumuahDescAr || "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.";
-                else if (lang === 'so') jDesc.innerText = siteSettings.jumuahDescSo || "Khudbadda iyo salaadda Jimcaha waxaa lagu qabtaa Iswiidhish iyo Carabi.";
-                else jDesc.innerText = siteSettings.jumuahDescSv || "Predikan och bön hålls varje fredag på svenska och arabiska.";
-            }
+            const donationTitle = lang==='ar' ? (siteSettings.donationTitleAr || dict.donationTitle) : lang==='so' ? (siteSettings.donationTitleSo || dict.donationTitle) : (siteSettings.donationTitle || dict.donationTitle);
+            const donationDesc = lang==='ar' ? (siteSettings.donationDescAr || dict.donationDesc) : lang==='so' ? (siteSettings.donationDescSo || dict.donationDesc) : (siteSettings.donationDesc || dict.donationDesc);
+            document.getElementById('ui-donation-title').textContent = donationTitle;
+            document.getElementById('ui-donation-desc').textContent = donationDesc;
+            const jDesc=document.getElementById('jumuah-desc-text'); if(jDesc) jDesc.textContent=lang==='ar'?(siteSettings.jumuahDescAr||'تقام الخطبة والصلاة كل يوم جمعة.') : lang==='so'?(siteSettings.jumuahDescSo||'Khudbadda iyo salaadda Jimcaha waxaa la qabtaa Jimce kasta.') : (siteSettings.jumuahDescSv||'Predikan och bön hålls varje fredag.');
+
+            const ann=siteSettings.announcement||{}; const annText=lang==='ar'?(ann.textAr||ann.text||''):lang==='so'?(ann.textSo||ann.text||''):(ann.textSv||ann.text||'');
+            const annContainer=document.getElementById('announcement-ticker-container'); if(ann.enabled&&annText){document.getElementById('announcement-text-content').textContent=annText;annContainer.classList.remove('hidden');}else annContainer?.classList.add('hidden');
+
+            updateVerseCarousel(); updatePostDhikrUI(); updateSmartOverview(); updateContactSection();
+            populateArchiveDropdown(); if(currentKhutbahId && khutbahsDb[currentKhutbahId]) renderKhutbah();
+            initPrayerTimes();
+            if(typeof lucide!=='undefined') lucide.createIcons();
         };
 
         function applySettingsToUI() {
-            document.getElementById('ui-mosque-name-ar').innerText = siteSettings.mosqueNameAr;
-            document.getElementById('footer-mosque-ar').innerText = siteSettings.mosqueNameAr + " - السويد";
-            document.getElementById('ui-mosque-name-lat').innerText = siteSettings.mosqueNameLat;
-            document.getElementById('footer-mosque-lat').innerText = siteSettings.mosqueNameLat;
-            document.getElementById('home-title-main').innerText = siteSettings.mosqueNameLat;
-            document.getElementById('jumuah-time-display').innerText = siteSettings.jumuahTime || "13:00";
-            document.getElementById('footer-custom-text').innerText = siteSettings.footerText || "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.";
-            document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || "Ge en Gåva / Sadaqa via Swish";
-            document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.";
-
-            const ann = siteSettings.announcement || {};
-            const annContainer = document.getElementById('announcement-ticker-container');
-            if (ann.enabled && ann.text) {
-                document.getElementById('announcement-text-content').innerText = ann.text;
-                annContainer.classList.remove('hidden');
-            } else {
-                annContainer.classList.add('hidden');
-            }
-
-            const logo = document.getElementById('custom-mosque-logo-img');
-            const defaultIcon = document.getElementById('default-logo-icon');
-            if (siteSettings.logoUrl && /^https?:\/\//i.test(siteSettings.logoUrl)) {
-                logo.src = siteSettings.logoUrl;
-                logo.classList.remove('hidden');
-                defaultIcon.classList.add('hidden');
-            } else {
-                logo.removeAttribute('src');
-                logo.classList.add('hidden');
-                defaultIcon.classList.remove('hidden');
-            }
-
-            const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true };
-            document.getElementById('section-qibla').style.display = f.qibla ? 'block' : 'none';
-            document.getElementById('section-donations').style.display = f.donations ? 'flex' : 'none';
-            document.getElementById('section-dhikr').style.display = f.dhikr ? 'flex' : 'none';
-            document.getElementById('section-jumuah-banner').style.display = f.jumuahBanner ? 'flex' : 'none';
-            document.getElementById('section-quiz').style.display = f.quiz ? 'block' : 'none';
-            document.getElementById('section-feedback').style.display = f.feedback ? 'block' : 'none';
-
-            if(typeof lucide !== 'undefined') lucide.createIcons();
+            const theme = siteSettings.appearance?.theme || siteSettings.theme || 'emerald-gold';
+            document.body.dataset.theme = ['emerald-gold','classic','nordic'].includes(theme) ? theme : 'emerald-gold';
+            const motionEnabled = siteSettings.appearance?.motion !== false;
+            document.body.classList.toggle('reduce-motion', !motionEnabled || localStorage.getItem('fagersta_reduce_motion')==='1');
+            const logo=document.getElementById('custom-mosque-logo-img'), defaultIcon=document.getElementById('default-logo-icon');
+            if(siteSettings.logoUrl && /^https?:\/\//i.test(siteSettings.logoUrl)){logo.src=siteSettings.logoUrl;logo.classList.remove('hidden');defaultIcon.classList.add('hidden');}else{logo.removeAttribute('src');logo.classList.add('hidden');defaultIcon.classList.remove('hidden');}
+            const f=siteSettings.features||{};
+            document.getElementById('section-qibla').style.display=f.qibla===false?'none':'block';
+            document.getElementById('section-donations').style.display=f.donations===false?'none':'flex';
+            document.getElementById('section-dhikr').style.display=f.dhikr===false?'none':'flex';
+            document.getElementById('section-jumuah-banner').style.display=f.jumuahBanner===false?'none':'flex';
+            document.getElementById('section-quiz').style.display=f.quiz===false?'none':'block';
+            document.getElementById('section-feedback').style.display=f.feedback===false?'none':'block';
+            document.getElementById('smart-overview')?.classList.toggle('hidden', f.smartOverview===false);
+            document.querySelectorAll('[data-visitor-count]').forEach(el=>el.closest('span,div')?.classList.toggle('hidden', f.visitorCounter===false));
+            document.getElementById('jumuah-time-display').textContent=siteSettings.jumuahTime||'13:00';
+            updateContactSection();
+            window.setSiteLanguage(currentSiteLang || 'sv');
+            if(typeof lucide!=='undefined') lucide.createIcons();
         }
 
         window.toggleQuizAnswer = () => {
@@ -1684,6 +1869,8 @@
             document.getElementById('header-dst-badge').innerText = tzName;
 
             const times = await loadPrayerTimesForDate(now);
+            const sourceBadge=document.getElementById('prayer-source-badge');
+            if(sourceBadge){const official=times._source==='firestore';sourceBadge.className=`prayer-source-badge ${official?'prayer-source-official':'prayer-source-fallback'}`;sourceBadge.innerHTML=`<i data-lucide="${official?'badge-check':'triangle-alert'}" class="w-3 h-3"></i><span>${escapeHtml(official?t('prayerSourceOfficial'):t('prayerSourceFallback'))}</span>`;}
             const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
             const tomorrowTimes = await loadPrayerTimesForDate(tomorrow);
             const dict = I18N[currentSiteLang] || I18N.sv;
@@ -1713,10 +1900,16 @@
                 const isNext = p.key === nextPrayer.key;
                 const cardClass = isNext ? 'bg-brand-600 text-white shadow-lg ring-2 ring-brand-400 scale-[1.02]' : 'bg-white/90 text-stone-800 border border-stone-200/80';
                 const labelClass = isNext ? 'text-brand-100' : 'text-stone-400';
-                return `<div class="${cardClass} p-4 rounded-2xl text-center transition-all duration-300"><span class="block text-xs font-bold ${labelClass} mb-1">${escapeHtml(p.name)}</span><span class="text-xl font-extrabold">${escapeHtml(p.time)}</span></div>`;
+                const icon={fajr:'moon-star',shurooq:'sunrise',dhuhr:'sun',asr:'cloud-sun',maghrib:'sunset',isha:'moon'}[p.key]||'clock';
+                return `<div class="${cardClass} p-4 rounded-2xl text-center transition-all duration-300 relative overflow-hidden"><div class="w-8 h-8 mx-auto mb-2 rounded-xl ${isNext?'bg-white/15':'bg-stone-100'} flex items-center justify-center"><i data-lucide="${icon}" class="w-4 h-4 ${isNext?'text-white':'text-brand-600'}"></i></div><span class="block text-xs font-bold ${labelClass} mb-1">${escapeHtml(p.name)}</span><span class="text-xl font-extrabold">${escapeHtml(p.time)}</span></div>`;
             }).join('');
 
+            const overviewName=document.getElementById('overview-next-prayer'); if(overviewName) overviewName.textContent=nextPrayer.name;
+            const overviewTime=document.getElementById('overview-next-prayer-time'); if(overviewTime) overviewTime.textContent=nextPrayer.time;
+            currentPrayerTimesForProgress={now, prayerList, nextPrayer, target};
+            updatePrayerProgress();
             startPrayerCountdown();
+            updateSmartOverview();
             if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
@@ -1737,6 +1930,7 @@
                 const m = Math.floor(diff / 60000);
                 const s = Math.floor((diff % 60000) / 1000);
                 document.getElementById('countdown-timer').innerText = [h,m,s].map(v => String(v).padStart(2,'0')).join(':');
+                updatePrayerProgress(); updateSmartOverview();
             };
             tick();
             countdownIntervalId = setInterval(tick, 1000);
@@ -1791,7 +1985,9 @@
                     if (elTafsir) {
                         const tafsir = item[`tafsir${currentSiteLang === 'ar' ? 'Ar' : currentSiteLang === 'so' ? 'So' : 'Sv'}`] || '';
                         elTafsir.textContent = tafsir;
-                        elTafsir.classList.toggle('hidden', !tafsir);
+                        elTafsir.dataset.hasContent = tafsir ? '1' : '0';
+                        elTafsir.classList.add('hidden');
+                        const toggle=document.getElementById('carousel-tafsir-toggle'); if(toggle){toggle.classList.toggle('hidden',!tafsir);toggle.querySelector('span').textContent=t('showExplanation');}
                     }
                     elText.style.opacity = '1';
                 }, 250);
@@ -1820,11 +2016,13 @@
         window.renderMonthlyA4Table = async () => {
             const m = parseInt(document.getElementById('monthly-select-month').value);
             const y = parseInt(document.getElementById('monthly-select-year').value);
-            const monthNames = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
-            document.getElementById('a4-month-year-str').innerText = `${monthNames[m]} ${y}`;
+            const monthName = new Intl.DateTimeFormat(localeForLang(currentSiteLang), {month:'long', timeZone:'Europe/Stockholm'}).format(new Date(y,m,1));
+            document.getElementById('a4-month-year-str').innerText = `${monthName} ${y}`;
+            const a4Title=document.getElementById('a4-mosque-title'); if(a4Title) a4Title.textContent=`${document.getElementById('nav-mosque-label')?.textContent||t('navMosque')} - ${document.getElementById('home-subtitle-main')?.textContent||''}`;
+            const a4Friday=document.getElementById('a4-jumuah-footer-txt'); if(a4Friday) a4Friday.textContent=currentSiteLang==='ar'?`صلاة الجمعة - الخطبة: ${siteSettings.jumuahTime||'13:00'} في المسجد`:currentSiteLang==='so'?`Salaadda Jimcaha - Khudbad: ${siteSettings.jumuahTime||'13:00'} masjidka`:`Jumu'ah / Fredagsbön - Khutbah: ${siteSettings.jumuahTime||'13:00'} i moskén`;
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             const tbody = document.getElementById('a4-table-body');
-            tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-stone-500">Laddar bönetider...</td></tr>';
+            tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-stone-500">${escapeHtml(t('loadingPrayerTimes'))}</td></tr>`;
 
             const rows = await Promise.all(Array.from({length: daysInMonth}, async (_, i) => {
                 const day = i + 1;
@@ -1844,7 +2042,8 @@
         function populateArchiveDropdown() {
             const select = document.getElementById('archive-select');
             select.innerHTML = '';
-            Object.keys(khutbahsDb).filter(key => !khutbahsDb[key]?.archived).forEach(key => {
+            const query=String(document.getElementById('archive-search')?.value||'').trim().toLowerCase();
+            Object.keys(khutbahsDb).filter(key => !khutbahsDb[key]?.archived).filter(key=>{if(!query)return true;const k=khutbahsDb[key];return [k.sv?.title,k.ar?.title,k.so?.title,k.dateAr,key].some(v=>String(v||'').toLowerCase().includes(query));}).forEach(key => {
                 const k = khutbahsDb[key];
                 const titleText = k[currentLang]?.title || k.sv?.title || k.ar?.title || key;
                 const opt = document.createElement('option');
@@ -1861,16 +2060,16 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        window.switchLang = (lang) => { currentLang = lang; renderKhutbah(); };
+        window.switchLang = (lang) => { window.setSiteLanguage(lang); };
         window.changeFontSize = (delta) => { currentFontSize = Math.max(12, currentFontSize + delta); renderKhutbah(); };
 
         function renderKhutbah() {
             if(!currentKhutbahId || !khutbahsDb[currentKhutbahId]) return;
             const kData = khutbahsDb[currentKhutbahId];
-            if(!kData[currentLang]) kData[currentLang] = { title: "Innehåll saknas", sections: [] };
+            if(!kData[currentLang]) kData[currentLang] = { title: t("contentMissing"), sections: [] };
             
             const data = kData[currentLang];
-            document.getElementById('date-banner').innerText = `Fagersta Moské - ${kData.dateAr || ''}`;
+            document.getElementById('date-banner').innerText = `${document.getElementById('nav-mosque-label')?.textContent || t('navMosque')} - ${kData.dateAr || ''}`;
 
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('bg-brand-600', 'text-white', 'shadow-md');
@@ -1884,7 +2083,7 @@
 
             document.getElementById('khutbah-header').innerHTML = `
                 <div class="khutbah-meta inline-flex items-center gap-2 px-3 py-1 bg-brand-100 text-brand-800 rounded-full text-xs font-bold mb-4 mt-2 border border-brand-200">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span>${escapeHtml(siteSettings.mosqueNameLat)}</span>
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span>${escapeHtml(document.getElementById('nav-mosque-label')?.textContent||siteSettings.mosqueNameLat)}</span>
                 </div>
                 <h2 class="text-2xl md:text-4xl font-extrabold text-stone-900 leading-tight mb-2 ${fontClass}">${escapeHtml(data.title)}</h2>
                 <div class="khutbah-meta h-1 w-24 bg-brand-600 mx-auto rounded-full mt-4"></div>
@@ -1974,12 +2173,12 @@
                 document.getElementById('login-modal').classList.remove('active');
                 openDashboard();
             } catch (error) {
-                errEl.innerText = "خطأ في تسجيل الدخول: " + error.message;
+                errEl.innerText = msg("loginError") + error.message;
                 errEl.classList.remove('hidden');
             }
         };
 
-        window.performLogout = async () => { await signOut(auth); window.closeModals(); window.showToast("تم تسجيل الخروج"); };
+        window.performLogout = async () => { await signOut(auth); window.closeModals(); window.showToast(msg("loggedOut")); };
 
         function openDashboard() {
             if (!adminUser) { document.getElementById('login-modal').classList.add('active'); return; }
@@ -1989,14 +2188,19 @@
             
             document.getElementById('set-mosque-ar').value = siteSettings.mosqueNameAr || '';
             document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat || '';
+            document.getElementById('set-mosque-so').value = siteSettings.mosqueNameSo || '';
+            document.getElementById('set-subtitle-sv').value = siteSettings.subtitleSv || ''; document.getElementById('set-subtitle-ar').value = siteSettings.subtitleAr || ''; document.getElementById('set-subtitle-so').value = siteSettings.subtitleSo || '';
             document.getElementById('set-jumuah-time').value = siteSettings.jumuahTime || '13:00';
-            document.getElementById('set-footer-text').value = siteSettings.footerText || '';
+            document.getElementById('set-footer-text').value = siteSettings.footerText || ''; document.getElementById('set-footer-text-ar').value = siteSettings.footerTextAr || ''; document.getElementById('set-footer-text-so').value = siteSettings.footerTextSo || '';
             document.getElementById('set-jumuah-desc-ar').value = siteSettings.jumuahDescAr || '';
             document.getElementById('set-jumuah-desc-sv').value = siteSettings.jumuahDescSv || '';
             document.getElementById('set-jumuah-desc-so').value = siteSettings.jumuahDescSo || '';
             document.getElementById('set-announcement-enabled').checked = !!siteSettings.announcement?.enabled;
-            document.getElementById('set-announcement-text').value = siteSettings.announcement?.text || '';
+            document.getElementById('set-announcement-sv').value = siteSettings.announcement?.textSv || siteSettings.announcement?.text || ''; document.getElementById('set-announcement-ar').value = siteSettings.announcement?.textAr || ''; document.getElementById('set-announcement-so').value = siteSettings.announcement?.textSo || '';
             document.getElementById('set-logo-url').value = siteSettings.logoUrl || '';
+            document.getElementById('set-donation-title-sv').value=siteSettings.donationTitle||''; document.getElementById('set-donation-title-ar').value=siteSettings.donationTitleAr||''; document.getElementById('set-donation-title-so').value=siteSettings.donationTitleSo||''; document.getElementById('set-donation-desc-sv').value=siteSettings.donationDesc||''; document.getElementById('set-donation-desc-ar').value=siteSettings.donationDescAr||''; document.getElementById('set-donation-desc-so').value=siteSettings.donationDescSo||'';
+            document.getElementById('set-contact-address').value=siteSettings.contact?.address||''; document.getElementById('set-contact-phone').value=siteSettings.contact?.phone||''; document.getElementById('set-contact-email').value=siteSettings.contact?.email||'';
+            document.getElementById('set-theme-preset').value=siteSettings.appearance?.theme||siteSettings.theme||'emerald-gold'; document.getElementById('set-ui-motion').checked=siteSettings.appearance?.motion!==false; document.getElementById('set-smart-overview').checked=siteSettings.features?.smartOverview!==false; document.getElementById('set-visitor-counter').checked=siteSettings.features?.visitorCounter!==false;
 
             const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true };
             document.getElementById('toggle-qibla').checked = !!f.qibla;
@@ -2006,7 +2210,7 @@
             document.getElementById('toggle-quiz').checked = !!f.quiz;
             document.getElementById('toggle-feedback').checked = !!f.feedback;
 
-            window.switchAdminTab('toggles');
+            window.switchAdminTab('overview');
         }
 
         window.switchAdminTab = (tab) => {
@@ -2014,6 +2218,8 @@
             const view = document.getElementById(`view-${tab}`);
             if (view) view.classList.remove('hidden');
             if (tab === 'feedback') window.loadAdminFeedback();
+            if (tab === 'overview') window.loadAdminOverview();
+            applyFullUiTranslation(currentSiteLang, view || document.getElementById('admin-workspace'));
         };
 
         function renderAdminKhutbahList() {
@@ -2028,10 +2234,10 @@
                 btn.className = `text-right flex-1 p-2.5 rounded-lg border transition-all flex flex-col ${k.archived ? 'bg-amber-50 border-amber-200' : 'bg-white border-stone-200 hover:border-brand-500'}`;
                 const title = document.createElement('span');
                 title.className = 'font-bold text-stone-800 text-xs truncate';
-                title.textContent = k.sv?.title || k.ar?.title || id;
+                title.textContent = k[currentSiteLang]?.title || k.sv?.title || k.ar?.title || id;
                 const date = document.createElement('span');
                 date.className = 'text-[10px] text-stone-400';
-                date.textContent = (k.dateAr || '') + (k.archived ? ' • مؤرشفة' : '');
+                date.textContent = (k.dateAr || '') + (k.archived ? ` • ${msg('archivedLabel')}` : '');
                 btn.append(title, date);
                 btn.addEventListener('click', () => window.editKhutbah(id));
                 row.appendChild(btn);
@@ -2039,7 +2245,7 @@
                     const restore = document.createElement('button');
                     restore.type = 'button';
                     restore.className = 'px-2 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200';
-                    restore.title = 'استعادة';
+                    restore.title = STATIC_UI_TRANSLATIONS['استعادة']?.[currentSiteLang] || 'استعادة';
                     restore.innerHTML = '<i data-lucide="archive-restore" class="w-4 h-4"></i>';
                     restore.addEventListener('click', () => window.restoreKhutbah(id));
                     row.appendChild(restore);
@@ -2146,11 +2352,11 @@
                 };
                 await setDoc(doc(db, 'khutbahs', currentKhutbahId), updated, { merge: true });
                 khutbahsDb[currentKhutbahId] = { ...updated, updatedAt: new Date().toISOString() };
-                window.showToast('تم حفظ الخطبة مع الحفاظ على الحقول السابقة.');
+                window.showToast(msg('khutbahSaved'));
                 populateArchiveDropdown();
                 renderAdminKhutbahList();
             } catch (e) {
-                window.showToast('خطأ أثناء حفظ الخطبة: ' + e.message, true);
+                window.showToast(msg('khutbahSaveError') + e.message, true);
             }
         };
 
@@ -2161,12 +2367,12 @@
                     requireAdmin();
                     await setDoc(doc(db, 'khutbahs', currentKhutbahId), { archived: true, archivedAt: serverTimestamp(), archivedBy: adminUser.uid }, { merge: true });
                     khutbahsDb[currentKhutbahId] = { ...khutbahsDb[currentKhutbahId], archived: true, archivedAt: new Date().toISOString() };
-                    window.showToast('تمت أرشفة الخطبة دون حذف بياناتها.');
+                    window.showToast(msg('khutbahArchived'));
                     populateArchiveDropdown();
                     renderAdminKhutbahList();
                     window.switchAdminTab('prayers');
                 } catch(e) {
-                    window.showToast('خطأ بالأرشفة: ' + e.message, true);
+                    window.showToast(msg('khutbahArchiveError') + e.message, true);
                 }
             }
         };
@@ -2178,21 +2384,26 @@
                 khutbahsDb[id] = { ...khutbahsDb[id], archived: false };
                 populateArchiveDropdown();
                 renderAdminKhutbahList();
-                window.showToast('تمت استعادة الخطبة.');
-            } catch(e) { window.showToast('تعذر الاستعادة: ' + e.message, true); }
+                window.showToast(msg('khutbahRestored'));
+            } catch(e) { window.showToast(msg('restoreError') + e.message, true); }
         };
 
         window.saveAllSettings = async () => {
             try { requireAdmin(); } catch(e) { window.showToast(e.message, true); return; }
             siteSettings.mosqueNameAr = document.getElementById('set-mosque-ar').value;
             siteSettings.mosqueNameLat = document.getElementById('set-mosque-lat').value;
+            siteSettings.mosqueNameSo = document.getElementById('set-mosque-so').value;
+            siteSettings.subtitleSv=document.getElementById('set-subtitle-sv').value; siteSettings.subtitleAr=document.getElementById('set-subtitle-ar').value; siteSettings.subtitleSo=document.getElementById('set-subtitle-so').value;
             siteSettings.jumuahTime = document.getElementById('set-jumuah-time').value;
-            siteSettings.footerText = document.getElementById('set-footer-text').value;
+            siteSettings.footerText = document.getElementById('set-footer-text').value; siteSettings.footerTextAr=document.getElementById('set-footer-text-ar').value; siteSettings.footerTextSo=document.getElementById('set-footer-text-so').value;
             siteSettings.jumuahDescAr = document.getElementById('set-jumuah-desc-ar').value;
             siteSettings.jumuahDescSv = document.getElementById('set-jumuah-desc-sv').value;
             siteSettings.jumuahDescSo = document.getElementById('set-jumuah-desc-so').value;
-            siteSettings.announcement = { ...(siteSettings.announcement || {}), enabled: document.getElementById('set-announcement-enabled').checked, text: document.getElementById('set-announcement-text').value };
+            siteSettings.announcement = { ...(siteSettings.announcement || {}), enabled: document.getElementById('set-announcement-enabled').checked, textSv: document.getElementById('set-announcement-sv').value, textAr: document.getElementById('set-announcement-ar').value, textSo: document.getElementById('set-announcement-so').value, text: document.getElementById('set-announcement-sv').value };
             siteSettings.logoUrl = document.getElementById('set-logo-url').value.trim();
+            siteSettings.donationTitle=document.getElementById('set-donation-title-sv').value; siteSettings.donationTitleAr=document.getElementById('set-donation-title-ar').value; siteSettings.donationTitleSo=document.getElementById('set-donation-title-so').value; siteSettings.donationDesc=document.getElementById('set-donation-desc-sv').value; siteSettings.donationDescAr=document.getElementById('set-donation-desc-ar').value; siteSettings.donationDescSo=document.getElementById('set-donation-desc-so').value;
+            siteSettings.contact={address:document.getElementById('set-contact-address').value.trim(),phone:document.getElementById('set-contact-phone').value.trim(),email:document.getElementById('set-contact-email').value.trim()};
+            siteSettings.appearance={...(siteSettings.appearance||{}),theme:document.getElementById('set-theme-preset').value,motion:document.getElementById('set-ui-motion').checked};
 
             siteSettings.features = {
                 ...(siteSettings.features || {}),
@@ -2201,7 +2412,9 @@
                 dhikr: document.getElementById('toggle-dhikr').checked,
                 jumuahBanner: document.getElementById('toggle-jumuah').checked,
                 quiz: document.getElementById('toggle-quiz').checked,
-                feedback: document.getElementById('toggle-feedback').checked
+                feedback: document.getElementById('toggle-feedback').checked,
+                smartOverview: document.getElementById('set-smart-overview').checked,
+                visitorCounter: document.getElementById('set-visitor-counter').checked
             };
 
             const hadithRows = document.querySelectorAll('#admin-hadiths-container > div');
@@ -2221,103 +2434,58 @@
 
             try {
                 siteSettings.contentLibraryVersion = 2;
-                await setDoc(doc(db, "config", "settings"), { ...siteSettings, schemaVersion: APP_SCHEMA_VERSION, contentLibraryVersion: 2, updatedAt: serverTimestamp(), updatedBy: adminUser.uid }, { merge: true });
-                window.showToast("تم حفظ كافة الإعدادات بنجاح!");
+                await setDoc(doc(db, "config", "settings"), { ...siteSettings, schemaVersion: APP_SCHEMA_VERSION, contentLibraryVersion: 3, updatedAt: serverTimestamp(), updatedBy: adminUser.uid }, { merge: true });
+                window.showToast(msg('settingsSaved'));
                 applySettingsToUI();
                 initPrayerTimes();
             } catch (e) {
-                window.showToast("خطأ في الحفظ: " + e.message, true);
+                window.showToast(msg('saveError') + e.message, true);
             }
         };
 
 
-        // Qibla: local bearing works even when Google iframe permissions are restricted.
+        // Qibla v3: geographic bearing + best available device heading. No third-party Qibla iframe.
         const KAABA = { lat: 21.422487, lon: 39.826206 };
         const FAGERSTA_FALLBACK = { lat: 60.0042, lon: 15.7932 };
-        let qiblaBearingDeg = null;
-        let qiblaOrientationHandler = null;
+        let qiblaBearingDeg = null, qiblaHeadingDeg = null, qiblaOrientationHandler = null, qiblaLocationAccuracy = null, qiblaCompassAccuracy = null, qiblaLastVibration = 0;
+        function toRad(d){return d*Math.PI/180} function toDeg(r){return r*180/Math.PI} function norm360(d){return (d%360+360)%360} function signed180(d){return ((d+540)%360)-180}
+        function bearingToKaaba(lat,lon){const p1=toRad(lat),p2=toRad(KAABA.lat),dl=toRad(KAABA.lon-lon);const y=Math.sin(dl)*Math.cos(p2);const x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);return norm360(toDeg(Math.atan2(y,x)));}
+        function distanceKm(lat1,lon1,lat2,lon2){const R=6371.0088,dlat=toRad(lat2-lat1),dlon=toRad(lon2-lon1),a=Math.sin(dlat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dlon/2)**2;return 2*R*Math.asin(Math.sqrt(a));}
+        function qiblaCardinal(deg){const dirs=currentSiteLang==='ar'?['شمال','شمال شرقي','شرق','جنوب شرقي','جنوب','جنوب غربي','غرب','شمال غربي']:currentSiteLang==='so'?['Waqooyi','Waqooyi-bari','Bari','Koonfur-bari','Koonfur','Koonfur-galbeed','Galbeed','Waqooyi-galbeed']:['Norr','Nordost','Öst','Sydost','Syd','Sydväst','Väst','Nordväst'];return dirs[Math.round(norm360(deg)/45)%8];}
+        function renderQiblaPosition(lat,lon,label,accuracy=null){qiblaBearingDeg=bearingToKaaba(lat,lon);qiblaLocationAccuracy=accuracy;const dist=distanceKm(lat,lon,KAABA.lat,KAABA.lon);document.getElementById('qibla-bearing').textContent=`${qiblaBearingDeg.toFixed(1)}°`;document.getElementById('qibla-cardinal').textContent=`${qiblaCardinal(qiblaBearingDeg)} · ${qiblaBearingDeg.toFixed(1)}°`;document.getElementById('qibla-distance').textContent=`${Math.round(dist).toLocaleString(localeForLang(currentSiteLang))} km`;document.getElementById('qibla-location').textContent=label||`${lat.toFixed(4)}, ${lon.toFixed(4)}`;updateQiblaMeters();updateQiblaNeedle();}
+        function getScreenAngle(){return Number(screen.orientation?.angle ?? window.orientation ?? 0)||0;}
+        function headingFromEvent(e){if(typeof e.webkitCompassHeading==='number'&&Number.isFinite(e.webkitCompassHeading)){qiblaCompassAccuracy=typeof e.webkitCompassAccuracy==='number'?Math.abs(e.webkitCompassAccuracy):null;return norm360(e.webkitCompassHeading);}if(e.absolute===true&&typeof e.alpha==='number'&&Number.isFinite(e.alpha)){const base=norm360(360-e.alpha+getScreenAngle());qiblaCompassAccuracy=8;return base;}return null;}
+        function updateQiblaMeters(){const loc=document.getElementById('qibla-location-accuracy'),locM=document.getElementById('qibla-location-meter'),sen=document.getElementById('qibla-sensor-accuracy'),senM=document.getElementById('qibla-sensor-meter');if(loc){if(Number.isFinite(qiblaLocationAccuracy)){loc.textContent=`±${Math.round(qiblaLocationAccuracy)} m`;locM.style.width=`${Math.max(8,Math.min(100,100-qiblaLocationAccuracy/2))}%`;}else{loc.textContent='—';locM.style.width='15%';}}if(sen){if(Number.isFinite(qiblaCompassAccuracy)){const score=Math.max(8,Math.min(100,100-qiblaCompassAccuracy*3));sen.textContent=qiblaCompassAccuracy<=8?t('qiblaExcellent'):qiblaCompassAccuracy<=18?t('qiblaGood'):t('qiblaWeak');senM.style.width=`${score}%`;}else{sen.textContent='—';senM.style.width='12%';}}}
+        function updateQiblaNeedle(){if(qiblaBearingDeg===null)return;const arrow=document.getElementById('qibla-arrow'),headingEl=document.getElementById('qibla-heading'),turnEl=document.getElementById('qibla-turn'),msg=document.getElementById('qibla-alignment-message'),compass=document.getElementById('qibla-compass');if(qiblaHeadingDeg===null){arrow.style.transform=`rotate(${qiblaBearingDeg}deg)`;headingEl.textContent='—';turnEl.textContent=`${qiblaBearingDeg.toFixed(1)}°`;compass.classList.remove('aligned');return;}const delta=signed180(qiblaBearingDeg-qiblaHeadingDeg);arrow.style.transform=`rotate(${delta}deg)`;headingEl.textContent=`${qiblaHeadingDeg.toFixed(1)}°`;const aligned=Math.abs(delta)<=3;compass.classList.toggle('aligned',aligned);if(aligned){turnEl.textContent='✓';msg.textContent=t('qiblaAligned');msg.className='rounded-2xl bg-emerald-500/10 border border-emerald-400/30 p-4 text-xs leading-relaxed text-emerald-200';const now=Date.now();if(navigator.vibrate&&now-qiblaLastVibration>4500){navigator.vibrate(45);qiblaLastVibration=now;}}else{turnEl.textContent=`${delta>0?t('qiblaTurnRight'):t('qiblaTurnLeft')} ${Math.abs(delta).toFixed(0)}°`;msg.textContent=t('qiblaActive');msg.className='rounded-2xl bg-white/5 border border-white/10 p-4 text-xs leading-relaxed text-stone-300';}updateQiblaMeters();}
+        function startQiblaOrientation(){if(qiblaOrientationHandler){window.removeEventListener('deviceorientationabsolute',qiblaOrientationHandler,true);window.removeEventListener('deviceorientation',qiblaOrientationHandler,true);}qiblaOrientationHandler=e=>{const h=headingFromEvent(e);if(h!==null){qiblaHeadingDeg=h;updateQiblaNeedle();}};window.addEventListener('deviceorientationabsolute',qiblaOrientationHandler,true);window.addEventListener('deviceorientation',qiblaOrientationHandler,true);}
+        async function requestOrientationPermission(){try{if(typeof DeviceOrientationEvent!=='undefined'&&typeof DeviceOrientationEvent.requestPermission==='function'){const p=await DeviceOrientationEvent.requestPermission();return p==='granted';}return 'DeviceOrientationEvent' in window;}catch{return false;}}
+        async function getBestPosition(){return new Promise((resolve,reject)=>{if(!navigator.geolocation)return reject(new Error('geolocation unavailable'));navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:12000,maximumAge:60000});});}
+        window.activateQibla=async()=>{const btn=document.getElementById('qibla-activate-btn'),msg=document.getElementById('qibla-alignment-message');btn.disabled=true;btn.classList.add('opacity-70');const permitted=await requestOrientationPermission();let position=null;try{position=await getBestPosition();renderQiblaPosition(position.coords.latitude,position.coords.longitude,`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`,position.coords.accuracy);}catch(e){renderQiblaPosition(FAGERSTA_FALLBACK.lat,FAGERSTA_FALLBACK.lon,currentSiteLang==='ar'?'فاغشتا · موقع احتياطي':currentSiteLang==='so'?'Fagersta · goob kayd ah':'Fagersta · reservplats');msg.textContent=t('qiblaLocationDenied');}if(permitted){startQiblaOrientation();msg.textContent=t('qiblaActive');}else{qiblaHeadingDeg=null;msg.textContent=t('qiblaPermissionDenied');updateQiblaNeedle();}btn.disabled=false;btn.classList.remove('opacity-70');if(typeof lucide!=='undefined')lucide.createIcons();};
+        window.recalibrateQibla=async()=>{qiblaHeadingDeg=null;qiblaCompassAccuracy=null;updateQiblaMeters();document.getElementById('qibla-compass')?.classList.remove('aligned');await window.activateQibla();};
+        window.addEventListener('orientationchange',()=>setTimeout(updateQiblaNeedle,150));
 
-        function toRad(d){ return d * Math.PI / 180; }
-        function toDeg(r){ return r * 180 / Math.PI; }
-        function bearingToKaaba(lat, lon) {
-            const φ1 = toRad(lat), φ2 = toRad(KAABA.lat), Δλ = toRad(KAABA.lon - lon);
-            const y = Math.sin(Δλ) * Math.cos(φ2);
-            const x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
-            return (toDeg(Math.atan2(y,x)) + 360) % 360;
-        }
-        function haversineKm(lat1, lon1, lat2, lon2) {
-            const R=6371.0088, dLat=toRad(lat2-lat1), dLon=toRad(lon2-lon1);
-            const a=Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-            return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-        }
-        function qiblaCardinal(deg) {
-            const labels = currentSiteLang === 'ar' ? ['شمال','شمال شرقي','شرق','جنوب شرقي','جنوب','جنوب غربي','غرب','شمال غربي'] :
-                           currentSiteLang === 'so' ? ['Waqooyi','Waqooyi-bari','Bari','Koonfur-bari','Koonfur','Koonfur-galbeed','Galbeed','Waqooyi-galbeed'] :
-                           ['Norr','Nordost','Öst','Sydost','Syd','Sydväst','Väst','Nordväst'];
-            return labels[Math.round(deg/45)%8];
-        }
-        function renderQiblaPosition(lat, lon, label) {
-            qiblaBearingDeg = bearingToKaaba(lat, lon);
-            const dist = haversineKm(lat, lon, KAABA.lat, KAABA.lon);
-            document.getElementById('qibla-bearing').textContent = `${qiblaBearingDeg.toFixed(1)}°`;
-            document.getElementById('qibla-cardinal').textContent = `${qiblaCardinal(qiblaBearingDeg)} · ${qiblaBearingDeg.toFixed(1)}°`;
-            document.getElementById('qibla-distance').textContent = `${Math.round(dist).toLocaleString()} km`;
-            document.getElementById('qibla-location').textContent = label || `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
-            document.getElementById('qibla-arrow').style.transform = `rotate(${qiblaBearingDeg}deg)`;
-        }
-        function startDeviceOrientation() {
-            if (!('DeviceOrientationEvent' in window)) return false;
-            if (qiblaOrientationHandler) window.removeEventListener('deviceorientationabsolute', qiblaOrientationHandler, true);
-            qiblaOrientationHandler = (e) => {
-                let heading = null;
-                if (typeof e.webkitCompassHeading === 'number') heading = e.webkitCompassHeading;
-                else if (e.absolute === true && typeof e.alpha === 'number') heading = (360 - e.alpha) % 360;
-                if (heading !== null && qiblaBearingDeg !== null) {
-                    document.getElementById('qibla-arrow').style.transform = `rotate(${qiblaBearingDeg - heading}deg)`;
-                }
-            };
-            window.addEventListener('deviceorientationabsolute', qiblaOrientationHandler, true);
-            window.addEventListener('deviceorientation', qiblaOrientationHandler, true);
-            return true;
-        }
-        window.activateQibla = async () => {
-            const status = document.getElementById('qibla-status');
-            const btn = document.getElementById('qibla-activate-btn');
-            btn.disabled = true; btn.classList.add('opacity-70');
-            try {
-                if (!window.isSecureContext && location.hostname !== 'localhost') {
-                    throw new Error(currentSiteLang === 'ar' ? 'الموقع يحتاج HTTPS لاستخدام الموقع الجغرافي.' : currentSiteLang === 'so' ? 'Goobtu waxay u baahan tahay HTTPS si ay u isticmaasho goobtaada.' : 'Webbplatsen behöver HTTPS för geolocation.');
-                }
-                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    try { await DeviceOrientationEvent.requestPermission(); } catch(_) {}
-                }
-                if (!navigator.geolocation) throw new Error('Geolocation API unavailable');
-                status.textContent = currentSiteLang === 'ar' ? 'جارٍ تحديد موقعك وحساب اتجاه الكعبة...' : currentSiteLang === 'so' ? 'Goobtaada ayaa la raadinayaa...' : 'Hämtar din plats och beräknar Qibla...';
-                const pos = await new Promise((resolve,reject)=>navigator.geolocation.getCurrentPosition(resolve,reject,{enableHighAccuracy:true,timeout:12000,maximumAge:300000}));
-                const {latitude,longitude,accuracy}=pos.coords;
-                renderQiblaPosition(latitude,longitude,`${latitude.toFixed(4)}, ${longitude.toFixed(4)} · ±${Math.round(accuracy)} m`);
-                const sensor = startDeviceOrientation();
-                status.className = 'text-xs leading-relaxed qibla-status-ok';
-                status.textContent = currentSiteLang === 'ar'
-                    ? (sensor ? 'تم تحديد القبلة. حرّك الهاتف وسيبقى السهم متجهاً نحو الكعبة.' : 'تم تحديد اتجاه القبلة جغرافياً. جهازك لا يوفّر مستشعر اتجاه متوافقاً، استخدم الدرجة الظاهرة.')
-                    : currentSiteLang === 'so'
-                    ? (sensor ? 'Qiblada waa la helay. Telefoonka dhaqaaji, fallaadhu Kacbada ayay tilmaamaysaa.' : 'Jihada juqraafiyeed waa la helay; qalabku compass la jaanqaadaya ma bixiyo.')
-                    : (sensor ? 'Qibla är klar. När du vrider telefonen fortsätter pilen att peka mot Kaaba.' : 'Geografisk Qibla är beräknad. Enheten saknar kompatibel riktningssensor; använd gradtalet.');
-            } catch(e) {
-                renderQiblaPosition(FAGERSTA_FALLBACK.lat,FAGERSTA_FALLBACK.lon,'Fagersta · fallback');
-                status.className='text-xs leading-relaxed qibla-status-warn';
-                status.textContent = (currentSiteLang === 'ar' ? 'تعذر الحصول على صلاحية الموقع؛ يعرض الآن اتجاه القبلة من فاغشتا. يمكنك السماح بالموقع من إعدادات المتصفح ثم المحاولة مجدداً. ' :
-                                     currentSiteLang === 'so' ? 'Oggolaanshaha goobta lama helin; hadda waxaa la muujinayaa Qiblada Fagersta. ' :
-                                     'Platsbehörighet kunde inte hämtas; Qibla från Fagersta visas nu. ') + (e?.message || '');
-            } finally { btn.disabled=false; btn.classList.remove('opacity-70'); }
-        };
-        window.toggleGoogleQiblaEmbed = () => {
-            const wrap=document.getElementById('google-qibla-embed-wrap'), frame=document.getElementById('google-qibla-frame');
-            const opening=wrap.classList.contains('hidden');
-            wrap.classList.toggle('hidden');
-            if (opening && frame.src === 'about:blank') frame.src='https://qiblafinder.withgoogle.com/';
-        };
 
+        let tafsirVisible=false, deferredInstallPrompt=null;
+        window.toggleCarouselExplanation=()=>{const el=document.getElementById('carousel-tafsir'),btn=document.getElementById('carousel-tafsir-toggle');if(!el||el.dataset.hasContent!=='1')return;tafsirVisible=!tafsirVisible;el.classList.toggle('hidden',!tafsirVisible);btn.querySelector('span').textContent=tafsirVisible?t('hideExplanation'):t('showExplanation');};
+        function updatePrayerProgress(){if(!currentPrayerTimesForProgress)return;const now=swedenWallClockNow(),list=currentPrayerTimesForProgress.prayerList.map(p=>{const[h,m]=p.time.split(':').map(Number);return {...p,min:h*60+m}}),cur=now.getHours()*60+now.getMinutes()+now.getSeconds()/60;let prev=0,next=1440;for(const p of list){if(p.min<=cur)prev=p.min;if(p.min>cur){next=p.min;break;}}if(next===1440&&list.length){next=1440+list[0].min;}let adjusted=cur;if(next>1440&&cur<prev)adjusted+=1440;const pct=Math.max(0,Math.min(100,((adjusted-prev)/(next-prev))*100));const bar=document.getElementById('prayer-day-progress');if(bar)bar.style.width=`${pct}%`;const label=document.getElementById('prayer-progress-label');if(label)label.textContent=`${Math.round(pct)}%`;}
+        function hijriDateString(date=new Date()){const loc=localeForLang(currentSiteLang);try{return new Intl.DateTimeFormat(loc,{calendar:'islamic-umalqura',day:'numeric',month:'long',year:'numeric',timeZone:'Europe/Stockholm'}).format(date);}catch{try{return new Intl.DateTimeFormat(loc+'-u-ca-islamic',{day:'numeric',month:'long',year:'numeric'}).format(date);}catch{return '—';}}}
+        function nextJumuahTarget(){const now=swedenWallClockNow(),parts=String(siteSettings.jumuahTime||'13:00').split(':').map(Number),target=new Date(now);let add=(5-now.getDay()+7)%7;target.setDate(now.getDate()+add);target.setHours(parts[0]||13,parts[1]||0,0,0);if(target<=now){target.setDate(target.getDate()+7);}return target;}
+        function updateSmartOverview(){const clock=document.getElementById('overview-clock');if(!clock)return;const nowReal=new Date(),loc=localeForLang(currentSiteLang);clock.textContent=new Intl.DateTimeFormat(loc,{timeZone:'Europe/Stockholm',hour:'2-digit',minute:'2-digit',second:'2-digit'}).format(nowReal);document.getElementById('overview-gregorian').textContent=new Intl.DateTimeFormat(loc,{timeZone:'Europe/Stockholm',weekday:'short',day:'numeric',month:'short'}).format(nowReal);document.getElementById('overview-hijri').textContent=hijriDateString(nowReal);const ram=document.getElementById('overview-ramadan');try{const month=new Intl.DateTimeFormat('en-u-ca-islamic',{month:'numeric',timeZone:'Europe/Stockholm'}).format(nowReal);ram.classList.toggle('hidden',String(month)!=='9');ram.textContent=t('ramadanLabel');}catch{ram.classList.add('hidden');}const jt=nextJumuahTarget(),diff=Math.max(0,jt-swedenWallClockNow()),days=Math.floor(diff/86400000),hours=Math.floor((diff%86400000)/3600000),mins=Math.floor((diff%3600000)/60000);document.getElementById('overview-jumuah').textContent=new Intl.DateTimeFormat(loc,{weekday:'long',day:'numeric',month:'short'}).format(jt);document.getElementById('overview-jumuah-countdown').textContent=`${days} ${t('days')} · ${hours} ${t('hours')} · ${mins} ${t('minutes')}`;}
+        setInterval(updateSmartOverview,1000);
+        function updateContactSection(){const c=siteSettings.contact||{},sec=document.getElementById('section-contact');if(!sec)return;const has=!!(c.address||c.phone||c.email);sec.classList.toggle('hidden',!has);const a=document.getElementById('contact-address-card'),p=document.getElementById('contact-phone-card'),e=document.getElementById('contact-email-card');a.classList.toggle('hidden',!c.address);p.classList.toggle('hidden',!c.phone);e.classList.toggle('hidden',!c.email);if(c.address){document.getElementById('contact-address').textContent=c.address;a.href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(c.address);}if(c.phone){document.getElementById('contact-phone').textContent=c.phone;p.href='tel:'+c.phone.replace(/\s+/g,'');}if(c.email){document.getElementById('contact-email').textContent=c.email;e.href='mailto:'+c.email;}}
+        window.filterArchive=()=>{populateArchiveDropdown();const sel=document.getElementById('archive-select');if(sel?.options.length){if(!Array.from(sel.options).some(o=>o.value===currentKhutbahId))currentKhutbahId=sel.options[0].value;sel.value=currentKhutbahId;renderKhutbah();}};
+        window.copySwishNumber = async()=>{try{await navigator.clipboard.writeText('123-434 54 43');window.showToast(msg('swishCopied'));}catch{window.showToast('123-434 54 43');}};
+        window.shareSite=async()=>{const data={title:document.title,text:document.getElementById('home-title-main')?.textContent||document.title,url:location.href.split('#')[0]};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(data.url);window.showToast(t('shareSuccess'));}}catch(e){if(e.name!=='AbortError')window.showToast(t('shareError'),true);}};
+        window.shareCurrentKhutbah=async()=>{const k=khutbahsDb[currentKhutbahId],title=k?.[currentLang]?.title||document.title,url=location.href.split('#')[0]+'#khutbah='+encodeURIComponent(currentKhutbahId||'');try{if(navigator.share)await navigator.share({title,text:title,url});else{await navigator.clipboard.writeText(url);window.showToast(t('shareSuccess'));}}catch(e){if(e.name!=='AbortError')window.showToast(t('shareError'),true);}};
+        window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;const b=document.getElementById('install-app-btn');if(b){b.classList.remove('hidden');b.classList.add('flex');}});
+        window.installMosqueApp=async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;document.getElementById('install-app-btn')?.classList.add('hidden');};
+        function applyAccessibilityPrefs(){const scale=Number(localStorage.getItem('fagersta_font_scale')||1);document.documentElement.style.fontSize=`${Math.max(.9,Math.min(1.18,scale))*16}px`;const c=localStorage.getItem('fagersta_contrast')==='1',r=localStorage.getItem('fagersta_reduce_motion')==='1';document.body.classList.toggle('access-contrast',c);document.body.classList.toggle('reduce-motion',r||siteSettings.appearance?.motion===false);const ct=document.getElementById('access-contrast-toggle'),rt=document.getElementById('access-motion-toggle');if(ct)ct.checked=c;if(rt)rt.checked=r;}
+        window.toggleAccessibilityPanel=(force)=>{const p=document.getElementById('accessibility-panel');const open=typeof force==='boolean'?force:p.classList.contains('hidden');p.classList.toggle('hidden',!open);};
+        window.adjustGlobalFont=(d)=>{let v=Number(localStorage.getItem('fagersta_font_scale')||1);v=Math.max(.9,Math.min(1.18,v+d*.05));localStorage.setItem('fagersta_font_scale',String(v));applyAccessibilityPrefs();};
+        window.setAccessibilityPreference=(k,v)=>{localStorage.setItem(k==='contrast'?'fagersta_contrast':'fagersta_reduce_motion',v?'1':'0');applyAccessibilityPrefs();};
+        window.resetAccessibility=()=>{['fagersta_font_scale','fagersta_contrast','fagersta_reduce_motion'].forEach(k=>localStorage.removeItem(k));applyAccessibilityPrefs();};
+
+        // Privacy-friendly visitor counter
         function getVisitorId() {
             let id = localStorage.getItem('fagerstaVisitorId');
             if (!id) {
@@ -2364,7 +2532,7 @@
             if(!file) return;
             try {
                 requireAdmin();
-                status.textContent='جارٍ قراءة الملف والتحقق من المحتوى...';
+                status.textContent=msg('readingFile');
                 let rows=[];
                 const ext=(file.name.split('.').pop()||'').toLowerCase();
                 if (ext==='json') {
@@ -2388,13 +2556,13 @@
                     current.push(item); seen.add(key); added++;
                 }
                 siteSettings.verifiedVerses=current;
-                await setDoc(doc(db,'config','settings'),{verifiedVerses:current,contentLibraryVersion:2,updatedAt:serverTimestamp(),updatedBy:adminUser.uid},{merge:true});
+                await setDoc(doc(db,'config','settings'),{verifiedVerses:current,contentLibraryVersion:3,updatedAt:serverTimestamp(),updatedBy:adminUser.uid},{merge:true});
                 renderAdminHadithsList(); updateVerseCarousel();
                 status.textContent=`تمت إضافة ${added} مادة جديدة. تم تجاهل ${parsed.length-added} مادة مكررة. الإجمالي الآن ${current.length}.`;
-                window.showToast('تم استيراد المحتوى الديني وحفظه في Firestore.');
+                window.showToast(msg('contentImported'));
             } catch(e) {
-                status.textContent='فشل الاستيراد: '+e.message;
-                window.showToast('تعذر استيراد الملف: '+e.message,true);
+                status.textContent=msg('importFailed')+e.message;
+                window.showToast(msg('importFailed')+e.message,true);
             } finally { event.target.value=''; }
         };
 
@@ -2443,7 +2611,7 @@
             const status = document.getElementById('excel-upload-status');
             try {
                 requireAdmin();
-                status.innerText = 'جارٍ قراءة الملف والتحقق من الصفوف...';
+                status.innerText = msg('readingFile');
                 const data = new Uint8Array(await file.arrayBuffer());
                 const workbook = XLSX.read(data, {type: 'array', cellDates: true});
                 const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
@@ -2476,15 +2644,35 @@
                     await batch.commit();
                 }
                 status.innerText = `تم حفظ ${validRows.length} صف فعلياً في Firestore${skipped ? `، وتجاوز ${skipped} صف غير صالح` : ''}.`;
-                window.showToast('تم حفظ مواقيت الصلاة في قاعدة البيانات بنجاح.');
+                window.showToast(msg('prayerImported'));
                 await initPrayerTimes();
             } catch (e) {
                 console.error(e);
-                status.innerText = 'فشل الاستيراد: ' + e.message;
-                window.showToast('فشل استيراد ملف المواقيت: ' + e.message, true);
+                status.innerText = msg('importFailed') + e.message;
+                window.showToast(msg('prayerImportError') + e.message, true);
             } finally {
                 event.target.value = '';
             }
+        };
+
+
+        window.loadAdminOverview = async () => {
+            try {
+                requireAdmin();
+                const countCollection=async name=>{try{return (await getCountFromServer(collection(db,name))).data().count||0}catch{return 0}};
+                const [kh,fb,pt,vi]=await Promise.all(['khutbahs','feedback','prayerTimes','visits'].map(countCollection));
+                document.getElementById('admin-stat-khutbahs').textContent=kh;
+                document.getElementById('admin-stat-content').textContent=(siteSettings.verifiedVerses||[]).length;
+                document.getElementById('admin-stat-feedback').textContent=fb;
+                document.getElementById('admin-stat-prayers').textContent=pt;
+                document.getElementById('admin-stat-visitors').textContent=vi;
+                const missingContent=(siteSettings.verifiedVerses||[]).filter(x=>!x.ar||!x.sv||!x.so||!x.source).length;
+                const missingKh=Object.values(khutbahsDb).filter(k=>!k.archived&&(!k.ar?.title||!k.sv?.title||!k.so?.title)).length;
+                const hc=document.getElementById('admin-health-content');
+                if(!missingContent&&!missingKh){hc.className='health-ok p-3 rounded-xl text-xs';hc.textContent=currentSiteLang==='ar'?'المحتوى الأساسي مكتمل بثلاث لغات ومراجع المصادر موجودة.':currentSiteLang==='so'?'Nuxurka aasaasiga ah wuxuu leeyahay saddex luqadood iyo tixraacyo.':'Grundinnehållet har tre språk och källhänvisningar.';}else{hc.className='health-warn p-3 rounded-xl text-xs';hc.textContent=currentSiteLang==='ar'?`${missingContent} عناصر محتوى و${missingKh} خطب ${msg('healthNeedReview')}.`:currentSiteLang==='so'?`${missingContent} nuxur iyo ${missingKh} khudbadood ${msg('healthNeedReview')}.`:`${missingContent} innehållsposter och ${missingKh} predikningar ${msg('healthNeedReview')}.`;}
+                let next30=0; const now=swedenWallClockNow(); for(let i=0;i<30;i++){const d=new Date(now);d.setDate(now.getDate()+i);try{const snap=await getDoc(doc(db,'prayerTimes',dateKey(d)));if(snap.exists())next30++;}catch{break}}
+                const hp=document.getElementById('admin-health-prayers');hp.className=(next30>=25?'health-ok':'health-warn')+' p-3 rounded-xl text-xs';hp.textContent=currentSiteLang==='ar'?`تتوفر مواقيت رسمية لـ ${next30} يومًا من الأيام الثلاثين القادمة.`:currentSiteLang==='so'?`Waqtiyo rasmi ah ayaa jira ${next30} ka mid ah 30-ka maalmood ee soo socda.`:`Publicerade tider finns för ${next30} av de kommande 30 dagarna.`;
+            } catch(e) { console.error(e); }
         };
 
         window.loadAdminFeedback = async () => {
@@ -2492,34 +2680,34 @@
             if (!container) return;
             try {
                 requireAdmin();
-                container.innerHTML = '<p class="text-xs text-stone-500">جارٍ تحميل الرسائل...</p>';
+                container.innerHTML = `<p class="text-xs text-stone-500">${escapeHtml(msg('loadingMessages'))}</p>`;
                 const snap = await getDocs(collection(db, 'feedback'));
                 const items = [];
                 snap.forEach(d => items.push({ id: d.id, ...d.data() }));
                 items.sort((a,b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
                 container.replaceChildren();
                 if (!items.length) {
-                    const p = document.createElement('p'); p.className = 'text-xs text-stone-500'; p.textContent = 'لا توجد ملاحظات حالياً.'; container.appendChild(p); return;
+                    const p = document.createElement('p'); p.className = 'text-xs text-stone-500'; p.textContent = msg('noMessages'); container.appendChild(p); return;
                 }
                 items.forEach(item => {
                     const card = document.createElement('div'); card.className = 'p-4 bg-stone-50 border border-stone-200 rounded-xl';
                     const top = document.createElement('div'); top.className = 'flex justify-between gap-3 mb-2';
-                    const name = document.createElement('strong'); name.className = 'text-xs'; name.textContent = item.name || 'زائر مجهول';
+                    const name = document.createElement('strong'); name.className = 'text-xs'; name.textContent = item.name || msg('anonymousVisitor');
                     const time = document.createElement('span'); time.className = 'text-[10px] text-stone-400 font-mono'; time.textContent = item.timestamp || '';
                     top.append(name,time);
                     const msg = document.createElement('p'); msg.className = 'text-sm text-stone-700 whitespace-pre-wrap leading-relaxed'; msg.textContent = item.message || '';
-                    const contact = document.createElement('p'); contact.className = 'text-[11px] text-stone-500 mt-2'; contact.textContent = item.contact && item.contact !== '-' ? `التواصل: ${item.contact}` : '';
+                    const contact = document.createElement('p'); contact.className = 'text-[11px] text-stone-500 mt-2'; contact.textContent = item.contact && item.contact !== '-' ? `${msg('contactPrefix')}${item.contact}` : '';
                     card.append(top,msg,contact); container.appendChild(card);
                 });
             } catch(e) {
-                container.innerHTML = `<p class="text-xs text-rose-600">تعذر تحميل الرسائل: ${escapeHtml(e.message)}</p>`;
+                container.innerHTML = `<p class="text-xs text-rose-600">${escapeHtml(msg('feedbackLoadError') + e.message)}</p>`;
             }
         };
 
         window.exportDatabaseBackup = async () => {
             try {
                 requireAdmin();
-                window.showToast('جارٍ تجهيز النسخة الاحتياطية...');
+                window.showToast(msg('backupPreparing'));
                 const backup = { schemaVersion: APP_SCHEMA_VERSION, exportedAt: new Date().toISOString(), projectId: firebaseConfig.projectId, collections: {} };
                 const settingsSnap = await getDoc(doc(db, 'config', 'settings'));
                 backup.collections.config = { settings: settingsSnap.exists() ? settingsSnap.data() : null };
@@ -2537,8 +2725,8 @@
                 const a = document.createElement('a');
                 a.href = url; a.download = `fagersta-moske-backup-${dateKey(swedenWallClockNow())}.json`;
                 document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-                window.showToast('تم تصدير النسخة الاحتياطية.');
-            } catch(e) { window.showToast('تعذر إنشاء النسخة الاحتياطية: ' + e.message, true); }
+                window.showToast(msg('backupExported'));
+            } catch(e) { window.showToast(msg('backupError') + e.message, true); }
         };
 
         function populateYearOptions() {
@@ -2554,14 +2742,19 @@
 
         window.onload = async () => {
             updateConnectivityUI();
+            applyAccessibilityPrefs();
+            initTranslationObserver();
             populateYearOptions();
             const preferredLang = detectPreferredSiteLanguage();
             window.setSiteLanguage(preferredLang);
-            renderQiblaPosition(FAGERSTA_FALLBACK.lat, FAGERSTA_FALLBACK.lon, 'Fagersta · fallback');
+            renderQiblaPosition(FAGERSTA_FALLBACK.lat,FAGERSTA_FALLBACK.lon,'Fagersta · reservplats');
             if(typeof lucide !== 'undefined') lucide.createIcons();
             await initApp();
             window.setSiteLanguage(preferredLang);
             initVisitorCounter();
+            updateSmartOverview();
+            if ('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+            const hash=new URLSearchParams(location.hash.replace(/^#/,'')); const khut=hash.get('khutbah'); if(khut&&khutbahsDb[khut]){window.switchView('archive');window.switchArchive(khut);}
         };
     </script>
 </body>
