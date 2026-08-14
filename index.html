@@ -75,6 +75,11 @@
         .tp-btn.exit { background: #ef4444; }
         .tp-speed { font-size: 0.7rem; font-weight: bold; width: 22px; text-align: center; color: #ccc; }
 
+        .status-dot { width: 8px; height: 8px; border-radius: 9999px; display: inline-block; }
+        .admin-view input:focus, .admin-view textarea:focus, .admin-view select:focus { border-color: var(--brand-500); box-shadow: 0 0 0 3px rgba(16,185,129,.12); }
+        .data-safety-note { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; }
+        .danger-note { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; }
+
         @media print {
             body * { visibility: hidden; }
             #printable-a4-area, #printable-a4-area * { visibility: visible; }
@@ -92,6 +97,7 @@
 
     <div id="progress-bar"></div>
     <div id="toast" class="text-sm">Åtgärden genomfördes framgångsrikt!</div>
+    <div id="offline-banner" class="hidden bg-amber-500 text-amber-950 text-center text-xs font-bold px-4 py-2">الاتصال بالإنترنت غير متاح. سيتم عرض البيانات المحملة فقط ولن يتم الادعاء بحفظ أي تغيير قبل تأكيد Firestore.</div>
 
     <div id="teleprompter-overlay" class="font-arabic" dir="rtl">
         <div id="tp-content"></div>
@@ -455,7 +461,8 @@
                     <div class="p-2 bg-brand-600 text-white rounded-lg"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></div>
                     <h2 class="text-lg font-bold">لوحة تحكم المسؤول (Admin Dashboard)</h2>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2 flex-wrap justify-end">
+                    <button onclick="window.exportDatabaseBackup()" class="px-4 py-2 bg-sky-100 text-sky-800 rounded-lg font-bold hover:bg-sky-200 text-xs flex items-center gap-1.5" title="تصدير نسخة JSON من بيانات التطبيق"><i data-lucide="download" class="w-4 h-4"></i> نسخة احتياطية</button>
                     <button onclick="window.saveAllSettings()" class="px-4 py-2 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 text-xs flex items-center gap-1.5"><i data-lucide="save" class="w-4 h-4"></i> حفظ كافة التغييرات</button>
                     <button onclick="window.performLogout()" class="px-3 py-2 bg-rose-100 text-rose-700 rounded-lg hover:bg-rose-200" title="تسجيل خروج"><i data-lucide="log-out" class="w-4 h-4"></i></button>
                     <button onclick="window.closeModals()" class="px-3 py-2 bg-stone-200 text-stone-700 rounded-lg hover:bg-stone-300"><i data-lucide="x" class="w-4 h-4"></i></button>
@@ -469,6 +476,7 @@
                     <button onclick="window.switchAdminTab('hadiths')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="book-open" class="w-4 h-4 text-brand-600"></i> إدارة الأحاديث والآيات</button>
                     <button onclick="window.switchAdminTab('feedback')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="message-square" class="w-4 h-4 text-brand-600"></i> ملاحظات الزوار للإمام</button>
                     <button onclick="window.switchAdminTab('prayers')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="clock" class="w-4 h-4 text-brand-600"></i> مواقيت الصلاة</button>
+                    <button onclick="window.switchAdminTab('data')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="database-backup" class="w-4 h-4 text-brand-600"></i> سلامة البيانات والنسخ الاحتياطي</button>
                     <div class="h-px bg-stone-200 my-2"></div>
                     <div class="flex justify-between items-center mb-2 px-1">
                         <span class="text-xs font-bold text-stone-400 uppercase">قائمة الخطب</span>
@@ -529,6 +537,17 @@
                                 <label class="block text-xs font-bold text-stone-500 mb-2">نص وصف صلاة الجمعة (بالعربية)</label>
                                 <input type="text" id="set-jumuah-desc-ar" class="w-full p-3 border rounded-xl outline-none text-xs font-bold font-arabic">
                             </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-stone-500 mb-2">إعلان أعلى الموقع</label>
+                                <div class="flex gap-3 items-center">
+                                    <input type="checkbox" id="set-announcement-enabled" class="w-5 h-5 accent-brand-600">
+                                    <input type="text" id="set-announcement-text" class="flex-1 p-3 border rounded-xl outline-none text-xs font-bold" placeholder="نص الإعلان / Meddelande">
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-xs font-bold text-stone-500 mb-2">رابط شعار المسجد (اختياري)</label>
+                                <input type="url" id="set-logo-url" class="w-full p-3 border rounded-xl outline-none text-xs" dir="ltr" placeholder="https://...">
+                            </div>
                         </div>
                     </div>
 
@@ -541,7 +560,10 @@
                     </div>
 
                     <div id="view-feedback" class="admin-view hidden">
-                        <h3 class="text-xl font-bold mb-4 border-b pb-2">ملاحظات ونصائح الزوار الواردة للإمام</h3>
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h3 class="text-xl font-bold">ملاحظات ونصائح الزوار الواردة للإمام</h3>
+                            <button onclick="window.loadAdminFeedback()" class="px-3 py-1.5 bg-stone-100 hover:bg-stone-200 rounded-lg text-xs font-bold flex items-center gap-1"><i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> تحديث</button>
+                        </div>
                         <div id="admin-feedback-list" class="space-y-3">
                             <p class="text-xs text-stone-500">لا توجد ملاحظات جديدة حالياً.</p>
                         </div>
@@ -554,17 +576,34 @@
                             <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden" onchange="window.handleExcelPrayerUpload(event)">
                             <button onclick="document.getElementById('excel-file-input').click()" class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-xs hover:bg-emerald-700 flex items-center gap-2"><i data-lucide="upload" class="w-4 h-4"></i> رفع ملف الأكسل</button>
                             <span id="excel-upload-status" class="text-xs font-bold text-emerald-700 block mt-2"></span>
+                            <p class="text-[11px] text-stone-500 mt-3 leading-relaxed">يتم حفظ الصفوف الصالحة في مجموعة <span class="font-mono">prayerTimes</span> بمفتاح التاريخ YYYY-MM-DD وباستخدام merge، لذلك لا يتم حذف أي حقول قديمة أو غير معروفة.</p>
+                        </div>
+                    </div>
+
+                    <div id="view-data" class="admin-view hidden">
+                        <h3 class="text-xl font-bold mb-4 border-b pb-2">سلامة البيانات والنسخ الاحتياطي</h3>
+                        <div class="space-y-4">
+                            <div class="data-safety-note p-4 rounded-2xl text-xs leading-relaxed">هذه النسخة لا تنفذ حذفاً نهائياً للخطب من لوحة الإدارة. الحذف يتحول إلى أرشفة قابلة للاستعادة، والحفظ يستخدم merge للحفاظ على الحقول الإضافية الموجودة في Firestore.</div>
+                            <div class="p-4 bg-stone-50 border rounded-2xl">
+                                <h4 class="font-bold mb-2 text-sm">تصدير نسخة JSON</h4>
+                                <p class="text-xs text-stone-500 mb-3">يشمل config/settings و khutbahs و feedback و prayerTimes إذا سمحت قواعد Firestore للمستخدم الإداري بقراءتها.</p>
+                                <button onclick="window.exportDatabaseBackup()" class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> تنزيل النسخة الاحتياطية الآن</button>
+                            </div>
+                            <div class="danger-note p-4 rounded-2xl text-xs leading-relaxed">ملاحظة أمنية: تسجيل الدخول في الواجهة ليس بديلاً عن Firestore Security Rules. الملف المرفق مع هذه النسخة يتضمن قالب قواعد مقترحاً، لكنه غير مطبق تلقائياً حتى لا يتسبب في قفل قاعدة بياناتك الحالية.</div>
                         </div>
                     </div>
 
                     <div id="view-editor" class="admin-view hidden">
                         <div class="flex justify-between items-center mb-6 border-b pb-2">
                             <h3 class="text-xl font-bold text-brand-700">تعديل أو إضافة خطبة</h3>
-                            <button onclick="window.deleteCurrentKhutbah()" class="text-rose-600 text-xs font-bold flex items-center gap-1 hover:bg-rose-50 px-3 py-1 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i> حذف</button>
+                            <button onclick="window.deleteCurrentKhutbah()" class="text-amber-700 text-xs font-bold flex items-center gap-1 hover:bg-amber-50 px-3 py-1 rounded-lg"><i data-lucide="archive" class="w-4 h-4"></i> أرشفة</button>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div><label class="block text-xs font-bold text-stone-500 mb-1">المعرف (ID)</label><input type="text" id="edit-id" readonly class="w-full p-2 border rounded-lg bg-stone-100 text-stone-500 text-xs" dir="ltr"></div>
-                            <div><label class="block text-xs font-bold text-stone-500 mb-1">عنوان الخطبة</label><input type="text" id="edit-title-sv" class="w-full p-2 border rounded-lg text-xs outline-none font-bold"></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">وصف التاريخ / التصنيف</label><input type="text" id="edit-date-label" class="w-full p-2 border rounded-lg text-xs outline-none font-bold"></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">العنوان السويدي</label><input type="text" id="edit-title-sv" class="w-full p-2 border rounded-lg text-xs outline-none font-bold"></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">العنوان العربي</label><input type="text" id="edit-title-ar" class="w-full p-2 border rounded-lg text-xs outline-none font-bold font-arabic" dir="rtl"></div>
+                            <div class="col-span-2"><label class="block text-xs font-bold text-stone-500 mb-1">العنوان الصومالي</label><input type="text" id="edit-title-so" class="w-full p-2 border rounded-lg text-xs outline-none font-bold"></div>
                         </div>
                         <div class="space-y-4">
                             <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى HTML (السويدية)</label><textarea id="edit-html-sv" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="ltr"></textarea></div>
@@ -578,10 +617,11 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.2.6/dist/purify.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, getDoc, addDoc, serverTimestamp, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC9A9oO6KS8hT-yEBoMSkG99obaqixa4xY",
@@ -738,6 +778,72 @@
             document.getElementById('dhikr-progress').style.width = `${((currentDhikrStep) / POST_PRAYER_STEPS.length) * 100}%`;
         }
 
+        const APP_SCHEMA_VERSION = 2;
+        const PRAYER_KEYS = ['fajr', 'shurooq', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        let currentPrayerTarget = null;
+        let countdownIntervalId = null;
+
+        function escapeHtml(value = '') {
+            return String(value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+        }
+
+        function sanitizeRichHtml(value = '') {
+            if (window.DOMPurify) {
+                return window.DOMPurify.sanitize(String(value), {
+                    ALLOWED_TAGS: ['p','br','strong','b','em','i','u','span','div','blockquote','ul','ol','li','h2','h3','h4','hr','a'],
+                    ALLOWED_ATTR: ['href','target','rel','class','dir','lang']
+                });
+            }
+            return escapeHtml(value).replace(/\n/g, '<br>');
+        }
+
+        function requireAdmin() {
+            if (!adminUser) throw new Error('يلزم تسجيل دخول المسؤول لإجراء هذا التغيير.');
+            return adminUser;
+        }
+
+        function swedenWallClockNow() {
+            return new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Stockholm' }));
+        }
+
+        function dateKey(date) {
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function fallbackPrayerTimes(date) {
+            const month = date.getMonth();
+            let base = { fajr: '03:30', shurooq: '05:10', dhuhr: '13:10', asr: '17:15', maghrib: '21:10', isha: '22:40' };
+            if (month >= 10 || month <= 1) base = { fajr: '05:45', shurooq: '08:15', dhuhr: '11:50', asr: '13:40', maghrib: '15:20', isha: '17:10' };
+            const offsets = siteSettings.offsets || {};
+            return Object.fromEntries(PRAYER_KEYS.map(key => [key, applyOffset(base[key], offsets[key])]));
+        }
+
+        async function loadPrayerTimesForDate(date) {
+            const key = dateKey(date);
+            try {
+                const snap = await getDoc(doc(db, 'prayerTimes', key));
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const valid = PRAYER_KEYS.every(k => /^\d{2}:\d{2}$/.test(String(data[k] || '')));
+                    if (valid) return { ...fallbackPrayerTimes(date), ...data, _source: 'firestore' };
+                }
+            } catch (e) {
+                console.warn('Prayer time lookup failed:', e);
+            }
+            return { ...fallbackPrayerTimes(date), _source: 'fallback' };
+        }
+
+        function updateConnectivityUI() {
+            const banner = document.getElementById('offline-banner');
+            if (!banner) return;
+            banner.classList.toggle('hidden', navigator.onLine);
+        }
+        window.addEventListener('online', updateConnectivityUI);
+        window.addEventListener('offline', updateConnectivityUI);
+
         window.submitVisitorFeedback = async () => {
             const name = document.getElementById('feedback-name').value;
             const contact = document.getElementById('feedback-contact').value;
@@ -750,18 +856,20 @@
 
             try {
                 await addDoc(collection(db, "feedback"), {
-                    name: name || "زائر مجهول",
-                    contact: contact || "-",
-                    message: message,
-                    timestamp: new Date().toISOString()
+                    name: (name || "زائر مجهول").trim(),
+                    contact: (contact || "-").trim(),
+                    message: message.trim(),
+                    timestamp: new Date().toISOString(),
+                    createdAt: serverTimestamp(),
+                    status: "new"
                 });
                 window.showToast("تم إرسال ملاحظتك بنجاح للإمام!");
                 document.getElementById('feedback-name').value = '';
                 document.getElementById('feedback-contact').value = '';
                 document.getElementById('feedback-message').value = '';
             } catch(e) {
-                window.showToast("تم الحفظ محلياً وتم إرسال الملاحظة بنجاح!");
-                document.getElementById('feedback-message').value = '';
+                console.error(e);
+                window.showToast("تعذر إرسال الملاحظة. لم يتم حذف النص، حاول مرة أخرى عند عودة الاتصال.", true);
             }
         };
 
@@ -772,6 +880,9 @@
             offsets: { fajr: 0, shurooq: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 },
             jumuahTime: "13:00",
             footerText: "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.",
+            jumuahDescAr: "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.",
+            announcement: { enabled: false, text: "" },
+            logoUrl: "",
             donationTitle: "Ge en Gåva / Sadaqa via Swish",
             donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
             features: { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true },
@@ -807,7 +918,16 @@
         async function initApp() {
             try {
                 const setDocSnap = await getDoc(doc(db, "config", "settings"));
-                if (setDocSnap.exists()) siteSettings = { ...siteSettings, ...setDocSnap.data() };
+                if (setDocSnap.exists()) {
+                    const remote = setDocSnap.data();
+                    siteSettings = {
+                        ...siteSettings,
+                        ...remote,
+                        offsets: { ...(siteSettings.offsets || {}), ...(remote.offsets || {}) },
+                        features: { ...(siteSettings.features || {}), ...(remote.features || {}) },
+                        announcement: { ...(siteSettings.announcement || {}), ...(remote.announcement || {}) }
+                    };
+                }
                 applySettingsToUI();
 
                 const querySnapshot = await getDocs(collection(db, "khutbahs"));
@@ -815,10 +935,8 @@
                 querySnapshot.forEach((doc) => { khutbahsDb[doc.id] = doc.data(); });
 
                 if (Object.keys(khutbahsDb).length === 0) {
+                    // عرض أمثلة محلية فقط. لا نكتب إلى قاعدة البيانات أثناء عملية القراءة/التهيئة.
                     khutbahsDb = JSON.parse(JSON.stringify(ALL_PRESEEDED_KHUTBAHS));
-                    for (const [key, val] of Object.entries(khutbahsDb)) {
-                        await setDoc(doc(db, "khutbahs", key), val);
-                    }
                 }
 
                 populateArchiveDropdown();
@@ -880,6 +998,28 @@
             document.getElementById('footer-custom-text').innerText = siteSettings.footerText || "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.";
             document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || "Ge en Gåva / Sadaqa via Swish";
             document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.";
+            document.getElementById('jumuah-desc-text').innerText = siteSettings.jumuahDescAr || "تقام الخطبة والصلاة كل يوم جمعة بالسويدية والعربية.";
+
+            const ann = siteSettings.announcement || {};
+            const annContainer = document.getElementById('announcement-ticker-container');
+            if (ann.enabled && ann.text) {
+                document.getElementById('announcement-text-content').innerText = ann.text;
+                annContainer.classList.remove('hidden');
+            } else {
+                annContainer.classList.add('hidden');
+            }
+
+            const logo = document.getElementById('custom-mosque-logo-img');
+            const defaultIcon = document.getElementById('default-logo-icon');
+            if (siteSettings.logoUrl && /^https?:\/\//i.test(siteSettings.logoUrl)) {
+                logo.src = siteSettings.logoUrl;
+                logo.classList.remove('hidden');
+                defaultIcon.classList.add('hidden');
+            } else {
+                logo.removeAttribute('src');
+                logo.classList.add('hidden');
+                defaultIcon.classList.remove('hidden');
+            }
 
             const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true };
             document.getElementById('section-qibla').style.display = f.qibla ? 'block' : 'none';
@@ -902,73 +1042,78 @@
             if(viewName === 'home') document.getElementById('view-home').classList.remove('hidden');
             else if(viewName === 'archive') {
                 document.getElementById('view-archive').classList.remove('hidden');
-                const keys = Object.keys(khutbahsDb);
+                const keys = Object.keys(khutbahsDb).filter(key => !khutbahsDb[key]?.archived);
                 if(keys.length > 0 && !currentKhutbahId) window.switchArchive(keys[0]);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        function initPrayerTimes() {
-            const now = new Date();
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        async function initPrayerTimes() {
+            const now = swedenWallClockNow();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'Europe/Stockholm' };
             const langLocales = { sv: 'sv-SE', ar: 'ar-SE', so: 'so-SE' };
-            document.getElementById('current-date-str').innerText = now.toLocaleDateString(langLocales[currentSiteLang] || 'sv-SE', options);
+            document.getElementById('current-date-str').innerText = new Date().toLocaleDateString(langLocales[currentSiteLang] || 'sv-SE', options);
 
-            const isDST = isSwedenDST(now);
-            document.getElementById('header-dst-badge').innerText = isDST ? 'CEST (+2 UTC)' : 'CET (+1 UTC)';
+            const tzName = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Stockholm', timeZoneName: 'short' }).formatToParts(new Date()).find(p => p.type === 'timeZoneName')?.value || 'Europe/Stockholm';
+            document.getElementById('header-dst-badge').innerText = tzName;
 
-            const month = now.getMonth();
-            let baseTimes = { fajr: "03:30", shurooq: "05:10", dhuhr: "13:10", asr: "17:15", maghrib: "21:10", isha: "22:40" };
-            if (month >= 10 || month <= 1) {
-                baseTimes = { fajr: "05:45", shurooq: "08:15", dhuhr: "11:50", asr: "13:40", maghrib: "15:20", isha: "17:10" };
-            }
-
-            const offsets = siteSettings.offsets || {};
-            const times = {
-                fajr: applyOffset(baseTimes.fajr, offsets.fajr),
-                shurooq: applyOffset(baseTimes.shurooq, offsets.shurooq),
-                dhuhr: applyOffset(baseTimes.dhuhr, offsets.dhuhr),
-                asr: applyOffset(baseTimes.asr, offsets.asr),
-                maghrib: applyOffset(baseTimes.maghrib, offsets.maghrib),
-                isha: applyOffset(baseTimes.isha, offsets.isha)
-            };
-
+            const times = await loadPrayerTimesForDate(now);
+            const tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
+            const tomorrowTimes = await loadPrayerTimesForDate(tomorrow);
             const dict = I18N[currentSiteLang] || I18N.sv;
             const grid = document.getElementById('prayer-times-grid');
-            
-            const currentTimeStr = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-            const prayerList = [
-                { key: 'fajr', name: dict.fajr, time: times.fajr },
-                { key: 'shurooq', name: dict.shurooq, time: times.shurooq },
-                { key: 'dhuhr', name: dict.dhuhr, time: times.dhuhr },
-                { key: 'asr', name: dict.asr, time: times.asr },
-                { key: 'maghrib', name: dict.maghrib, time: times.maghrib },
-                { key: 'isha', name: dict.isha, time: times.isha }
-            ];
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-            let nextPrayer = prayerList[0];
-            for (let p of prayerList) {
-                if (p.time > currentTimeStr) {
+            const prayerList = PRAYER_KEYS.map(key => ({ key, name: dict[key], time: times[key] }));
+            let nextPrayer = null;
+            let target = null;
+            for (const p of prayerList) {
+                const [h, m] = p.time.split(':').map(Number);
+                if ((h * 60 + m) > currentMinutes) {
                     nextPrayer = p;
+                    target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0, 0);
                     break;
                 }
             }
-
+            if (!nextPrayer) {
+                nextPrayer = { key: 'fajr', name: dict.fajr, time: tomorrowTimes.fajr };
+                const [h, m] = tomorrowTimes.fajr.split(':').map(Number);
+                target = new Date(tomorrow.getFullYear(), tomorrow.getMonth(), tomorrow.getDate(), h, m, 0, 0);
+            }
+            currentPrayerTarget = target;
             document.getElementById('next-prayer-name').innerText = nextPrayer.name;
 
             grid.innerHTML = prayerList.map(p => {
                 const isNext = p.key === nextPrayer.key;
-                const cardClass = isNext 
-                    ? 'bg-brand-600 text-white shadow-lg ring-2 ring-brand-400 scale-[1.02]' 
-                    : 'bg-white/90 text-stone-800 border border-stone-200/80';
+                const cardClass = isNext ? 'bg-brand-600 text-white shadow-lg ring-2 ring-brand-400 scale-[1.02]' : 'bg-white/90 text-stone-800 border border-stone-200/80';
                 const labelClass = isNext ? 'text-brand-100' : 'text-stone-400';
-                return `<div class="${cardClass} p-4 rounded-2xl text-center transition-all duration-300">
-                    <span class="block text-xs font-bold ${labelClass} mb-1">${p.name}</span>
-                    <span class="text-xl font-extrabold">${p.time}</span>
-                </div>`;
+                return `<div class="${cardClass} p-4 rounded-2xl text-center transition-all duration-300"><span class="block text-xs font-bold ${labelClass} mb-1">${escapeHtml(p.name)}</span><span class="text-xl font-extrabold">${escapeHtml(p.time)}</span></div>`;
             }).join('');
 
+            startPrayerCountdown();
             if(typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        function startPrayerCountdown() {
+            if (countdownIntervalId) clearInterval(countdownIntervalId);
+            const tick = () => {
+                if (!currentPrayerTarget) return;
+                const now = swedenWallClockNow();
+                let diff = currentPrayerTarget.getTime() - now.getTime();
+                if (diff <= 0) {
+                    document.getElementById('countdown-timer').innerText = '00:00:00';
+                    clearInterval(countdownIntervalId);
+                    setTimeout(() => initPrayerTimes(), 1000);
+                    return;
+                }
+                const h = Math.floor(diff / 3600000);
+                diff %= 3600000;
+                const m = Math.floor(diff / 60000);
+                const s = Math.floor((diff % 60000) / 1000);
+                document.getElementById('countdown-timer').innerText = [h,m,s].map(v => String(v).padStart(2,'0')).join(':');
+            };
+            tick();
+            countdownIntervalId = setInterval(tick, 1000);
         }
 
         function isSwedenDST(d) {
@@ -1033,34 +1178,26 @@
             document.getElementById('monthly-modal').classList.add('active');
         };
 
-        window.renderMonthlyA4Table = () => {
+        window.renderMonthlyA4Table = async () => {
             const m = parseInt(document.getElementById('monthly-select-month').value);
             const y = parseInt(document.getElementById('monthly-select-year').value);
             const monthNames = ["Januari", "Februari", "Mars", "April", "Maj", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"];
-            
             document.getElementById('a4-month-year-str').innerText = `${monthNames[m]} ${y}`;
             const daysInMonth = new Date(y, m + 1, 0).getDate();
             const tbody = document.getElementById('a4-table-body');
-            tbody.innerHTML = '';
+            tbody.innerHTML = '<tr><td colspan="7" class="p-4 text-stone-500">Laddar bönetider...</td></tr>';
 
-            for (let day = 1; day <= daysInMonth; day++) {
+            const rows = await Promise.all(Array.from({length: daysInMonth}, async (_, i) => {
+                const day = i + 1;
                 const dateObj = new Date(y, m, day);
-                const dayStr = String(day).padStart(2, '0');
+                const times = await loadPrayerTimesForDate(dateObj);
+                return { day, dateObj, times };
+            }));
+            tbody.innerHTML = rows.map(({day, dateObj, times}) => {
                 const isFriday = dateObj.getDay() === 5;
                 const rowClass = isFriday ? 'bg-amber-100 font-bold' : (day % 2 === 0 ? 'bg-stone-50' : 'bg-white');
-
-                tbody.innerHTML += `
-                    <tr class="${rowClass}">
-                        <td class="p-1.5 border">${dayStr}/${String(m+1).padStart(2,'0')}</td>
-                        <td class="p-1.5 border">03:20</td>
-                        <td class="p-1.5 border">05:00</td>
-                        <td class="p-1.5 border">13:07</td>
-                        <td class="p-1.5 border">17:15</td>
-                        <td class="p-1.5 border">21:10</td>
-                        <td class="p-1.5 border">22:30</td>
-                    </tr>
-                `;
-            }
+                return `<tr class="${rowClass}"><td class="p-1.5 border">${String(day).padStart(2,'0')}/${String(m+1).padStart(2,'0')}</td>${PRAYER_KEYS.map(k => `<td class="p-1.5 border">${escapeHtml(times[k])}</td>`).join('')}</tr>`;
+            }).join('');
         };
 
         window.printA4Sheet = () => { window.print(); };
@@ -1068,7 +1205,7 @@
         function populateArchiveDropdown() {
             const select = document.getElementById('archive-select');
             select.innerHTML = '';
-            Object.keys(khutbahsDb).forEach(key => {
+            Object.keys(khutbahsDb).filter(key => !khutbahsDb[key]?.archived).forEach(key => {
                 const k = khutbahsDb[key];
                 const titleText = k[currentLang]?.title || k.sv?.title || k.ar?.title || key;
                 const opt = document.createElement('option');
@@ -1108,9 +1245,9 @@
 
             document.getElementById('khutbah-header').innerHTML = `
                 <div class="khutbah-meta inline-flex items-center gap-2 px-3 py-1 bg-brand-100 text-brand-800 rounded-full text-xs font-bold mb-4 mt-2 border border-brand-200">
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span>${siteSettings.mosqueNameLat}</span>
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span>${escapeHtml(siteSettings.mosqueNameLat)}</span>
                 </div>
-                <h2 class="text-2xl md:text-4xl font-extrabold text-stone-900 leading-tight mb-2 ${fontClass}">${data.title}</h2>
+                <h2 class="text-2xl md:text-4xl font-extrabold text-stone-900 leading-tight mb-2 ${fontClass}">${escapeHtml(data.title)}</h2>
                 <div class="khutbah-meta h-1 w-24 bg-brand-600 mx-auto rounded-full mt-4"></div>
             `;
 
@@ -1118,9 +1255,9 @@
                 const baseClass = `transition-all duration-300 ${fontClass} readable-text`;
                 const styleAttr = `style="font-size: ${currentFontSize}px;"`;
                 if (section.type === 'verse') {
-                    return `<div class="${baseClass} bg-brand-50 border-r-4 border-l-4 border-brand-500 p-6 text-center font-bold text-brand-900 rounded-xl shadow-sm my-6" style="font-size: ${currentFontSize + 3}px;">${section.content}</div>`;
+                    return `<div class="${baseClass} bg-brand-50 border-r-4 border-l-4 border-brand-500 p-6 text-center font-bold text-brand-900 rounded-xl shadow-sm my-6" style="font-size: ${currentFontSize + 3}px;">${sanitizeRichHtml(section.content)}</div>`;
                 } else {
-                    return `<div class="${baseClass} bg-white p-6 rounded-2xl shadow-sm border border-stone-100 text-stone-700 my-4" ${styleAttr}>${section.content}</div>`;
+                    return `<div class="${baseClass} bg-white p-6 rounded-2xl shadow-sm border border-stone-100 text-stone-700 my-4" ${styleAttr}>${sanitizeRichHtml(section.content)}</div>`;
                 }
             }).join('');
 
@@ -1147,8 +1284,8 @@
             if(!currentKhutbahId || !khutbahsDb[currentKhutbahId]) return;
             const data = khutbahsDb[currentKhutbahId][currentLang];
             const tpContent = document.getElementById('tp-content');
-            tpContent.innerHTML = `<h1 class="text-4xl font-bold text-center mb-16 text-emerald-400">${data.title}</h1>`;
-            (data.sections || []).forEach(sec => { tpContent.innerHTML += `<div class="tp-text">${sec.content}</div>`; });
+            tpContent.innerHTML = `<h1 class="text-4xl font-bold text-center mb-16 text-emerald-400">${escapeHtml(data.title)}</h1>`;
+            (data.sections || []).forEach(sec => { tpContent.innerHTML += `<div class="tp-text">${sanitizeRichHtml(sec.content)}</div>`; });
 
             const overlay = document.getElementById('teleprompter-overlay');
             overlay.classList.add('active');
@@ -1206,6 +1343,7 @@
         window.performLogout = async () => { await signOut(auth); window.closeModals(); window.showToast("تم تسجيل الخروج"); };
 
         function openDashboard() {
+            if (!adminUser) { document.getElementById('login-modal').classList.add('active'); return; }
             document.getElementById('dashboard-modal').classList.add('active');
             renderAdminKhutbahList();
             renderAdminHadithsList();
@@ -1214,6 +1352,10 @@
             document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat || '';
             document.getElementById('set-jumuah-time').value = siteSettings.jumuahTime || '13:00';
             document.getElementById('set-footer-text').value = siteSettings.footerText || '';
+            document.getElementById('set-jumuah-desc-ar').value = siteSettings.jumuahDescAr || '';
+            document.getElementById('set-announcement-enabled').checked = !!siteSettings.announcement?.enabled;
+            document.getElementById('set-announcement-text').value = siteSettings.announcement?.text || '';
+            document.getElementById('set-logo-url').value = siteSettings.logoUrl || '';
 
             const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true };
             document.getElementById('toggle-qibla').checked = !!f.qibla;
@@ -1228,21 +1370,42 @@
 
         window.switchAdminTab = (tab) => {
             document.querySelectorAll('.admin-view').forEach(v => v.classList.add('hidden'));
-            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            const view = document.getElementById(`view-${tab}`);
+            if (view) view.classList.remove('hidden');
+            if (tab === 'feedback') window.loadAdminFeedback();
         };
 
         function renderAdminKhutbahList() {
             const list = document.getElementById('admin-khutbah-list');
-            list.innerHTML = '';
-            Object.keys(khutbahsDb).forEach(id => {
+            list.replaceChildren();
+            Object.keys(khutbahsDb).sort().forEach(id => {
                 const k = khutbahsDb[id];
-                list.innerHTML += `
-                    <button onclick="window.editKhutbah('${id}')" class="text-right w-full p-2.5 rounded-lg bg-white border border-stone-200 hover:border-brand-500 transition-all flex flex-col">
-                        <span class="font-bold text-stone-800 text-xs truncate">${k.sv?.title || k.ar?.title || id}</span>
-                        <span class="text-[10px] text-stone-400">${k.dateAr || ''}</span>
-                    </button>
-                `;
+                const row = document.createElement('div');
+                row.className = 'flex gap-1 items-stretch';
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `text-right flex-1 p-2.5 rounded-lg border transition-all flex flex-col ${k.archived ? 'bg-amber-50 border-amber-200' : 'bg-white border-stone-200 hover:border-brand-500'}`;
+                const title = document.createElement('span');
+                title.className = 'font-bold text-stone-800 text-xs truncate';
+                title.textContent = k.sv?.title || k.ar?.title || id;
+                const date = document.createElement('span');
+                date.className = 'text-[10px] text-stone-400';
+                date.textContent = (k.dateAr || '') + (k.archived ? ' • مؤرشفة' : '');
+                btn.append(title, date);
+                btn.addEventListener('click', () => window.editKhutbah(id));
+                row.appendChild(btn);
+                if (k.archived) {
+                    const restore = document.createElement('button');
+                    restore.type = 'button';
+                    restore.className = 'px-2 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200';
+                    restore.title = 'استعادة';
+                    restore.innerHTML = '<i data-lucide="archive-restore" class="w-4 h-4"></i>';
+                    restore.addEventListener('click', () => window.restoreKhutbah(id));
+                    row.appendChild(restore);
+                }
+                list.appendChild(row);
             });
+            if(typeof lucide !== 'undefined') lucide.createIcons();
         }
 
         function renderAdminHadithsList() {
@@ -1251,9 +1414,9 @@
             container.innerHTML = list.map((item, index) => `
                 <div class="p-4 bg-stone-50 border rounded-xl space-y-2 relative" data-hadith-index="${index}">
                     <button onclick="window.removeHadithRow(${index})" class="absolute top-3 left-3 text-rose-500 hover:text-rose-700 text-xs font-bold"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
-                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (العربية)</label><input type="text" value="${item.ar}" class="hadith-ar w-full p-2 border rounded-lg text-xs font-arabic" dir="rtl"></div>
-                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (السويدية)</label><input type="text" value="${item.sv}" class="hadith-sv w-full p-2 border rounded-lg text-xs"></div>
-                    <div><label class="block text-[10px] font-bold text-stone-500">المصدر (Source)</label><input type="text" value="${item.source}" class="hadith-source w-full p-2 border rounded-lg text-xs font-mono" dir="ltr"></div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (العربية)</label><input type="text" value="${escapeHtml(item.ar)}" class="hadith-ar w-full p-2 border rounded-lg text-xs font-arabic" dir="rtl"></div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (السويدية)</label><input type="text" value="${escapeHtml(item.sv)}" class="hadith-sv w-full p-2 border rounded-lg text-xs"></div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">المصدر (Source)</label><input type="text" value="${escapeHtml(item.source)}" class="hadith-source w-full p-2 border rounded-lg text-xs font-mono" dir="ltr"></div>
                 </div>
             `).join('');
             if(typeof lucide !== 'undefined') lucide.createIcons();
@@ -1286,7 +1449,10 @@
             currentKhutbahId = id;
             const k = khutbahsDb[id];
             document.getElementById('edit-id').value = id;
+            document.getElementById('edit-date-label').value = k.dateAr || '';
             document.getElementById('edit-title-sv').value = k.sv?.title || '';
+            document.getElementById('edit-title-ar').value = k.ar?.title || '';
+            document.getElementById('edit-title-so').value = k.so?.title || '';
             document.getElementById('edit-html-sv').value = JSON.stringify(k.sv?.sections || []);
             document.getElementById('edit-html-ar').value = JSON.stringify(k.ar?.sections || []);
             document.getElementById('edit-html-so').value = JSON.stringify(k.so?.sections || []);
@@ -1296,50 +1462,78 @@
         window.saveCurrentKhutbahEdits = async () => {
             if(!currentKhutbahId) return;
             try {
-                const title = document.getElementById('edit-title-sv').value;
-                let svSecs, arSecs, soSecs;
-                try { svSecs = JSON.parse(document.getElementById('edit-html-sv').value); } catch(e) { svSecs = [{type:"text", content: document.getElementById('edit-html-sv').value}]; }
-                try { arSecs = JSON.parse(document.getElementById('edit-html-ar').value); } catch(e) { arSecs = [{type:"text", content: document.getElementById('edit-html-ar').value}]; }
-                try { soSecs = JSON.parse(document.getElementById('edit-html-so').value); } catch(e) { soSecs = [{type:"text", content: document.getElementById('edit-html-so').value}]; }
-
-                khutbahsDb[currentKhutbahId] = {
-                    dateAr: "محدثة",
-                    sv: { title: title, sections: svSecs },
-                    ar: { title: title, sections: arSecs },
-                    so: { title: title, sections: soSecs }
+                requireAdmin();
+                const existing = khutbahsDb[currentKhutbahId] || {};
+                const parseSections = (id) => {
+                    const raw = document.getElementById(id).value;
+                    try {
+                        const parsed = JSON.parse(raw);
+                        if (!Array.isArray(parsed)) throw new Error('Sections must be an array');
+                        return parsed.map(s => ({ ...s, type: s?.type === 'verse' ? 'verse' : 'text', content: String(s?.content ?? '') }));
+                    } catch(e) {
+                        return [{ type: 'text', content: raw }];
+                    }
                 };
-
-                await setDoc(doc(db, "khutbahs", currentKhutbahId), khutbahsDb[currentKhutbahId]);
-                window.showToast("تم حفظ الخطبة بنجاح!");
+                const updated = {
+                    ...existing,
+                    dateAr: document.getElementById('edit-date-label').value || existing.dateAr || '',
+                    archived: false,
+                    sv: { ...(existing.sv || {}), title: document.getElementById('edit-title-sv').value || existing.sv?.title || '', sections: parseSections('edit-html-sv') },
+                    ar: { ...(existing.ar || {}), title: document.getElementById('edit-title-ar').value || existing.ar?.title || '', sections: parseSections('edit-html-ar') },
+                    so: { ...(existing.so || {}), title: document.getElementById('edit-title-so').value || existing.so?.title || '', sections: parseSections('edit-html-so') },
+                    updatedAt: serverTimestamp(),
+                    updatedBy: adminUser.uid
+                };
+                await setDoc(doc(db, 'khutbahs', currentKhutbahId), updated, { merge: true });
+                khutbahsDb[currentKhutbahId] = { ...updated, updatedAt: new Date().toISOString() };
+                window.showToast('تم حفظ الخطبة مع الحفاظ على الحقول السابقة.');
                 populateArchiveDropdown();
                 renderAdminKhutbahList();
             } catch (e) {
-                window.showToast("خطأ أثناء حفظ الخطبة: " + e.message, true);
+                window.showToast('خطأ أثناء حفظ الخطبة: ' + e.message, true);
             }
         };
 
         window.deleteCurrentKhutbah = async () => {
             if(!currentKhutbahId) return;
-            if(confirm("هل أنت متأكد من حذف هذه الخطبة؟")) {
+            if(confirm('سيتم أرشفة الخطبة وإخفاؤها عن الزوار، مع بقائها في Firestore وقابليتها للاستعادة. متابعة؟')) {
                 try {
-                    await deleteDoc(doc(db, "khutbahs", currentKhutbahId));
-                    delete khutbahsDb[currentKhutbahId];
-                    window.showToast("تم حذف الخطبة");
+                    requireAdmin();
+                    await setDoc(doc(db, 'khutbahs', currentKhutbahId), { archived: true, archivedAt: serverTimestamp(), archivedBy: adminUser.uid }, { merge: true });
+                    khutbahsDb[currentKhutbahId] = { ...khutbahsDb[currentKhutbahId], archived: true, archivedAt: new Date().toISOString() };
+                    window.showToast('تمت أرشفة الخطبة دون حذف بياناتها.');
+                    populateArchiveDropdown();
                     renderAdminKhutbahList();
                     window.switchAdminTab('prayers');
                 } catch(e) {
-                    window.showToast("خطأ بالحذف: " + e.message, true);
+                    window.showToast('خطأ بالأرشفة: ' + e.message, true);
                 }
             }
         };
 
+        window.restoreKhutbah = async (id) => {
+            try {
+                requireAdmin();
+                await setDoc(doc(db, 'khutbahs', id), { archived: false, restoredAt: serverTimestamp(), restoredBy: adminUser.uid }, { merge: true });
+                khutbahsDb[id] = { ...khutbahsDb[id], archived: false };
+                populateArchiveDropdown();
+                renderAdminKhutbahList();
+                window.showToast('تمت استعادة الخطبة.');
+            } catch(e) { window.showToast('تعذر الاستعادة: ' + e.message, true); }
+        };
+
         window.saveAllSettings = async () => {
+            try { requireAdmin(); } catch(e) { window.showToast(e.message, true); return; }
             siteSettings.mosqueNameAr = document.getElementById('set-mosque-ar').value;
             siteSettings.mosqueNameLat = document.getElementById('set-mosque-lat').value;
             siteSettings.jumuahTime = document.getElementById('set-jumuah-time').value;
             siteSettings.footerText = document.getElementById('set-footer-text').value;
+            siteSettings.jumuahDescAr = document.getElementById('set-jumuah-desc-ar').value;
+            siteSettings.announcement = { ...(siteSettings.announcement || {}), enabled: document.getElementById('set-announcement-enabled').checked, text: document.getElementById('set-announcement-text').value };
+            siteSettings.logoUrl = document.getElementById('set-logo-url').value.trim();
 
             siteSettings.features = {
+                ...(siteSettings.features || {}),
                 qibla: document.getElementById('toggle-qibla').checked,
                 donations: document.getElementById('toggle-donations').checked,
                 dhikr: document.getElementById('toggle-dhikr').checked,
@@ -1354,12 +1548,14 @@
                 const ar = row.querySelector('.hadith-ar').value;
                 const sv = row.querySelector('.hadith-sv').value;
                 const source = row.querySelector('.hadith-source').value;
-                newHadiths.push({ ar, sv, source, so: sv });
+                const idx = newHadiths.length;
+                const old = siteSettings.verifiedVerses?.[idx] || {};
+                newHadiths.push({ ...old, ar, sv, source, so: old.so || sv });
             });
             if(newHadiths.length > 0) siteSettings.verifiedVerses = newHadiths;
 
             try {
-                await setDoc(doc(db, "config", "settings"), siteSettings);
+                await setDoc(doc(db, "config", "settings"), { ...siteSettings, schemaVersion: APP_SCHEMA_VERSION, updatedAt: serverTimestamp(), updatedBy: adminUser.uid }, { merge: true });
                 window.showToast("تم حفظ كافة الإعدادات بنجاح!");
                 applySettingsToUI();
                 initPrayerTimes();
@@ -1368,22 +1564,163 @@
             }
         };
 
-        window.handleExcelPrayerUpload = (event) => {
+        function normalizeHeader(s) {
+            return String(s || '').trim().toLowerCase().replace(/[\s_\-()./]+/g, '').replace(/[åä]/g,'a').replace(/ö/g,'o');
+        }
+        function rowValue(row, aliases) {
+            const entries = Object.entries(row);
+            for (const alias of aliases) {
+                const target = normalizeHeader(alias);
+                const hit = entries.find(([k]) => normalizeHeader(k) === target);
+                if (hit) return hit[1];
+            }
+            return '';
+        }
+        function normalizeExcelTime(v) {
+            if (v === null || v === undefined || v === '') return null;
+            if (typeof v === 'number') {
+                const total = Math.round((v % 1) * 24 * 60);
+                return `${String(Math.floor(total / 60) % 24).padStart(2,'0')}:${String(total % 60).padStart(2,'0')}`;
+            }
+            const s = String(v).trim().replace('.', ':');
+            const m = s.match(/^(\d{1,2}):(\d{2})/);
+            if (!m) return null;
+            const hh = Number(m[1]), mm = Number(m[2]);
+            if (hh > 23 || mm > 59) return null;
+            return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
+        }
+        function normalizeExcelDate(v) {
+            if (v instanceof Date && !Number.isNaN(v.getTime())) return dateKey(v);
+            if (typeof v === 'number' && window.XLSX?.SSF?.parse_date_code) {
+                const d = XLSX.SSF.parse_date_code(v);
+                if (d) return `${String(d.y).padStart(4,'0')}-${String(d.m).padStart(2,'0')}-${String(d.d).padStart(2,'0')}`;
+            }
+            const s = String(v || '').trim();
+            let m = s.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})$/);
+            if (m) return `${m[1]}-${m[2].padStart(2,'0')}-${m[3].padStart(2,'0')}`;
+            m = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})$/);
+            if (m) return `${m[3]}-${m[2].padStart(2,'0')}-${m[1].padStart(2,'0')}`;
+            return null;
+        }
+
+        window.handleExcelPrayerUpload = async (event) => {
             const file = event.target.files[0];
             if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, {type: 'array'});
+            const status = document.getElementById('excel-upload-status');
+            try {
+                requireAdmin();
+                status.innerText = 'جارٍ قراءة الملف والتحقق من الصفوف...';
+                const data = new Uint8Array(await file.arrayBuffer());
+                const workbook = XLSX.read(data, {type: 'array', cellDates: true});
                 const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                const jsonData = XLSX.utils.sheet_to_json(firstSheet);
-                document.getElementById('excel-upload-status').innerText = `✅ تم قراءة وتحليل ${jsonData.length} صف من مواقيت الصلاة بنجاح!`;
-                window.showToast("تم تحديث جدول الأكسل بنجاح!");
-            };
-            reader.readAsArrayBuffer(file);
+                const jsonData = XLSX.utils.sheet_to_json(firstSheet, { defval: '', raw: true });
+                const aliases = {
+                    date: ['date','datum','تاريخ','التاريخ'],
+                    fajr: ['fajr','الفجر'],
+                    shurooq: ['shurooq','shuruq','sunrise','soluppgang','soluppg','الشروق'],
+                    dhuhr: ['dhuhr','zuhr','dhur','الظهر'],
+                    asr: ['asr','العصر'],
+                    maghrib: ['maghrib','المغرب'],
+                    isha: ['isha','isha\'a','العشاء']
+                };
+                const validRows = [];
+                let skipped = 0;
+                for (const row of jsonData) {
+                    const date = normalizeExcelDate(rowValue(row, aliases.date));
+                    const times = Object.fromEntries(PRAYER_KEYS.map(k => [k, normalizeExcelTime(rowValue(row, aliases[k]))]));
+                    if (!date || PRAYER_KEYS.some(k => !times[k])) { skipped++; continue; }
+                    validRows.push({ date, ...times });
+                }
+                if (!validRows.length) throw new Error('لم أجد صفوفاً صالحة. يجب أن يحتوي الملف على تاريخ ومواقيت Fajr/Sunrise/Dhuhr/Asr/Maghrib/Isha.');
+
+                for (let i = 0; i < validRows.length; i += 450) {
+                    const batch = writeBatch(db);
+                    validRows.slice(i, i + 450).forEach(row => {
+                        const ref = doc(db, 'prayerTimes', row.date);
+                        batch.set(ref, { ...row, source: 'excel', updatedAt: serverTimestamp(), updatedBy: adminUser.uid }, { merge: true });
+                    });
+                    await batch.commit();
+                }
+                status.innerText = `تم حفظ ${validRows.length} صف فعلياً في Firestore${skipped ? `، وتجاوز ${skipped} صف غير صالح` : ''}.`;
+                window.showToast('تم حفظ مواقيت الصلاة في قاعدة البيانات بنجاح.');
+                await initPrayerTimes();
+            } catch (e) {
+                console.error(e);
+                status.innerText = 'فشل الاستيراد: ' + e.message;
+                window.showToast('فشل استيراد ملف المواقيت: ' + e.message, true);
+            } finally {
+                event.target.value = '';
+            }
         };
 
+        window.loadAdminFeedback = async () => {
+            const container = document.getElementById('admin-feedback-list');
+            if (!container) return;
+            try {
+                requireAdmin();
+                container.innerHTML = '<p class="text-xs text-stone-500">جارٍ تحميل الرسائل...</p>';
+                const snap = await getDocs(collection(db, 'feedback'));
+                const items = [];
+                snap.forEach(d => items.push({ id: d.id, ...d.data() }));
+                items.sort((a,b) => String(b.timestamp || '').localeCompare(String(a.timestamp || '')));
+                container.replaceChildren();
+                if (!items.length) {
+                    const p = document.createElement('p'); p.className = 'text-xs text-stone-500'; p.textContent = 'لا توجد ملاحظات حالياً.'; container.appendChild(p); return;
+                }
+                items.forEach(item => {
+                    const card = document.createElement('div'); card.className = 'p-4 bg-stone-50 border border-stone-200 rounded-xl';
+                    const top = document.createElement('div'); top.className = 'flex justify-between gap-3 mb-2';
+                    const name = document.createElement('strong'); name.className = 'text-xs'; name.textContent = item.name || 'زائر مجهول';
+                    const time = document.createElement('span'); time.className = 'text-[10px] text-stone-400 font-mono'; time.textContent = item.timestamp || '';
+                    top.append(name,time);
+                    const msg = document.createElement('p'); msg.className = 'text-sm text-stone-700 whitespace-pre-wrap leading-relaxed'; msg.textContent = item.message || '';
+                    const contact = document.createElement('p'); contact.className = 'text-[11px] text-stone-500 mt-2'; contact.textContent = item.contact && item.contact !== '-' ? `التواصل: ${item.contact}` : '';
+                    card.append(top,msg,contact); container.appendChild(card);
+                });
+            } catch(e) {
+                container.innerHTML = `<p class="text-xs text-rose-600">تعذر تحميل الرسائل: ${escapeHtml(e.message)}</p>`;
+            }
+        };
+
+        window.exportDatabaseBackup = async () => {
+            try {
+                requireAdmin();
+                window.showToast('جارٍ تجهيز النسخة الاحتياطية...');
+                const backup = { schemaVersion: APP_SCHEMA_VERSION, exportedAt: new Date().toISOString(), projectId: firebaseConfig.projectId, collections: {} };
+                const settingsSnap = await getDoc(doc(db, 'config', 'settings'));
+                backup.collections.config = { settings: settingsSnap.exists() ? settingsSnap.data() : null };
+                for (const name of ['khutbahs','feedback','prayerTimes']) {
+                    const snap = await getDocs(collection(db, name));
+                    backup.collections[name] = {};
+                    snap.forEach(d => { backup.collections[name][d.id] = d.data(); });
+                }
+                const json = JSON.stringify(backup, (key, value) => {
+                    if (value && typeof value.toDate === 'function') return { __firestoreTimestamp: value.toDate().toISOString() };
+                    return value;
+                }, 2);
+                const blob = new Blob([json], {type:'application/json'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url; a.download = `fagersta-moske-backup-${dateKey(swedenWallClockNow())}.json`;
+                document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+                window.showToast('تم تصدير النسخة الاحتياطية.');
+            } catch(e) { window.showToast('تعذر إنشاء النسخة الاحتياطية: ' + e.message, true); }
+        };
+
+        function populateYearOptions() {
+            const sel = document.getElementById('monthly-select-year');
+            if (!sel) return;
+            const current = swedenWallClockNow().getFullYear();
+            const selected = Number(sel.value) || current;
+            sel.replaceChildren();
+            for (let y = current - 2; y <= current + 8; y++) {
+                const opt = document.createElement('option'); opt.value = y; opt.textContent = y; if (y === selected || (selected < current-2 || selected > current+8) && y === current) opt.selected = true; sel.appendChild(opt);
+            }
+        }
+
         window.onload = () => {
+            updateConnectivityUI();
+            populateYearOptions();
             if(typeof lucide !== 'undefined') lucide.createIcons();
             initApp();
             window.setSiteLanguage('sv');
