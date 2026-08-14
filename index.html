@@ -8,7 +8,897 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-…        // ==========================================
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: 'var(--brand-50)',
+                            100: 'var(--brand-100)',
+                            200: 'var(--brand-200)',
+                            300: 'var(--brand-300)',
+                            400: 'var(--brand-400)',
+                            500: 'var(--brand-500)',
+                            600: 'var(--brand-600)',
+                            700: 'var(--brand-700)',
+                            800: 'var(--brand-800)',
+                            900: 'var(--brand-900)',
+                            950: 'var(--brand-950)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Color Themes Variables */
+        :root {
+            /* Default Emerald Theme */
+            --brand-50: #ecfdf5; --brand-100: #d1fae5; --brand-200: #a7f3d0; --brand-300: #6ee7b7; --brand-400: #34d399; 
+            --brand-500: #10b981; --brand-600: #059669; --brand-700: #047857; --brand-800: #065f46; --brand-900: #064e3b; --brand-950: #022c22;
+        }
+
+        .theme-blue {
+            --brand-50: #eff6ff; --brand-100: #dbeafe; --brand-200: #bfdbfe; --brand-300: #93c5fd; --brand-400: #60a5fa; 
+            --brand-500: #3b82f6; --brand-600: #2563eb; --brand-700: #1d4ed8; --brand-800: #1e40af; --brand-900: #1e3a8a; --brand-950: #172554;
+        }
+
+        .theme-amber {
+            --brand-50: #fffbeb; --brand-100: #fef3c7; --brand-200: #fde68a; --brand-300: #fcd34d; --brand-400: #fbbf24; 
+            --brand-500: #f59e0b; --brand-600: #d97706; --brand-700: #b45309; --brand-800: #92400e; --brand-900: #78350f; --brand-950: #451a03;
+        }
+
+        /* Custom Font Definitions */
+        .font-arabic { font-family: 'Amiri', serif; }
+        .font-ui { font-family: 'Cairo', sans-serif; }
+        .font-latin { font-family: 'Inter', sans-serif; }
+        
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f4; }
+        ::-webkit-scrollbar-thumb { background: var(--brand-600); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--brand-700); }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-up { animation: fadeUp 0.6s ease-out forwards; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade { animation: fadeIn 0.3s ease-out forwards; }
+
+        /* Glassmorphism */
+        .glass-header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        /* Reading Progress Bar */
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 4px;
+            background: linear-gradient(to right, var(--brand-400), var(--brand-600));
+            z-index: 100; width: 0%; transition: width 0.1s;
+        }
+
+        .readable-text { line-height: 2.2; letter-spacing: 0.2px; }
+
+        /* Focus Mode / Zen Mode */
+        body.zen-mode header, body.zen-mode footer, body.zen-mode .date-banner, body.zen-mode .khutbah-meta { display: none !important; }
+        body.zen-mode { background-color: #ffffff !important; }
+        body.zen-mode .readable-text { color: #000000 !important; }
+        
+        /* Loading Overlay */
+        #loading-overlay {
+            position: fixed; inset: 0; background: white; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .spinner {
+            border: 4px solid var(--brand-100); border-left-color: var(--brand-600);
+            border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Admin Panel Overlay */
+        .admin-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            z-index: 99999; display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .admin-modal.active { opacity: 1; pointer-events: auto; }
+        .admin-content {
+            background: white; width: 95%; max-width: 1000px; max-height: 90vh; overflow-y: auto;
+            border-radius: 1rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            transform: scale(0.95); transition: transform 0.3s;
+        }
+        .admin-modal.active .admin-content { transform: scale(1); }
+
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 transition-colors duration-300 overflow-x-hidden pb-24">
+
+    <div id="loading-overlay">
+        <div class="spinner mb-4"></div>
+        <h2 class="font-ui text-brand-800 font-bold text-xl">جاري تحميل المنصة...</h2>
+    </div>
+
+    <!-- Reading Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- UPDATE DATE BANNER -->
+    <div id="date-banner" class="date-banner bg-stone-900 text-brand-400 py-2.5 text-center text-sm tracking-wider font-bold font-ui shadow-md">
+        <!-- Date injected here -->
+    </div>
+
+    <header class="glass-header sticky top-0 z-30 shadow-sm border-b border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                
+                <!-- Logo & Mosque Name -->
+                <div class="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start">
+                    <div class="bg-brand-600 text-white p-3 rounded-2xl shadow-lg shadow-brand-200 hover:scale-105 transition-transform">
+                        <i data-lucide="book-open" class="w-8 h-8"></i>
+                    </div>
+                    <div class="flex flex-col text-center md:text-right">
+                        <h1 id="ui-mosque-name-ar" class="text-2xl font-bold text-brand-950 leading-tight font-ui">مسجد فاغشتا</h1>
+                        <span id="ui-mosque-name-lat" class="text-sm text-brand-600 font-bold tracking-wider font-latin uppercase">Fagersta Mosken</span>
+                    </div>
+                </div>
+
+                <!-- Archive Dropdown & Font Controls -->
+                <div class="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
+                    
+                    <div class="relative w-full md:w-64">
+                        <select id="archive-select" onchange="window.switchArchive(this.value)" class="w-full bg-white border border-brand-300 text-brand-800 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 block px-4 py-3 cursor-pointer font-ui font-bold shadow-sm outline-none transition-all hover:border-brand-400">
+                            <option>جاري تحميل الأرشيف...</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center bg-white rounded-xl px-2 py-1.5 shadow-sm border border-stone-200 w-full md:w-auto justify-center">
+                        <button onclick="window.changeFontSize(-2)" class="p-2 bg-stone-100 hover:bg-stone-200 text-brand-700 rounded-lg transition-colors active:scale-95" title="تصغير الخط">
+                            <i data-lucide="minus" class="w-4 h-4"></i>
+                        </button>
+                        <span class="px-3 font-bold text-stone-400 text-xs select-none uppercase tracking-widest font-latin">Size</span>
+                        <button onclick="window.changeFontSize(2)" class="p-2 bg-stone-100 hover:bg-stone-200 text-brand-700 rounded-lg transition-colors active:scale-95" title="تكبير الخط">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LANGUAGE SELECTOR -->
+        <div class="bg-stone-100 border-t border-stone-200">
+            <div class="max-w-4xl mx-auto p-2 md:p-3">
+                <div class="grid grid-cols-3 gap-2 md:gap-4">
+                    <button onclick="window.switchLang('ar')" id="btn-ar" class="lang-btn flex flex-col md:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-base md:text-lg font-bold transition-all duration-300 font-ui border-2 border-transparent">
+                        <span class="text-2xl">🇸🇦</span><span>العربية</span>
+                    </button>
+                    <button onclick="window.switchLang('sv')" id="btn-sv" class="lang-btn flex flex-col md:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-base md:text-lg font-bold transition-all duration-300 font-latin border-2 border-transparent">
+                        <span class="text-2xl">🇸🇪</span><span>Svenska</span>
+                    </button>
+                    <button onclick="window.switchLang('so')" id="btn-so" class="lang-btn flex flex-col md:flex-row items-center justify-center gap-2 py-3 px-2 rounded-xl text-base md:text-lg font-bold transition-all duration-300 font-latin border-2 border-transparent">
+                        <span class="text-2xl">🇸🇴</span><span>Soomaali</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 min-h-screen relative">
+        <div id="khutbah-header" class="text-center mb-10 animate-up"></div>
+        <div id="khutbah-content" class="space-y-6"></div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-stone-900 text-stone-400 py-12 mt-12 relative">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="flex justify-center items-center gap-2 mb-4">
+                <i data-lucide="map-pin" class="w-6 h-6 text-brand-500"></i>
+                <h3 id="footer-mosque-lat" class="text-white font-bold text-xl font-latin uppercase tracking-widest">Fagersta Mosken</h3>
+            </div>
+            <p id="footer-mosque-ar" class="text-sm opacity-60 mb-6 font-ui text-lg">مسجد فاغشتا - السويد</p>
+            <div class="h-px w-24 bg-stone-700 mx-auto mb-6"></div>
+            
+            <button onclick="window.openAdminLogin()" class="text-xs font-latin opacity-50 hover:opacity-100 transition-opacity flex items-center justify-center gap-2 mx-auto">
+                <i data-lucide="lock" class="w-3 h-3"></i> Admin Panel
+            </button>
+        </div>
+    </footer>
+
+    <!-- IMAM TOOLS (FAB) -->
+    <div id="imam-tools" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3" dir="ltr">
+        <div id="imam-tools-menu" class="flex flex-col gap-2 scale-0 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right">
+            <button onclick="window.toggleAutoScroll()" id="btn-autoscroll" class="flex items-center gap-3 bg-white text-stone-700 px-4 py-3 rounded-full shadow-lg border border-stone-100 hover:bg-brand-50 hover:text-brand-600 transition-colors font-bold font-ui">
+                <span class="text-sm">تلقين آلي</span><i data-lucide="chevrons-down" class="w-5 h-5"></i>
+            </button>
+            <button onclick="window.toggleZenMode()" id="btn-zen" class="flex items-center gap-3 bg-white text-stone-700 px-4 py-3 rounded-full shadow-lg border border-stone-100 hover:bg-amber-50 hover:text-amber-600 transition-colors font-bold font-ui">
+                <span class="text-sm">وضع التركيز</span><i data-lucide="focus" class="w-5 h-5"></i>
+            </button>
+            <button onclick="window.print()" class="flex items-center gap-3 bg-white text-stone-700 px-4 py-3 rounded-full shadow-lg border border-stone-100 hover:bg-sky-50 hover:text-sky-600 transition-colors font-bold font-ui">
+                <span class="text-sm">طباعة</span><i data-lucide="printer" class="w-5 h-5"></i>
+            </button>
+        </div>
+        <button onclick="window.toggleImamTools()" id="fab-main" class="bg-stone-900 text-white p-4 rounded-full shadow-2xl hover:bg-brand-600 hover:scale-110 transition-all duration-300 flex items-center justify-center">
+            <i data-lucide="settings-2" class="w-6 h-6"></i>
+        </button>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="login-modal" class="admin-modal font-ui" dir="rtl">
+        <div class="admin-content max-w-sm p-8 text-center relative">
+            <button onclick="window.closeModals()" class="absolute top-4 left-4 text-stone-400 hover:text-stone-700"><i data-lucide="x"></i></button>
+            <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="shield-check" class="w-8 h-8"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-stone-800 mb-6">تسجيل الدخول للإدارة</h2>
+            <input type="email" id="admin-email" placeholder="البريد الإلكتروني" class="w-full px-4 py-3 rounded-xl border border-stone-200 mb-4 text-left focus:border-brand-500 outline-none" dir="ltr">
+            <input type="password" id="admin-pass" placeholder="كلمة المرور" class="w-full px-4 py-3 rounded-xl border border-stone-200 mb-6 text-left focus:border-brand-500 outline-none" dir="ltr">
+            <button onclick="window.performLogin()" class="w-full bg-brand-600 text-white font-bold py-3 rounded-xl hover:bg-brand-700 transition-colors">دخول</button>
+            <p id="login-error" class="text-red-500 text-sm mt-4 hidden"></p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD MODAL -->
+    <div id="dashboard-modal" class="admin-modal font-ui" dir="rtl">
+        <div class="admin-content flex flex-col h-[85vh]">
+            <!-- Header -->
+            <div class="p-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 rounded-t-xl">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-brand-600 text-white rounded-lg"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></div>
+                    <h2 class="text-xl font-bold">لوحة التحكم الذكية</h2>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.saveAllSettings()" class="px-4 py-2 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 text-sm flex items-center gap-2"><i data-lucide="save" class="w-4 h-4"></i> حفظ التغييرات</button>
+                    <button onclick="window.performLogout()" class="px-4 py-2 bg-rose-100 text-rose-700 rounded-lg font-bold hover:bg-rose-200 text-sm"><i data-lucide="log-out" class="w-4 h-4"></i></button>
+                    <button onclick="window.closeModals()" class="px-3 py-2 bg-stone-200 text-stone-700 rounded-lg hover:bg-stone-300"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+
+            <div class="flex flex-1 overflow-hidden">
+                <!-- Sidebar -->
+                <div class="w-1/4 bg-stone-100 border-l border-stone-200 p-4 flex flex-col gap-2 overflow-y-auto">
+                    <button onclick="window.switchAdminTab('settings')" class="admin-tab-btn flex items-center gap-3 p-3 rounded-xl font-bold text-stone-600 hover:bg-white active-tab"><i data-lucide="settings"></i> إعدادات الموقع</button>
+                    <div class="h-px bg-stone-200 my-2"></div>
+                    <div class="flex justify-between items-center mb-2 px-2">
+                        <span class="text-sm font-bold text-stone-400">أرشيف الخطب</span>
+                        <button onclick="window.addNewKhutbah()" class="text-brand-600 hover:bg-brand-100 p-1 rounded"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                    </div>
+                    <div id="admin-khutbah-list" class="flex flex-col gap-2">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- Main Editor Area -->
+                <div class="w-3/4 p-6 overflow-y-auto bg-white" id="admin-workspace">
+                    
+                    <!-- Settings View -->
+                    <div id="view-settings" class="admin-view">
+                        <h3 class="text-2xl font-bold mb-6 border-b pb-2">إعدادات الموقع</h3>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-stone-500 mb-2">اسم المسجد (عربي)</label>
+                                <input type="text" id="set-mosque-ar" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-stone-500 mb-2">اسم المسجد (لاتيني)</label>
+                                <input type="text" id="set-mosque-lat" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none" dir="ltr">
+                            </div>
+                            <div class="col-span-2">
+                                <label class="block text-sm font-bold text-stone-500 mb-2">لون الموقع (Theme)</label>
+                                <div class="flex gap-4">
+                                    <button onclick="window.setTheme('emerald')" class="w-12 h-12 rounded-full bg-emerald-600 border-4 border-white shadow-md ring-2 ring-transparent focus:ring-emerald-400"></button>
+                                    <button onclick="window.setTheme('blue')" class="w-12 h-12 rounded-full bg-blue-600 border-4 border-white shadow-md ring-2 ring-transparent focus:ring-blue-400"></button>
+                                    <button onclick="window.setTheme('amber')" class="w-12 h-12 rounded-full bg-amber-500 border-4 border-white shadow-md ring-2 ring-transparent focus:ring-amber-400"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Khutbah Editor View -->
+                    <div id="view-editor" class="admin-view hidden">
+                        <div class="flex justify-between items-center mb-6 border-b pb-2">
+                            <h3 class="text-2xl font-bold text-brand-700">محرر الخطبة الذكي</h3>
+                            <button onclick="window.deleteCurrentKhutbah()" class="text-rose-600 text-sm font-bold flex items-center gap-1 hover:bg-rose-50 px-3 py-1 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i> حذف الخطبة</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-bold text-stone-500 mb-1">المعرف (ID)</label>
+                                <input type="text" id="edit-id" readonly class="w-full p-2 border rounded-lg bg-stone-100 text-stone-500 text-sm" dir="ltr">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-stone-500 mb-1">تاريخ الخطبة (عربي)</label>
+                                <input type="text" id="edit-date" placeholder="الجمعة 01-05-2026" class="w-full p-2 border rounded-lg focus:border-brand-500 outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Language Tabs -->
+                        <div class="flex border-b border-stone-200 mb-4 gap-2">
+                            <button onclick="window.switchEditorLang('ar')" id="tab-edit-ar" class="px-6 py-2 font-bold rounded-t-lg bg-stone-200">عربي</button>
+                            <button onclick="window.switchEditorLang('sv')" id="tab-edit-sv" class="px-6 py-2 font-bold rounded-t-lg text-stone-500 hover:bg-stone-100">Svenska</button>
+                            <button onclick="window.switchEditorLang('so')" id="tab-edit-so" class="px-6 py-2 font-bold rounded-t-lg text-stone-500 hover:bg-stone-100">Soomaali</button>
+                        </div>
+
+                        <!-- Editor Fields -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-bold text-stone-500 mb-1">عنوان الخطبة</label>
+                            <input type="text" id="edit-title" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none text-lg font-bold">
+                        </div>
+
+                        <!-- SMART PARSER -->
+                        <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-6">
+                            <h4 class="font-bold text-indigo-800 mb-2 flex items-center gap-2"><i data-lucide="wand-2" class="w-5 h-5"></i> المحلل الذكي (Smart Parser)</h4>
+                            <p class="text-xs text-indigo-600 mb-3">انسخ نص الخطبة من الوورد أو PDF والصقه هنا. سيقوم الذكاء الاصطناعي بتفكيكه إلى فقرات، وتحديد الآيات والأحاديث والأدعية تلقائياً!</p>
+                            <textarea id="smart-text" rows="4" class="w-full p-3 border border-indigo-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-400 text-sm mb-2" placeholder="الصق النص الكامل هنا..."></textarea>
+                            <button onclick="window.parseSmartText()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4"></i> تحليل وتفكيك النص</button>
+                        </div>
+
+                        <!-- Sections Builder -->
+                        <div class="mb-2 flex justify-between items-center">
+                            <h4 class="font-bold text-stone-700">فقرات الخطبة (Blocks)</h4>
+                            <button onclick="window.addEmptyBlock()" class="text-sm bg-stone-100 text-stone-600 px-3 py-1 rounded hover:bg-stone-200">+ إضافة فقرة فارغة</button>
+                        </div>
+                        
+                        <div id="editor-blocks" class="space-y-3">
+                            <!-- Blocks populated by JS -->
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+        // ==========================================
+        // 1. FIREBASE CONFIGURATION (من حسابك)
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyC9A9oO6KS8hT-yEBoMSkG99obaqixa4xY",
+            authDomain: "fagerstakhutba.firebaseapp.com",
+            projectId: "fagerstakhutba",
+            storageBucket: "fagerstakhutba.firebasestorage.app",
+            messagingSenderId: "195379803213",
+            appId: "1:195379803213:web:c459ba012f5c74a99c1804",
+            measurementId: "G-X6SKKZ4M2G"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // ==========================================
+        // 2. STATE & DEFAULT DATA
+        // ==========================================
+        let khutbahsDb = {};
+        let siteSettings = {
+            mosqueNameAr: "مسجد فاغشتا",
+            mosqueNameLat: "Fagersta Mosken",
+            theme: "emerald"
+        };
+        
+        let currentKhutbahId = null;
+        let currentLang = 'ar';
+        let currentFontSize = 18;
+        
+        // Admin State
+        let adminUser = null;
+        let editingId = null;
+        let editLang = 'ar';
+        let editingData = null; 
+
+        // Backup Data if DB is empty
+        const FALLBACK_ARCHIVE = {
+            "khutbah_demo": {
+                dateAr: "الجمعة (خطبة تجريبية)",
+                ar: {
+                    title: "مرحباً بك في نظام الأرشيف الذكي",
+                    dir: "rtl", fontClass: "font-arabic",
+                    sections: [
+                        { type: "intro", content: "بسم الله الرحمن الرحيم. هذا النظام يعتمد على قاعدة بيانات فايربيس." },
+                        { type: "text", content: "للبدء، انزل لأسفل الصفحة واضغط على 'Admin Panel' لتسجيل الدخول." },
+                        { type: "highlight", title: "ملاحظة هامة", content: "تأكد من تفعيل Authentication وإعداد قواعد Firestore Rules كما هو موضح في الشرح لكي يعمل الحفظ بنجاح." }
+                    ]
+                },
+                sv: { title: "Välkommen", dir: "ltr", fontClass: "font-latin", sections: [{ type: "text", content: "Välkommen till systemet." }] },
+                so: { title: "Soo Dhawoow", dir: "ltr", fontClass: "font-latin", sections: [{ type: "text", content: "Ku soo dhawoow nidaamka." }] }
+            }
+        };
+
+        // ==========================================
+        // 3. INITIALIZATION
+        // ==========================================
+        async function initApp() {
+            try {
+                // Fetch Settings
+                const setDocSnap = await getDoc(doc(db, "config", "settings"));
+                if (setDocSnap.exists()) {
+                    siteSettings = setDocSnap.data();
+                }
+                applySettingsToUI();
+
+                // Fetch Khutbahs
+                const querySnapshot = await getDocs(collection(db, "khutbahs"));
+                khutbahsDb = {};
+                querySnapshot.forEach((doc) => {
+                    khutbahsDb[doc.id] = doc.data();
+                });
+
+                if (Object.keys(khutbahsDb).length === 0) {
+                    khutbahsDb = JSON.parse(JSON.stringify(FALLBACK_ARCHIVE));
+                }
+
+                // Sort by ID (descending assuming ID is date-based or just sort keys)
+                const sortedKeys = Object.keys(khutbahsDb).sort().reverse();
+                
+                populateArchiveDropdown(sortedKeys);
+                if (sortedKeys.length > 0) {
+                    window.switchArchive(sortedKeys[0]);
+                }
+
+                document.getElementById('loading-overlay').style.display = 'none';
+
+            } catch (error) {
+                // تم التعامل مع خطأ (عدم الاتصال) بصمت تام دون إزعاج المستخدم
+                console.warn("تنبيه: تعذر الاتصال بقاعدة البيانات حالياً. تم تشغيل وضع الأرشيف المحلي المؤقت.");
+                
+                khutbahsDb = JSON.parse(JSON.stringify(FALLBACK_ARCHIVE));
+                applySettingsToUI();
+                populateArchiveDropdown(Object.keys(khutbahsDb));
+                window.switchArchive(Object.keys(khutbahsDb)[0]);
+                document.getElementById('loading-overlay').style.display = 'none';
+            }
+        }
+
+        // ==========================================
+        // 4. UI RENDER FUNCTIONS (PUBLIC)
+        // ==========================================
+        function applySettingsToUI() {
+            document.getElementById('ui-mosque-name-ar').innerText = siteSettings.mosqueNameAr;
+            document.getElementById('footer-mosque-ar').innerText = siteSettings.mosqueNameAr + " - السويد";
+            document.getElementById('ui-mosque-name-lat').innerText = siteSettings.mosqueNameLat;
+            document.getElementById('footer-mosque-lat').innerText = siteSettings.mosqueNameLat;
+            
+            // Apply Theme
+            const root = document.getElementById('html-root');
+            root.className = `bg-stone-50 text-stone-800 transition-colors duration-300 overflow-x-hidden pb-24 theme-${siteSettings.theme}`;
+        }
+
+        function populateArchiveDropdown(keys) {
+            const select = document.getElementById('archive-select');
+            select.innerHTML = '';
+            keys.forEach(key => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.text = khutbahsDb[key].dateAr || key;
+                select.appendChild(opt);
+            });
+        }
+
+        window.switchArchive = (id) => {
+            currentKhutbahId = id;
+            document.getElementById('archive-select').value = id;
+            renderKhutbah();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.switchLang = (lang) => {
+            currentLang = lang;
+            renderKhutbah();
+        }
+
+        window.changeFontSize = (delta) => {
+            currentFontSize = Math.max(12, currentFontSize + delta);
+            renderKhutbah();
+        }
+
+        function renderKhutbah() {
+            if(!currentKhutbahId || !khutbahsDb[currentKhutbahId]) return;
+            const kData = khutbahsDb[currentKhutbahId];
+            
+            // Ensure lang exists, fallback to AR
+            if(!kData[currentLang]) {
+                kData[currentLang] = { title: "قيد الترجمة...", dir: "ltr", fontClass: "font-latin", sections: [] };
+            }
+            
+            const data = kData[currentLang];
+            const html = document.documentElement;
+
+            html.setAttribute('lang', currentLang);
+            html.setAttribute('dir', data.dir);
+            document.getElementById('date-banner').innerText = `تاريخ الخطبة: ${kData.dateAr}`;
+
+            // Lang Buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-600', 'text-white', 'shadow-lg', 'border-brand-700', 'scale-105');
+                btn.classList.add('bg-white', 'text-stone-500', 'border-stone-200', 'hover:bg-stone-50');
+            });
+            document.getElementById(`btn-${currentLang}`).classList.remove('bg-white', 'text-stone-500', 'border-stone-200', 'hover:bg-stone-50');
+            document.getElementById(`btn-${currentLang}`).classList.add('bg-brand-600', 'text-white', 'shadow-lg', 'border-brand-700', 'scale-105');
+
+            // Header
+            document.getElementById('khutbah-header').innerHTML = `
+                <div class="khutbah-meta inline-flex items-center gap-2 px-4 py-1.5 bg-brand-100 text-brand-800 rounded-full text-xs font-bold tracking-wider mb-6 mt-4 shadow-sm border border-brand-200 font-latin uppercase">
+                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span>${siteSettings.mosqueNameLat}</span>
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold text-brand-950 leading-tight mb-4 ${currentLang==='ar' ? 'font-ui' : data.fontClass}">
+                    ${data.title}
+                </h2>
+                <div class="khutbah-meta h-1.5 w-32 bg-gradient-to-r from-brand-400 to-brand-700 mx-auto rounded-full mt-6"></div>
+            `;
+
+            // Content
+            document.getElementById('khutbah-content').innerHTML = data.sections.map(section => {
+                const baseClass = `transition-all duration-300 ${data.fontClass} readable-text`;
+                const styleAttr = `style="font-size: ${currentFontSize}px;"`;
+                
+                if (section.type === 'verse') {
+                    return `<div class="${baseClass} bg-brand-50 border-r-4 border-l-4 border-brand-500 p-6 md:p-8 text-center font-bold text-brand-900 rounded-xl shadow-sm my-8 relative overflow-hidden" style="font-size: ${currentFontSize + 4}px;">
+                                <div class="absolute top-0 right-0 p-2 opacity-10"><i data-lucide="book" class="w-16 h-16 text-brand-700"></i></div>
+                                ${section.content}
+                            </div>`;
+                } else if (section.type === 'hadith') {
+                    return `<div class="${baseClass} bg-sky-50 border-t border-b border-sky-300 p-6 text-center font-semibold text-sky-900 rounded-2xl shadow-sm my-6" style="font-size: ${currentFontSize + 2}px;">
+                                <i data-lucide="message-circle" class="w-6 h-6 mx-auto mb-2 text-sky-400"></i>${section.content}
+                            </div>`;
+                } else if (section.type === 'story') {
+                    return `<div class="${baseClass} bg-amber-50 border-r-4 border-amber-400 p-6 rounded-2xl shadow-sm my-8" ${styleAttr}>
+                                <h3 class="font-bold text-amber-800 mb-2 flex items-center gap-2"><i data-lucide="book-open-check" class="w-5 h-5"></i> ${section.title || 'قصة'}</h3>
+                                <p class="text-stone-800">${section.content}</p>
+                            </div>`;
+                } else if (section.type === 'dua') {
+                    return `<div class="${baseClass} bg-gradient-to-br from-brand-800 to-stone-900 text-white p-8 rounded-3xl shadow-lg text-center my-10" ${styleAttr}>
+                                <i data-lucide="heart-handshake" class="w-8 h-8 mx-auto mb-4 text-brand-300 opacity-80"></i><p class="font-medium">${section.content}</p>
+                            </div>`;
+                } else if (section.type === 'highlight') {
+                    return `<div class="${baseClass} bg-white border-2 border-brand-200 p-6 rounded-xl shadow-sm my-6" ${styleAttr}>
+                                <h3 class="font-bold text-brand-700 mb-2">${section.title || ''}</h3><p>${section.content}</p>
+                            </div>`;
+                } else if (section.type === 'divider') {
+                    return `<div class="my-12 flex justify-center"><div class="bg-brand-100 text-brand-800 px-6 py-2 rounded-full font-bold text-sm tracking-widest uppercase">${section.content}</div></div>`;
+                } else if (section.type === 'intro') {
+                    return `<div class="${baseClass} bg-white p-6 rounded-xl shadow-sm border-t-4 border-brand-500 text-stone-600 italic my-4" ${styleAttr}>${section.content}</div>`;
+                } else {
+                    return `<div class="${baseClass} bg-white p-6 rounded-xl shadow-sm border border-stone-100 text-stone-700 my-4" ${styleAttr}>${section.content}</div>`;
+                }
+            }).join('');
+
+            lucide.createIcons();
+            
+            // Progress bar scroll listener
+            window.addEventListener('scroll', () => {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                document.getElementById('progress-bar').style.width = (winScroll / height) * 100 + "%";
+            });
+        }
+
+        // ==========================================
+        // 5. IMAM TOOLS (FAB)
+        // ==========================================
+        let autoScrollInterval = null;
+        let isZenMode = false;
+
+        window.toggleImamTools = () => {
+            const menu = document.getElementById('imam-tools-menu');
+            const fab = document.getElementById('fab-main');
+            menu.classList.toggle('scale-0');
+            menu.classList.toggle('opacity-0');
+            menu.classList.toggle('pointer-events-none');
+            fab.classList.toggle('rotate-45');
+            fab.classList.toggle('bg-rose-600');
+            fab.classList.toggle('bg-stone-900');
+        }
+
+        window.toggleAutoScroll = () => {
+            if(autoScrollInterval) { clearInterval(autoScrollInterval); autoScrollInterval = null; } 
+            else { autoScrollInterval = setInterval(() => window.scrollBy(0, 1), 40); }
+            window.toggleImamTools();
+        }
+
+        window.toggleZenMode = () => {
+            isZenMode = !isZenMode;
+            if(isZenMode) document.body.classList.add('zen-mode');
+            else document.body.classList.remove('zen-mode');
+            window.toggleImamTools();
+        }
+
+        // ==========================================
+        // 6. ADMIN AUTHENTICATION
+        // ==========================================
+        onAuthStateChanged(auth, (user) => {
+            adminUser = user;
+            if(user) {
+                // If logged in and modal open, show dashboard
+                if(!document.getElementById('login-modal').classList.contains('hidden')) {
+                    document.getElementById('login-modal').classList.remove('active');
+                    openDashboard();
+                }
+            }
+        });
+
+        window.openAdminLogin = () => {
+            if(adminUser) { openDashboard(); } 
+            else { document.getElementById('login-modal').classList.add('active'); }
+        }
+
+        window.closeModals = () => {
+            document.querySelectorAll('.admin-modal').forEach(m => m.classList.remove('active'));
+        }
+
+        window.performLogin = async () => {
+            const email = document.getElementById('admin-email').value;
+            const pass = document.getElementById('admin-pass').value;
+            const errEl = document.getElementById('login-error');
+            try {
+                await signInWithEmailAndPassword(auth, email, pass);
+                errEl.classList.add('hidden');
+                document.getElementById('login-modal').classList.remove('active');
+                openDashboard();
+            } catch (error) {
+                errEl.innerText = "خطأ في بيانات الدخول: " + error.message;
+                errEl.classList.remove('hidden');
+            }
+        }
+
+        window.performLogout = async () => {
+            await signOut(auth);
+            window.closeModals();
+        }
+
+        // ==========================================
+        // 7. ADMIN DASHBOARD LOGIC
+        // ==========================================
+        function openDashboard() {
+            document.getElementById('dashboard-modal').classList.add('active');
+            renderAdminKhutbahList();
+            
+            // Fill Settings
+            document.getElementById('set-mosque-ar').value = siteSettings.mosqueNameAr;
+            document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat;
+            
+            window.switchAdminTab('settings');
+        }
+
+        window.switchAdminTab = (tab) => {
+            document.getElementById('view-settings').classList.add('hidden');
+            document.getElementById('view-editor').classList.add('hidden');
+            document.querySelectorAll('.admin-tab-btn').forEach(b => { b.classList.remove('bg-white', 'shadow-sm'); });
+            
+            if(tab === 'settings') {
+                document.getElementById('view-settings').classList.remove('hidden');
+            } else if (tab === 'editor') {
+                document.getElementById('view-editor').classList.remove('hidden');
+            }
+        }
+
+        function renderAdminKhutbahList() {
+            const list = document.getElementById('admin-khutbah-list');
+            list.innerHTML = '';
+            Object.keys(khutbahsDb).sort().reverse().forEach(id => {
+                const k = khutbahsDb[id];
+                list.innerHTML += `
+                    <button onclick="window.editKhutbah('${id}')" class="text-right w-full p-3 rounded-lg bg-white border border-stone-200 hover:border-brand-500 hover:shadow-sm transition-all flex flex-col gap-1 admin-tab-btn">
+                        <span class="font-bold text-stone-800 text-sm truncate">${k.ar?.title || 'بدون عنوان'}</span>
+                        <span class="text-xs text-stone-400">${k.dateAr}</span>
+                    </button>
+                `;
+            });
+        }
+
+        window.setTheme = (themeName) => { siteSettings.theme = themeName; }
+
+        window.saveAllSettings = async () => {
+            // Save Settings
+            siteSettings.mosqueNameAr = document.getElementById('set-mosque-ar').value;
+            siteSettings.mosqueNameLat = document.getElementById('set-mosque-lat').value;
+            try {
+                await setDoc(doc(db, "config", "settings"), siteSettings);
+                
+                // Save Current Editing Khutbah if in editor
+                if(!document.getElementById('view-editor').classList.contains('hidden') && editingId) {
+                    syncEditorToData(); // save current tab state to memory
+                    await setDoc(doc(db, "khutbahs", editingId), editingData);
+                    khutbahsDb[editingId] = JSON.parse(JSON.stringify(editingData)); // update local
+                }
+                
+                alert("تم الحفظ بنجاح!");
+                applySettingsToUI();
+                renderAdminKhutbahList();
+                
+                // Update live view if editing current
+                if(currentKhutbahId === editingId) { populateArchiveDropdown(Object.keys(khutbahsDb).sort().reverse()); renderKhutbah(); }
+                
+            } catch (e) {
+                alert("حدث خطأ أثناء الحفظ. تأكد من الصلاحيات.");
+                console.error(e);
+            }
+        }
+
+        // ==========================================
+        // 8. KHUTBAH EDITOR & SMART PARSER
+        // ==========================================
+        window.addNewKhutbah = () => {
+            const newId = "khutbah_" + Date.now();
+            editingId = newId;
+            editingData = {
+                dateAr: "الجمعة " + new Date().toLocaleDateString('ar-EG'),
+                ar: { title: "خطبة جديدة", dir: "rtl", fontClass: "font-arabic", sections: [] },
+                sv: { title: "Ny Predikan", dir: "ltr", fontClass: "font-latin", sections: [] },
+                so: { title: "Wacdiga Cusub", dir: "ltr", fontClass: "font-latin", sections: [] }
+            };
+            loadEditorData();
+            window.switchAdminTab('editor');
+        }
+
+        window.editKhutbah = (id) => {
+            editingId = id;
+            editingData = JSON.parse(JSON.stringify(khutbahsDb[id])); // Deep copy
+            editLang = 'ar';
+            loadEditorData();
+            window.switchAdminTab('editor');
+        }
+
+        window.deleteCurrentKhutbah = async () => {
+            if(confirm("هل أنت متأكد من حذف هذه الخطبة نهائياً؟")) {
+                try {
+                    await deleteDoc(doc(db, "khutbahs", editingId));
+                    delete khutbahsDb[editingId];
+                    alert("تم الحذف.");
+                    renderAdminKhutbahList();
+                    window.switchAdminTab('settings');
+                } catch(e) { alert("خطأ في الحذف"); }
+            }
+        }
+
+        function loadEditorData() {
+            document.getElementById('edit-id').value = editingId;
+            document.getElementById('edit-date').value = editingData.dateAr;
+            window.switchEditorLang(editLang);
+        }
+
+        window.switchEditorLang = (lang) => {
+            // Save current tab before switching
+            if(editingData) syncEditorToData(); 
+            
+            editLang = lang;
+            const data = editingData[lang] || { title: "", dir: lang==='ar'?'rtl':'ltr', fontClass: lang==='ar'?'font-arabic':'font-latin', sections: [] };
+            editingData[lang] = data; // ensure it exists
+
+            // Update UI
+            document.getElementById('edit-title').value = data.title;
+            document.getElementById('edit-title').dir = data.dir;
+            
+            // Tabs Styling
+            document.querySelectorAll('[id^="tab-edit-"]').forEach(t => { t.classList.remove('bg-stone-200','text-stone-800'); t.classList.add('text-stone-500'); });
+            document.getElementById(`tab-edit-${lang}`).classList.add('bg-stone-200','text-stone-800');
+            document.getElementById(`tab-edit-${lang}`).classList.remove('text-stone-500');
+
+            renderEditorBlocks();
+        }
+
+        function syncEditorToData() {
+            editingData.dateAr = document.getElementById('edit-date').value;
+            const data = editingData[editLang];
+            data.title = document.getElementById('edit-title').value;
+            
+            // We don't read blocks back from DOM here because we update editingData directly on block changes.
+        }
+
+        function renderEditorBlocks() {
+            const container = document.getElementById('editor-blocks');
+            container.innerHTML = '';
+            const sections = editingData[editLang].sections;
+            
+            sections.forEach((sec, idx) => {
+                const dir = editingData[editLang].dir;
+                container.innerHTML += `
+                    <div class="border border-stone-200 rounded-lg p-3 bg-stone-50 flex gap-3 relative group">
+                        <div class="flex flex-col gap-1 w-24 shrink-0">
+                            <select onchange="window.updateBlockType(${idx}, this.value)" class="text-xs p-1 border rounded w-full bg-white outline-none">
+                                <option value="text" ${sec.type==='text'?'selected':''}>نص عادي</option>
+                                <option value="verse" ${sec.type==='verse'?'selected':''}>آية قرآنية</option>
+                                <option value="hadith" ${sec.type==='hadith'?'selected':''}>حديث</option>
+                                <option value="dua" ${sec.type==='dua'?'selected':''}>دعاء</option>
+                                <option value="intro" ${sec.type==='intro'?'selected':''}>مقدمة</option>
+                                <option value="highlight" ${sec.type==='highlight'?'selected':''}>مربع بارز</option>
+                                <option value="divider" ${sec.type==='divider'?'selected':''}>فاصل</option>
+                            </select>
+                            <button onclick="window.moveBlock(${idx}, -1)" class="text-xs bg-stone-200 hover:bg-stone-300 rounded p-1">⬆️ أعلى</button>
+                            <button onclick="window.moveBlock(${idx}, 1)" class="text-xs bg-stone-200 hover:bg-stone-300 rounded p-1">⬇️ أسفل</button>
+                            <button onclick="window.deleteBlock(${idx})" class="text-xs bg-rose-100 text-rose-600 hover:bg-rose-200 rounded p-1 mt-auto">حذف</button>
+                        </div>
+                        <div class="flex-1">
+                            ${sec.type==='highlight' || sec.type==='story' ? `<input type="text" value="${sec.title||''}" onchange="window.updateBlockContent(${idx}, 'title', this.value)" placeholder="العنوان (اختياري)" class="w-full p-1 mb-1 text-sm border rounded" dir="${dir}">` : ''}
+                            <textarea onchange="window.updateBlockContent(${idx}, 'content', this.value)" rows="3" class="w-full p-2 text-sm border rounded outline-none focus:border-brand-500" dir="${dir}">${sec.content}</textarea>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        window.updateBlockType = (idx, type) => { editingData[editLang].sections[idx].type = type; renderEditorBlocks(); }
+        window.updateBlockContent = (idx, field, val) => { editingData[editLang].sections[idx][field] = val; }
+        window.moveBlock = (idx, dir) => {
+            const arr = editingData[editLang].sections;
+            if (idx + dir < 0 || idx + dir >= arr.length) return;
+            const temp = arr[idx];
+            arr[idx] = arr[idx + dir];
+            arr[idx + dir] = temp;
+            renderEditorBlocks();
+        }
+        window.deleteBlock = (idx) => { editingData[editLang].sections.splice(idx, 1); renderEditorBlocks(); }
+        window.addEmptyBlock = () => { editingData[editLang].sections.push({type: 'text', content: ''}); renderEditorBlocks(); }
+
+        // --- THE SMART PARSER LOGIC ---
+        window.parseSmartText = () => {
+            const raw = document.getElementById('smart-text').value;
+            if(!raw.trim()) return;
+
+            const paragraphs = raw.split(/\n+/);
+            const newSections = [];
+
+            paragraphs.forEach(p => {
+                p = p.trim();
+                if (!p) return;
+                
+                // Heuristics for Arabic parsing
+                if(editLang === 'ar') {
+                    if (p.includes('﴿') && p.includes('﴾')) {
+                        newSections.push({type: 'verse', content: p});
+                    } else if (p.includes('«') && p.includes('»') || p.includes('صلى الله عليه وسلم') && p.includes('قال')) {
+                        newSections.push({type: 'hadith', content: p});
+                    } else if (p.startsWith('اللهم') || p.includes('ربنا آتنا') || p.includes('استغفروا الله')) {
+                        newSections.push({type: 'dua', content: p});
+                    } else if (p.startsWith('الحمد لله') || p.startsWith('إن الحمد لله') || p.startsWith('أما بعد')) {
+                        newSections.push({type: 'intro', content: p});
+                    } else if (p.includes('الخطبة الثانية')) {
+                        newSections.push({type: 'divider', content: p});
+                    } else {
+                        newSections.push({type: 'text', content: p});
+                    }
+                } else {
+                    // For SV and SO, just add as text, user can change type manually
+                    if(p === '***' || p.includes('Andra delen') || p.includes('Khudbadda Labaad')) {
+                        newSections.push({type: 'divider', content: p});
+                    } else {
+                        newSections.push({type: 'text', content: p});
+                    }
+                }
+            });
+
+            // Append parsed sections to current language
+            editingData[editLang].sections = editingData[editLang].sections.concat(newSections);
+            document.getElementById('smart-text').value = ''; // clear
+            renderEditorBlocks();
+            alert(`تم استخراج ${newSections.length} فقرة بنجاح! راجعها في الأسفل ثم اضغط حفظ.`);
+        }
+
+        // ==========================================
+        // 9. START APP
+        // ==========================================
         window.onload = () => {
             lucide.createIcons();
             initApp();
