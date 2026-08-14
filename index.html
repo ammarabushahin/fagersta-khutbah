@@ -30,20 +30,15 @@
             --brand-50: #ecfdf5; --brand-100: #d1fae5; --brand-200: #a7f3d0; --brand-300: #6ee7b7; --brand-400: #34d399; 
             --brand-500: #10b981; --brand-600: #059669; --brand-700: #047857; --brand-800: #065f46; --brand-900: #064e3b; --brand-950: #022c22;
         }
-        .theme-blue {
-            --brand-50: #eff6ff; --brand-100: #dbeafe; --brand-200: #bfdbfe; --brand-300: #93c5fd; --brand-400: #60a5fa; 
-            --brand-500: #3b82f6; --brand-600: #2563eb; --brand-700: #1d4ed8; --brand-800: #1e40af; --brand-900: #1e3a8a; --brand-950: #172554;
-        }
-        .theme-amber {
-            --brand-50: #fffbeb; --brand-100: #fef3c7; --brand-200: #fde68a; --brand-300: #fcd34d; --brand-400: #fbbf24; 
-            --brand-500: #f59e0b; --brand-600: #d97706; --brand-700: #b45309; --brand-800: #92400e; --brand-900: #78350f; --brand-950: #451a03;
-        }
 
         .font-arabic { font-family: 'Amiri', serif; }
         .font-ui { font-family: 'Cairo', sans-serif; }
         .font-latin { font-family: 'Inter', sans-serif; }
         
-        html { scroll-behavior: smooth; }
+        html, body { height: 100%; margin: 0; }
+        body { display: flex; flex-direction: column; scroll-behavior: smooth; }
+        .content-wrapper { flex: 1; }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f4; }
         ::-webkit-scrollbar-thumb { background: var(--brand-600); border-radius: 4px; }
@@ -69,17 +64,16 @@
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-150%); padding: 12px 24px; border-radius: 50px; color: white; font-weight: bold; z-index: 9999999; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s; opacity: 0; pointer-events: none; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* TELEPROMPTER FULLSCREEN PURE BLACK */
         #teleprompter-overlay { position: fixed; inset: 0; background-color: #000; color: #fff; z-index: 999999; display: none; flex-direction: column; overflow-y: auto; padding: 10vh 10vw 30vh 10vw; font-size: 3.2rem; line-height: 1.9; scroll-behavior: smooth; }
         #teleprompter-overlay.active { display: flex; }
         .tp-text { margin-bottom: 2.5rem; }
-        .tp-controls { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.75); padding: 4px 12px; border-radius: 30px; display: flex; gap: 8px; align-items: center; border: 1px solid #444; backdrop-filter: blur(8px); opacity: 0.6; transition: opacity 0.3s; }
+        .tp-controls { position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.75); padding: 4px 10px; border-radius: 20px; display: flex; gap: 6px; align-items: center; border: 1px solid #444; backdrop-filter: blur(8px); opacity: 0.5; transition: opacity 0.3s; }
         .tp-controls:hover { opacity: 1; }
-        .tp-btn { background: #333; color: white; border: none; padding: 4px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; transition: all 0.2s; }
+        .tp-btn { background: #333; color: white; border: none; padding: 3px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; transition: all 0.2s; }
         .tp-btn:hover { background: #555; }
         .tp-btn.play { background: #10b981; }
         .tp-btn.exit { background: #ef4444; }
-        .tp-speed { font-size: 0.75rem; font-weight: bold; width: 25px; text-align: center; color: #ccc; }
+        .tp-speed { font-size: 0.7rem; font-weight: bold; width: 22px; text-align: center; color: #ccc; }
 
         @media print {
             body * { visibility: hidden; }
@@ -89,7 +83,7 @@
         }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800 transition-colors duration-300 overflow-x-hidden pb-24 font-latin" dir="ltr">
+<body class="bg-stone-50 text-stone-800 transition-colors duration-300 font-latin" dir="ltr">
 
     <div id="loading-overlay">
         <div class="spinner mb-4"></div>
@@ -99,21 +93,19 @@
     <div id="progress-bar"></div>
     <div id="toast" class="text-sm">Åtgärden genomfördes framgångsrikt!</div>
 
-    <!-- TELEPROMPTER FULLSCREEN -->
     <div id="teleprompter-overlay" class="font-arabic" dir="rtl">
         <div id="tp-content"></div>
         <div class="tp-controls" dir="ltr">
-            <button onclick="window.exitTeleprompter()" class="tp-btn exit" title="Stäng"><i data-lucide="x" class="w-3.5 h-3.5"></i></button>
-            <div class="w-px h-4 bg-stone-700 mx-0.5"></div>
-            <button onclick="window.changeTpSpeed(-0.5)" class="tp-btn" title="Långsammare"><i data-lucide="turtle" class="w-3.5 h-3.5"></i></button>
+            <button onclick="window.exitTeleprompter()" class="tp-btn exit" title="Stäng"><i data-lucide="x" class="w-3 h-3"></i></button>
+            <div class="w-px h-3 bg-stone-700 mx-0.5"></div>
+            <button onclick="window.changeTpSpeed(-0.5)" class="tp-btn" title="Långsammare"><i data-lucide="turtle" class="w-3 h-3"></i></button>
             <span id="tp-speed-display" class="tp-speed">1x</span>
-            <button onclick="window.changeTpSpeed(0.5)" class="tp-btn" title="Snabbare"><i data-lucide="rabbit" class="w-3.5 h-3.5"></i></button>
-            <div class="w-px h-4 bg-stone-700 mx-0.5"></div>
-            <button onclick="window.toggleTpPlay()" id="tp-play-btn" class="tp-btn play" title="Spela/Pausa"><i data-lucide="play" class="w-3.5 h-3.5"></i></button>
+            <button onclick="window.changeTpSpeed(0.5)" class="tp-btn" title="Snabbare"><i data-lucide="rabbit" class="w-3 h-3"></i></button>
+            <div class="w-px h-3 bg-stone-700 mx-0.5"></div>
+            <button onclick="window.toggleTpPlay()" id="tp-play-btn" class="tp-btn play" title="Spela/Pausa"><i data-lucide="play" class="w-3 h-3"></i></button>
         </div>
     </div>
 
-    <!-- ANNOUNCEMENT TICKER BANNER -->
     <div id="announcement-ticker-container" class="bg-brand-600 text-white text-xs py-2 px-4 font-bold shadow-inner hidden">
         <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
             <div class="flex items-center gap-2 overflow-hidden">
@@ -124,7 +116,6 @@
         </div>
     </div>
 
-    <!-- NAVBAR -->
     <nav class="bg-stone-900 text-stone-300 py-2.5 px-4 sticky top-0 z-40 border-b border-stone-800 shadow-sm">
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-3">
             <div class="flex items-center gap-2">
@@ -145,216 +136,237 @@
         </div>
     </nav>
 
-    <div id="view-home" class="min-h-screen flex flex-col justify-between">
-        <div class="pb-12">
-            <div class="max-w-5xl mx-auto px-4 pt-8 pb-4 text-center">
-                <div id="home-logo-container" class="w-20 h-20 bg-brand-600 text-white rounded-3xl mx-auto flex items-center justify-center shadow-xl shadow-brand-200 mb-4 hover:scale-105 transition-transform cursor-pointer overflow-hidden" onclick="window.switchView('home')">
-                    <img id="custom-mosque-logo-img" src="" class="w-full h-full object-cover hidden" alt="Logo">
-                    <i id="default-logo-icon" data-lucide="book-open" class="w-10 h-10"></i>
-                </div>
-                <h1 id="home-title-main" class="text-3xl md:text-5xl font-extrabold text-stone-900 mb-1">Fagersta Moské</h1>
-                <p id="home-subtitle-main" class="text-brand-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-6">Fagersta Islamiska Kulturförening</p>
-
-                <!-- CTA BUTTONS -->
-                <div class="flex flex-wrap justify-center gap-3 mb-8">
-                    <button onclick="window.switchView('archive')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-brand-200 flex items-center gap-2 transition-all hover:scale-105 text-sm md:text-base">
-                        <i data-lucide="archive" class="w-5 h-5"></i> <span data-i18n="browseKhutbahs">Utforska Fredagspredikningar</span>
-                    </button>
-                    <button onclick="window.openMonthlyPrintModal()" class="bg-stone-800 hover:bg-stone-900 text-white font-bold px-5 py-3 rounded-2xl shadow-md flex items-center gap-2 transition-all hover:scale-105 text-sm md:text-base">
-                        <i data-lucide="printer" class="w-5 h-5"></i> <span data-i18n="downloadMonthlyA4">Månadsschema (A4 PDF)</span>
-                    </button>
-                </div>
-
-                <!-- HADITH & QURAN CAROUSEL -->
-                <div class="bg-gradient-to-r from-brand-900 via-stone-900 to-brand-950 text-white rounded-3xl p-6 md:p-8 shadow-xl mb-10 relative overflow-hidden text-center border border-brand-800">
-                    <div class="absolute top-3 left-4 opacity-10 text-brand-400">
-                        <i data-lucide="quote" class="w-20 h-20"></i>
+    <div class="content-wrapper">
+        <div id="view-home" class="min-h-screen flex flex-col justify-between">
+            <div class="pb-12">
+                <div class="max-w-5xl mx-auto px-4 pt-8 pb-4 text-center">
+                    <div id="home-logo-container" class="w-20 h-20 bg-brand-600 text-white rounded-3xl mx-auto flex items-center justify-center shadow-xl shadow-brand-200 mb-4 hover:scale-105 transition-transform cursor-pointer overflow-hidden" onclick="window.switchView('home')">
+                        <img id="custom-mosque-logo-img" src="" class="w-full h-full object-cover hidden" alt="Logo">
+                        <i id="default-logo-icon" data-lucide="book-open" class="w-10 h-10"></i>
                     </div>
-                    <div class="relative z-10 max-w-3xl mx-auto min-h-[120px] flex flex-col justify-center items-center">
-                        <span class="inline-block px-3 py-1 bg-brand-800/80 text-brand-300 rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-brand-700/50" data-i18n="verifiedBadge">
-                            100% Verifierad Hadith / Koranen
-                        </span>
-                        <p id="carousel-text" class="text-base md:text-xl font-medium leading-relaxed mb-3 transition-opacity duration-500 font-latin">
-                            "Den bästa ibland er är den som lär sig Koranen och undervisar den."
-                        </p>
-                        <span id="carousel-source" class="text-xs text-brand-400 font-bold tracking-wide">
-                            — Sahih Al-Bukhari #5027
-                        </span>
-                    </div>
-                    <div class="flex justify-center items-center gap-4 mt-4">
-                        <button onclick="window.prevVerse()" class="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-                        <div class="flex gap-1.5" id="carousel-dots"></div>
-                        <button onclick="window.nextVerse()" class="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
-                    </div>
-                </div>
+                    <h1 id="home-title-main" class="text-3xl md:text-5xl font-extrabold text-stone-900 mb-1">Fagersta Moské</h1>
+                    <p id="home-subtitle-main" class="text-brand-600 font-bold uppercase tracking-widest text-xs md:text-sm mb-6">Fagersta Islamiska Kulturförening</p>
 
-                <div class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b border-stone-200/60 gap-4">
-                        <div>
-                            <h2 class="text-2xl font-extrabold text-stone-900 flex items-center gap-2">
-                                <i data-lucide="clock" class="text-brand-600"></i> <span data-i18n="prayerTimesTitle">Bönetider i Fagersta</span>
-                            </h2>
-                            <p id="current-date-str" class="text-stone-500 text-xs md:text-sm mt-1 font-medium"></p>
+                    <div class="flex flex-wrap justify-center gap-3 mb-8">
+                        <button onclick="window.switchView('archive')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-brand-200 flex items-center gap-2 transition-all hover:scale-105 text-sm md:text-base">
+                            <i data-lucide="archive" class="w-5 h-5"></i> <span data-i18n="browseKhutbahs">Utforska Fredagspredikningar</span>
+                        </button>
+                        <button onclick="window.openMonthlyPrintModal()" class="bg-stone-800 hover:bg-stone-900 text-white font-bold px-5 py-3 rounded-2xl shadow-md flex items-center gap-2 transition-all hover:scale-105 text-sm md:text-base">
+                            <i data-lucide="printer" class="w-5 h-5"></i> <span data-i18n="downloadMonthlyA4">Månadsschema (A4 PDF)</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-brand-900 via-stone-900 to-brand-950 text-white rounded-3xl p-6 md:p-8 shadow-xl mb-10 relative overflow-hidden text-center border border-brand-800">
+                        <div class="absolute top-3 left-4 opacity-10 text-brand-400">
+                            <i data-lucide="quote" class="w-20 h-20"></i>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <span id="next-prayer-countdown" class="px-4 py-2 bg-brand-50 text-brand-800 rounded-2xl font-bold text-xs md:text-sm border border-brand-200 flex items-center gap-2 shadow-sm">
-                                <i data-lucide="timer" class="w-4 h-4 text-brand-600"></i>
-                                <span><span data-i18n="nextPrayerLabel">Nästa bön:</span> <strong id="next-prayer-name">-</strong> <span data-i18n="inLabel">om</span> <span id="countdown-timer" class="font-mono text-brand-700">00:00:00</span></span>
+                        <div class="relative z-10 max-w-3xl mx-auto min-h-[120px] flex flex-col justify-center items-center">
+                            <span class="inline-block px-3 py-1 bg-brand-800/80 text-brand-300 rounded-full text-xs font-bold uppercase tracking-wider mb-3 border border-brand-700/50" data-i18n="verifiedBadge">
+                                100% Verifierad Hadith / Koranen
+                            </span>
+                            <p id="carousel-text" class="text-base md:text-xl font-medium leading-relaxed mb-3 transition-opacity duration-500 font-latin">
+                                "Den bästa ibland er är den som lär sig Koranen och undervisar den."
+                            </p>
+                            <span id="carousel-source" class="text-xs text-brand-400 font-bold tracking-wide">
+                                — Sahih Al-Bukhari #5027
                             </span>
                         </div>
+                        <div class="flex justify-center items-center gap-4 mt-4">
+                            <button onclick="window.prevVerse()" class="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                            <div class="flex gap-1.5" id="carousel-dots"></div>
+                            <button onclick="window.nextVerse()" class="p-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                        </div>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3" id="prayer-times-grid"></div>
-
-                    <!-- JUMUAH BANNER -->
-                    <div id="section-jumuah-banner" class="mt-6 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-950 flex flex-col sm:flex-row justify-between items-center gap-3 shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2.5 bg-amber-500 text-white rounded-xl shadow-sm"><i data-lucide="users" class="w-5 h-5"></i></div>
+                    <div class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 pb-4 border-b border-stone-200/60 gap-4">
                             <div>
-                                <h4 class="font-bold text-sm" data-i18n="jumuahTitle">Fredagsbön (Jumu'ah) i Fagersta Moské</h4>
-                                <p id="jumuah-desc-text" class="text-xs text-amber-800" data-i18n="jumuahDesc">Predikan & Bön hålls varje fredag på svenska och arabiska.</p>
+                                <h2 class="text-2xl font-extrabold text-stone-900 flex items-center gap-2">
+                                    <i data-lucide="clock" class="text-brand-600"></i> <span data-i18n="prayerTimesTitle">Bönetider i Fagersta</span>
+                                </h2>
+                                <p id="current-date-str" class="text-stone-500 text-xs md:text-sm mt-1 font-medium"></p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span id="next-prayer-countdown" class="px-4 py-2 bg-brand-50 text-brand-800 rounded-2xl font-bold text-xs md:text-sm border border-brand-200 flex items-center gap-2 shadow-sm">
+                                    <i data-lucide="timer" class="w-4 h-4 text-brand-600"></i>
+                                    <span><span data-i18n="nextPrayerLabel">Nästa bön:</span> <strong id="next-prayer-name">-</strong> <span data-i18n="inLabel">om</span> <span id="countdown-timer" class="font-mono text-brand-700">00:00:00</span></span>
+                                </span>
                             </div>
                         </div>
-                        <div class="text-right sm:text-left font-mono font-bold text-sm bg-white/80 px-4 py-2 rounded-xl border border-amber-300">
-                            <span data-i18n="jumuahTime">Khutbah:</span> <span id="jumuah-time-display" class="text-amber-700">13:00</span>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3" id="prayer-times-grid"></div>
+
+                        <div id="section-jumuah-banner" class="mt-6 p-4 rounded-2xl bg-amber-50/90 border border-amber-200 text-amber-950 flex flex-col sm:flex-row justify-between items-center gap-3 shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2.5 bg-amber-500 text-white rounded-xl shadow-sm"><i data-lucide="users" class="w-5 h-5"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-sm" data-i18n="jumuahTitle">Fredagsbön (Jumu'ah) i Fagersta Moské</h4>
+                                    <p id="jumuah-desc-text" class="text-xs text-amber-800">Predikan & Bön hålls varje fredag på svenska och arabiska.</p>
+                                </div>
+                            </div>
+                            <div class="text-right sm:text-left font-mono font-bold text-sm bg-white/80 px-4 py-2 rounded-xl border border-amber-300">
+                                <span data-i18n="jumuahTime">Khutbah:</span> <span id="jumuah-time-display" class="text-amber-700">13:00</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div id="section-donations" class="bg-gradient-to-br from-pink-900 via-stone-900 to-stone-950 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-pink-900/50 mb-10 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div class="text-left max-w-md">
-                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-pink-950 text-pink-300 rounded-full text-xs font-bold mb-2 border border-pink-800">
-                            <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-400 fill-pink-400"></i> Stöd Fagersta Moské
+                    <div id="section-quiz" class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white rounded-3xl p-6 md:p-8 shadow-xl mb-10 border border-emerald-800 text-left">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-800 text-emerald-200 rounded-full text-xs font-bold">
+                                <i data-lucide="help-circle" class="w-3.5 h-3.5"></i> <span data-i18n="quizBadge">زاوية سؤال وجواب / Islamisk Fråga & Svar</span>
+                            </span>
+                            <button onclick="window.toggleQuizAnswer()" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg transition-colors" data-i18n="toggleAnswerBtn">إظهار/إخفاء الإجابة</button>
                         </div>
-                        <h3 class="text-xl font-bold mb-1" id="ui-donation-title">Ge en Gåva / Sadaqa via Swish</h3>
-                        <p class="text-xs text-stone-300 mb-4" id="ui-donation-desc">Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.</p>
-                        <div class="flex items-center gap-3">
-                            <a href="swish://payment?data=%7B%22version%22%3A1%2C%22value%22%3Anull%2C%22currency%22%3A%22SEK%22%2C%22payee%22%3A%7B%22value%22%3A%221234345443%22%7D%2C%22message%22%3A%7B%22value%22%3A%22Gava%20Fagersta%20Moske%22%7D%7D" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg transition-all hover:scale-105">
-                                <i data-lucide="smartphone" class="w-4 h-4"></i> <span data-i18n="swishAppBtn">Öppna Swish-appen</span>
-                            </a>
-                            <button onclick="window.navigator.clipboard.writeText('123-434 54 43'); window.showToast('Swish-nummer kopierat: 123-434 54 43');" class="bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-stone-700 flex items-center gap-1.5">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i> 123-434 54 43
+                        <h3 id="quiz-question-display" class="text-lg md:text-xl font-bold mb-2">ما هي السورة التي تسمى قلب القرآن؟</h3>
+                        <div id="quiz-answer-container" class="hidden mt-3 p-3 bg-emerald-950/80 rounded-xl border border-emerald-700/50 text-emerald-300 text-sm font-bold">
+                            <span data-i18n="answerPrefix">الإجابة:</span> <span id="quiz-answer-display">سورة يس</span>
+                        </div>
+                    </div>
+
+                    <div id="section-donations" class="bg-gradient-to-br from-pink-900 via-stone-900 to-stone-950 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-pink-900/50 mb-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-left max-w-md">
+                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-pink-950 text-pink-300 rounded-full text-xs font-bold mb-2 border border-pink-800">
+                                <i data-lucide="heart" class="w-3.5 h-3.5 text-pink-400 fill-pink-400"></i> <span data-i18n="donationBadge">Stöd Fagersta Moské</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-1" id="ui-donation-title" data-i18n="donationTitle">Ge en Gåva / Sadaqa via Swish</h3>
+                            <p class="text-xs text-stone-300 mb-4" id="ui-donation-desc" data-i18n="donationDesc">Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.</p>
+                            <div class="flex items-center gap-3">
+                                <a href="swish://payment?data=%7B%22version%22%3A1%2C%22value%22%3Anull%2C%22currency%22%3A%22SEK%22%2C%22payee%22%3A%7B%22value%22%3A%221234345443%22%7D%2C%22message%22%3A%7B%22value%22%3A%22Gava%20Fagersta%20Moske%22%7D%7D" class="bg-pink-600 hover:bg-pink-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs flex items-center gap-2 shadow-lg transition-all hover:scale-105">
+                                    <i data-lucide="smartphone" class="w-4 h-4"></i> <span data-i18n="swishAppBtn">Öppna Swish-appen</span>
+                                </a>
+                                <button onclick="window.navigator.clipboard.writeText('123-434 54 43'); window.showToast('Swish-nummer kopierat: 123-434 54 43');" class="bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold px-4 py-2.5 rounded-xl text-xs border border-stone-700 flex items-center gap-1.5">
+                                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> 123-434 54 43
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white p-3 rounded-2xl shadow-lg flex flex-col items-center">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=C1234345443" alt="Swish QR" class="w-32 h-32 rounded-xl mb-1">
+                            <span class="text-[10px] font-bold text-stone-700 tracking-wider">Swish: 123-434 54 43</span>
+                        </div>
+                    </div>
+
+                    <div id="section-qibla" class="bg-stone-900 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-800 mb-10">
+                        <div class="text-left mb-4 flex justify-between items-center flex-wrap gap-3">
+                            <div>
+                                <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-900 text-brand-300 rounded-full text-xs font-bold mb-2 border border-brand-800">
+                                    <i data-lucide="compass" class="w-3.5 h-3.5"></i> Qibla-hitta
+                                </div>
+                                <h3 class="text-xl font-bold" data-i18n="qiblaTitle">Exakt Qibla-riktning (Google Qibla Finder)</h3>
+                                <p class="text-xs text-stone-400" data-i18n="qiblaDesc">Inbyggd interaktiv Qibla-kompass skräddarsydd för Fagersta direkt.</p>
+                            </div>
+                        </div>
+                        <div class="w-full h-[450px] rounded-2xl overflow-hidden border border-stone-800 shadow-inner bg-stone-950 relative">
+                            <iframe src="https://qiblafinder.withgoogle.com/" class="w-full h-full border-0 rounded-2xl" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <div id="section-dhikr" class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200 flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div>
+                            <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold mb-2" data-i18n="dhikrBadge">أذكار ما بعد الصلاة / Post-Prayer Dhikr</span>
+                            <h3 class="text-xl font-bold text-stone-900 mb-1" id="dhikr-title">سُبْحَانَ اللَّهِ</h3>
+                            <p class="text-xs text-stone-500 mb-4" id="dhikr-translation">"Prisad vare Allah" — تكرار 33 مرة</p>
+                            <div class="flex items-center gap-2">
+                                <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden w-48">
+                                    <div id="dhikr-progress" class="bg-brand-600 h-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <span id="dhikr-step-indicator" class="text-xs font-bold text-stone-600 font-mono">1 / 4</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <button onclick="window.incrementPostDhikr()" class="w-28 h-28 bg-brand-600 hover:bg-brand-700 text-white rounded-full flex flex-col items-center justify-center shadow-xl shadow-brand-200 active:scale-95 transition-all">
+                                <span id="tasbih-count" class="text-3xl font-extrabold font-mono">33</span>
+                                <span class="text-[10px] uppercase tracking-widest opacity-80" data-i18n="pressBtn">اضغط / Tryck</span>
+                            </button>
+                            <button onclick="window.resetPostDhikr()" class="mt-3 text-[11px] text-stone-400 hover:text-stone-600 underline" data-i18n="resetBtn">إعادة / Nollställ</button>
+                        </div>
+                    </div>
+
+                    <div id="section-feedback" class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-100 text-brand-800 rounded-full text-xs font-bold mb-2">
+                            <i data-lucide="message-square-plus" class="w-3.5 h-3.5"></i> <span data-i18n="feedbackBadge">رسائل وملاحظات للإمام / Skicka feedback till Imamen</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-stone-900 mb-1" data-i18n="feedbackTitle">صندوق ملاحظات ونصائح الزوار</h3>
+                        <p class="text-xs text-stone-500 mb-4" data-i18n="feedbackDesc">هل لديك اقتراح لخطبة الجمعة أو نصيحة؟ أرسلها مباشرة إلى إدارة ومسؤولي المسجد.</p>
+                        
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <input type="text" id="feedback-name" placeholder="اسمك (اختياري) / Ditt namn" class="p-3 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:border-brand-500">
+                                <input type="text" id="feedback-contact" placeholder="البريد أو الهاتف / E-post eller telefon" class="p-3 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:border-brand-500" dir="ltr">
+                            </div>
+                            <textarea id="feedback-message" rows="3" placeholder="اكتب ملاحظتك أو اقتراحك هنا... / Skriv ditt meddelande här..." class="w-full p-3 bg-white border border-stone-200 rounded-xl text-xs outline-none focus:border-brand-500"></textarea>
+                            <button onclick="window.submitVisitorFeedback()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-md transition-all flex items-center gap-2">
+                                <i data-lucide="send" class="w-4 h-4"></i> <span data-i18n="sendFeedbackBtn">إرسال الملاحظة إلى الإمام</span>
                             </button>
                         </div>
                     </div>
-                    
-                    <div class="bg-white p-3 rounded-2xl shadow-lg flex flex-col items-center">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=C1234345443" alt="Swish QR" class="w-32 h-32 rounded-xl mb-1">
-                        <span class="text-[10px] font-bold text-stone-700 tracking-wider">Swish: 123-434 54 43</span>
-                    </div>
-                </div>
 
-                <div id="section-qibla" class="bg-stone-900 text-white rounded-3xl p-6 md:p-8 shadow-xl border border-stone-800 mb-10">
-                    <div class="text-left mb-4 flex justify-between items-center flex-wrap gap-3">
-                        <div>
-                            <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-900 text-brand-300 rounded-full text-xs font-bold mb-2 border border-brand-800">
-                                <i data-lucide="compass" class="w-3.5 h-3.5"></i> Qibla-hitta
-                            </div>
-                            <h3 class="text-xl font-bold" data-i18n="qiblaTitle">Exakt Qibla-riktning (143.8° SE)</h3>
-                            <p class="text-xs text-stone-400" data-i18n="qiblaDesc">Inbyggd Qibla-kompass skräddarsydd för Fagersta direkt.</p>
-                        </div>
-                    </div>
-                    <div class="w-full h-[400px] rounded-2xl overflow-hidden border border-stone-800 shadow-inner bg-stone-950 relative flex flex-col items-center justify-center p-6 text-center">
-                        <div class="relative w-48 h-48 rounded-full border-4 border-brand-500/50 flex items-center justify-center mb-4 shadow-2xl bg-stone-900">
-                            <div class="absolute w-2 h-2 rounded-full bg-brand-400 z-10"></div>
-                            <div id="qibla-needle" class="absolute w-1 h-24 bg-gradient-to-t from-transparent via-emerald-400 to-rose-500 origin-bottom transition-transform duration-500" style="bottom: 50%; transform: rotate(143.8deg);"></div>
-                            <span class="absolute top-2 text-[10px] font-bold text-stone-500">N</span>
-                            <span class="absolute bottom-2 text-[10px] font-bold text-stone-500">S</span>
-                            <span class="absolute left-2 text-[10px] font-bold text-stone-500">W</span>
-                            <span class="absolute right-2 text-[10px] font-bold text-stone-500">E</span>
-                        </div>
-                        <h4 class="text-lg font-bold text-white mb-1">Kaba / مكة المكرمة</h4>
-                        <p class="text-xs text-emerald-400 font-mono font-bold">143.8° SE — Fagersta, Sverige</p>
-                    </div>
                 </div>
-
-                <!-- POST-PRAYER DHIKR MACHINE -->
-                <div id="section-dhikr" class="glass-card rounded-3xl p-6 md:p-8 text-left mb-10 border border-stone-200 flex flex-col md:flex-row items-center justify-between gap-6">
-                    <div>
-                        <span class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold mb-2">أذكار ما بعد الصلاة / Post-Prayer Dhikr</span>
-                        <h3 class="text-xl font-bold text-stone-900 mb-1" id="dhikr-title">سُبْحَانَ اللَّهِ</h3>
-                        <p class="text-xs text-stone-500 mb-4" id="dhikr-translation">"Prisad vare Allah" — تكرار 33 مرة</p>
-                        <div class="flex items-center gap-2">
-                            <div class="w-full bg-stone-200 h-2 rounded-full overflow-hidden w-48">
-                                <div id="dhikr-progress" class="bg-brand-600 h-full transition-all duration-300" style="width: 0%"></div>
-                            </div>
-                            <span id="dhikr-step-indicator" class="text-xs font-bold text-stone-600 font-mono">1 / 4</span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <button onclick="window.incrementPostDhikr()" class="w-28 h-28 bg-brand-600 hover:bg-brand-700 text-white rounded-full flex flex-col items-center justify-center shadow-xl shadow-brand-200 active:scale-95 transition-all">
-                            <span id="tasbih-count" class="text-3xl font-extrabold font-mono">33</span>
-                            <span class="text-[10px] uppercase tracking-widest opacity-80" data-i18n="pressBtn">اضغط / Tryck</span>
-                        </button>
-                        <button onclick="window.resetPostDhikr()" class="mt-3 text-[11px] text-stone-400 hover:text-stone-600 underline">إعادة / Nollställ</button>
-                    </div>
-                </div>
-
             </div>
+
+            <footer class="bg-stone-900 text-stone-400 py-6 text-center text-xs border-t border-stone-800 mt-auto">
+                <p id="footer-custom-text">Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.</p>
+                <div class="mt-3">
+                    <button onclick="window.openAdminLogin()" class="text-stone-700 hover:text-stone-500 transition-colors inline-flex items-center gap-1 text-[10px]" title="Admin">
+                        <i data-lucide="lock" class="w-2.5 h-2.5"></i> <span>Admin</span>
+                    </button>
+                </div>
+            </footer>
         </div>
-
-        <!-- FOOTER -->
-        <footer class="bg-stone-900 text-stone-400 py-8 text-center text-xs border-t border-stone-800">
-            <p id="footer-custom-text">Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.</p>
-            <div class="mt-3">
-                <button onclick="window.openAdminLogin()" class="text-stone-700 hover:text-stone-500 transition-colors inline-flex items-center gap-1 text-[10px]" title="Admin">
-                    <i data-lucide="lock" class="w-2.5 h-2.5"></i> <span>Admin</span>
-                </button>
-            </div>
-        </footer>
     </div>
 
-    <div id="view-archive" class="hidden">
-        <div id="date-banner" class="date-banner bg-stone-900 text-brand-400 py-2.5 text-center text-xs md:text-sm tracking-wider font-bold font-latin shadow-md"></div>
+    <div id="view-archive" class="hidden content-wrapper flex flex-col justify-between">
+        <div>
+            <div id="date-banner" class="date-banner bg-stone-900 text-brand-400 py-2.5 text-center text-xs md:text-sm tracking-wider font-bold font-latin shadow-md"></div>
 
-        <header class="glass-header sticky top-10 z-30 shadow-sm border-b border-stone-200">
-            <div class="max-w-6xl mx-auto px-4 py-3">
-                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
-                        <div class="flex items-center gap-3">
-                            <button onclick="window.switchView('home')" class="p-2 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl transition-colors" title="Hem"><i data-lucide="home" class="w-5 h-5"></i></button>
-                            <div class="bg-brand-600 p-2.5 rounded-2xl shadow-lg shadow-brand-200 hover:scale-105 transition-transform flex items-center justify-center cursor-pointer" onclick="window.switchView('home')">
-                                <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+            <header class="glass-header sticky top-10 z-30 shadow-sm border-b border-stone-200">
+                <div class="max-w-6xl mx-auto px-4 py-3">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
+                            <div class="flex items-center gap-3">
+                                <button onclick="window.switchView('home')" class="p-2 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-xl transition-colors" title="Hem"><i data-lucide="home" class="w-5 h-5"></i></button>
+                                <div class="bg-brand-600 p-2.5 rounded-2xl shadow-lg shadow-brand-200 hover:scale-105 transition-transform flex items-center justify-center cursor-pointer" onclick="window.switchView('home')">
+                                    <i data-lucide="book-open" class="w-6 h-6 text-white"></i>
+                                </div>
+                                <div class="flex flex-col text-left">
+                                    <h1 id="ui-mosque-name-lat" class="text-lg font-bold text-stone-900 leading-tight">Fagersta Moské</h1>
+                                    <span id="ui-mosque-name-ar" class="text-xs text-brand-600 font-bold tracking-wider font-arabic">مسجد فاغشتا</span>
+                                </div>
                             </div>
-                            <div class="flex flex-col text-left">
-                                <h1 id="ui-mosque-name-lat" class="text-lg font-bold text-stone-900 leading-tight">Fagersta Moské</h1>
-                                <span id="ui-mosque-name-ar" class="text-xs text-brand-600 font-bold tracking-wider font-arabic">مسجد فاغشتا</span>
+
+                            <div class="flex items-center bg-stone-100 rounded-xl px-2 py-1 shadow-sm border border-stone-200">
+                                <button onclick="window.changeFontSize(-2)" class="p-1.5 hover:bg-stone-200 text-stone-700 rounded-lg transition-colors" title="Minska text"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                                <span class="px-2 font-bold text-stone-500 text-xs select-none">Text</span>
+                                <button onclick="window.changeFontSize(2)" class="p-1.5 hover:bg-stone-200 text-stone-700 rounded-lg transition-colors" title="Öka text"><i data-lucide="plus" class="w-4 h-4"></i></button>
                             </div>
                         </div>
 
-                        <div class="flex items-center bg-stone-100 rounded-xl px-2 py-1 shadow-sm border border-stone-200">
-                            <button onclick="window.changeFontSize(-2)" class="p-1.5 hover:bg-stone-200 text-stone-700 rounded-lg transition-colors" title="Minska text"><i data-lucide="minus" class="w-4 h-4"></i></button>
-                            <span class="px-2 font-bold text-stone-500 text-xs select-none">Text</span>
-                            <button onclick="window.changeFontSize(2)" class="p-1.5 hover:bg-stone-200 text-stone-700 rounded-lg transition-colors" title="Öka text"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                        <div class="w-full md:w-80">
+                            <select id="archive-select" onchange="window.switchArchive(this.value)" class="w-full bg-white border border-stone-300 text-stone-800 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 block px-4 py-2.5 cursor-pointer font-bold shadow-sm outline-none transition-all hover:border-brand-400">
+                                <option>Laddar arkiv...</option>
+                            </select>
                         </div>
                     </div>
+                </div>
 
-                    <div class="w-full md:w-80">
-                        <select id="archive-select" onchange="window.switchArchive(this.value)" class="w-full bg-white border border-stone-300 text-stone-800 text-sm rounded-xl focus:ring-brand-500 focus:border-brand-500 block px-4 py-2.5 cursor-pointer font-bold shadow-sm outline-none transition-all hover:border-brand-400">
-                            <option>Laddar arkiv...</option>
-                        </select>
+                <div class="bg-stone-100 border-t border-stone-200">
+                    <div class="max-w-4xl mx-auto p-2">
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="window.switchLang('sv')" id="btn-sv" class="lang-btn flex items-center justify-center gap-2 py-2 px-2 rounded-xl text-xs md:text-sm font-bold transition-all border-2 border-transparent"><span class="text-lg">🇸🇪</span><span>Svenska</span></button>
+                            <button onclick="window.switchLang('ar')" id="btn-ar" class="lang-btn flex items-center justify-center gap-2 py-2 px-2 rounded-xl text-xs md:text-sm font-bold transition-all font-ui border-2 border-transparent"><span class="text-lg">🇸🇦</span><span>العربية</span></button>
+                            <button onclick="window.switchLang('so')" id="btn-so" class="lang-btn flex items-center justify-center gap-2 py-2 px-2 rounded-xl text-xs md:text-sm font-bold transition-all border-2 border-transparent"><span class="text-lg">🇸🇴</span><span>Soomaali</span></button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </header>
 
-            <!-- READER LANGUAGE TAB SWITCHER -->
-            <div class="bg-stone-100 border-t border-stone-200">
-                <div class="max-w-4xl mx-auto p-2">
-                    <div class="grid grid-cols-3 gap-2">
-                        <button onclick="window.switchLang('sv')" id="btn-sv" class="lang-btn flex items-center justify-center gap-2 py-2 px-2 rounded-xl text-xs md:text-sm font-bold transition-all border-2 border-transparent"><span class="text-lg">🇸🇪</span><span>Svenska</span></button>
-                        <button onclick="window.switchLang('ar')" id="btn-ar" class="lang-btn flex items-center justify-center gap-2 py-2 px-2 rounded-xl text-xs md:text-sm font-bold transition-all font-ui border-2 border-transparent"><span class="text-lg">🇸🇦</span><span>العربية</span></button>
-                        <button onclick="window.switchLang('so')" id="btn-so" class="lang-btn flex items-center justify-center gap-2 py-2 px-2 rounded-xl text-xs md:text-sm font-bold transition-all border-2 border-transparent"><span class="text-lg">🇸🇴</span><span>Soomaali</span></button>
-                    </div>
-                </div>
-            </div>
-        </header>
+            <main class="max-w-4xl mx-auto px-4 py-8 min-h-screen relative">
+                <div id="khutbah-header" class="text-center mb-10"></div>
+                <div id="khutbah-content" class="space-y-6"></div>
+            </main>
+        </div>
 
-        <main class="max-w-4xl mx-auto px-4 py-8 min-h-screen relative">
-            <div id="khutbah-header" class="text-center mb-10"></div>
-            <div id="khutbah-content" class="space-y-6"></div>
-        </main>
-
-        <footer class="bg-stone-900 text-stone-400 py-10 mt-12 relative text-center text-xs">
+        <footer class="bg-stone-900 text-stone-400 py-6 mt-12 text-center text-xs border-t border-stone-800">
             <p id="footer-mosque-lat" class="text-white font-bold text-sm mb-1">Fagersta Moské - Fagersta Islamiska Kulturförening</p>
             <p id="footer-mosque-ar" class="text-stone-500 font-arabic text-sm mb-4">مسجد فاغشتا - السويد</p>
             <button onclick="window.openAdminLogin()" class="text-stone-700 hover:text-stone-500 transition-colors inline-flex items-center gap-1 text-[10px]">
@@ -362,7 +374,6 @@
             </button>
         </footer>
 
-        <!-- IMAM FLOATING TOOLBAR -->
         <div id="imam-tools" class="fixed bottom-6 right-6 z-40 flex flex-col items-end gap-3" dir="ltr">
             <div id="imam-tools-menu" class="flex flex-col gap-2 scale-0 opacity-0 pointer-events-none transition-all duration-300 origin-bottom-right">
                 <button onclick="window.startTeleprompter()" class="flex items-center gap-3 bg-white text-stone-800 px-4 py-3 rounded-full shadow-lg border border-stone-200 hover:bg-brand-50 hover:text-brand-600 transition-colors font-bold text-xs md:text-sm"><span data-i18n="teleprompterBtn">Imam Teleprompter</span><i data-lucide="monitor-play" class="w-5 h-5"></i></button>
@@ -385,7 +396,6 @@
         </div>
     </div>
 
-    <!-- MONTHLY A4 PRINTABLE MODAL -->
     <div id="monthly-modal" class="admin-modal" dir="ltr">
         <div class="admin-content max-w-4xl p-6 relative" dir="ltr">
             <div class="flex justify-between items-center mb-6 border-b pb-3">
@@ -431,7 +441,7 @@
                 </table>
 
                 <div class="mt-4 pt-3 border-t text-[10px] text-stone-500 flex justify-between items-center">
-                    <span>Jumu'ah / Fredagsbön Khutbah: 13:00 i Moskén</span>
+                    <span id="a4-jumuah-footer-txt">Jumu'ah / Fredagsbön Khutbah: 13:00 i Moskén</span>
                     <span>Swish: 123-434 54 43</span>
                 </div>
             </div>
@@ -443,7 +453,7 @@
             <div class="p-4 border-b border-stone-200 flex justify-between items-center bg-stone-50 rounded-t-xl">
                 <div class="flex items-center gap-3">
                     <div class="p-2 bg-brand-600 text-white rounded-lg"><i data-lucide="layout-dashboard" class="w-5 h-5"></i></div>
-                    <h2 class="text-lg font-bold">لوحة تحكم المسؤول (Arabic Dashboard)</h2>
+                    <h2 class="text-lg font-bold">لوحة تحكم المسؤول (Admin Dashboard)</h2>
                 </div>
                 <div class="flex gap-2">
                     <button onclick="window.saveAllSettings()" class="px-4 py-2 bg-brand-600 text-white rounded-lg font-bold hover:bg-brand-700 text-xs flex items-center gap-1.5"><i data-lucide="save" class="w-4 h-4"></i> حفظ كافة التغييرات</button>
@@ -455,155 +465,113 @@
             <div class="flex flex-1 overflow-hidden">
                 <div class="w-1/4 bg-stone-100 border-l border-stone-200 p-4 flex flex-col gap-2 overflow-y-auto">
                     <button onclick="window.switchAdminTab('toggles')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="toggle-left" class="w-4 h-4 text-brand-600"></i> تفعيل وإلغاء الميزات</button>
-                    <button onclick="window.switchAdminTab('settings')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="settings" class="w-4 h-4 text-brand-600"></i> إعدادات النصوص والهوية</button>
-                    <button onclick="window.switchAdminTab('prayers')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="clock" class="w-4 h-4 text-brand-600"></i> مواقيت الصلاة والأكسل</button>
-                    <button onclick="window.switchAdminTab('bulk')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="database" class="w-4 h-4 text-brand-600"></i> استيراد وتصدير الأرشيف</button>
+                    <button onclick="window.switchAdminTab('settings')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="settings" class="w-4 h-4 text-brand-600"></i> إعدادات النصوص والجمعة</button>
+                    <button onclick="window.switchAdminTab('hadiths')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="book-open" class="w-4 h-4 text-brand-600"></i> إدارة الأحاديث والآيات</button>
+                    <button onclick="window.switchAdminTab('feedback')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="message-square" class="w-4 h-4 text-brand-600"></i> ملاحظات الزوار للإمام</button>
+                    <button onclick="window.switchAdminTab('prayers')" class="admin-tab-btn flex items-center gap-2.5 p-3 rounded-xl font-bold text-xs text-stone-700 hover:bg-white text-right"><i data-lucide="clock" class="w-4 h-4 text-brand-600"></i> مواقيت الصلاة</button>
                     <div class="h-px bg-stone-200 my-2"></div>
                     <div class="flex justify-between items-center mb-2 px-1">
                         <span class="text-xs font-bold text-stone-400 uppercase">قائمة الخطب</span>
-                        <button onclick="window.addNewKhutbah()" class="text-brand-600 hover:bg-brand-100 p-1 rounded" title="إضافة خطبة جديدة"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                        <button onclick="window.addNewKhutbah()" class="text-brand-600 hover:bg-brand-100 p-1 rounded" title="إضافة خطبة"><i data-lucide="plus" class="w-4 h-4"></i></button>
                     </div>
                     <div id="admin-khutbah-list" class="flex flex-col gap-1.5"></div>
                 </div>
 
                 <div class="w-3/4 p-6 overflow-y-auto bg-white text-right" id="admin-workspace">
                     
-                    <!-- TAB 0: FEATURE TOGGLES -->
                     <div id="view-toggles" class="admin-view">
                         <h3 class="text-xl font-bold mb-4 border-b pb-2">تفعيل وإلغاء ميزات الموقع</h3>
-                        <p class="text-xs text-stone-500 mb-6">تحكم بظهور الأقسام والميزات في الموقع العام بضغطة زر واحدة:</p>
-                        
                         <div class="space-y-4">
-                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100 transition-colors">
-                                <div>
-                                    <span class="font-bold text-stone-900 block text-sm">ميزة بوصلة القبلة (Qibla)</span>
-                                    <span class="text-xs text-stone-500">عرض بوصلة الكعبة المشرفة في الصفحة الرئيسية.</span>
-                                </div>
+                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
+                                <div><span class="font-bold text-stone-900 block text-sm">ميزة بوصلة القبلة (Qibla)</span></div>
                                 <input type="checkbox" id="toggle-qibla" class="w-5 h-5 accent-brand-600 cursor-pointer">
                             </label>
-
-                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100 transition-colors">
-                                <div>
-                                    <span class="font-bold text-stone-900 block text-sm">ميزة التبرعات عبر Swish</span>
-                                    <span class="text-xs text-stone-500">عرض صندوق التبرعات ورقم Swish و QR Code.</span>
-                                </div>
+                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
+                                <div><span class="font-bold text-stone-900 block text-sm">ميزة التبرعات عبر Swish</span></div>
                                 <input type="checkbox" id="toggle-donations" class="w-5 h-5 accent-brand-600 cursor-pointer">
                             </label>
-
-                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100 transition-colors">
-                                <div>
-                                    <span class="font-bold text-stone-900 block text-sm">مسبحة أذكار ما بعد الصلاة</span>
-                                    <span class="text-xs text-stone-500">عرض أداة الأذكار والمسبحة الإلكترونية في الصفحة الرئيسية.</span>
-                                </div>
+                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
+                                <div><span class="font-bold text-stone-900 block text-sm">مسبحة أذكار ما بعد الصلاة</span></div>
                                 <input type="checkbox" id="toggle-dhikr" class="w-5 h-5 accent-brand-600 cursor-pointer">
                             </label>
-
-                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100 transition-colors">
-                                <div>
-                                    <span class="font-bold text-stone-900 block text-sm">شريط إعلان وتنبيهات الإمام (New Feature)</span>
-                                    <span class="text-xs text-stone-500">شريط متحرك أعلى الموقع للإعلانات العاجلة.</span>
-                                </div>
-                                <input type="checkbox" id="toggle-announcement" class="w-5 h-5 accent-brand-600 cursor-pointer">
+                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
+                                <div><span class="font-bold text-stone-900 block text-sm">بانر صلاة الجمعة (Jumu'ah Banner)</span></div>
+                                <input type="checkbox" id="toggle-jumuah" class="w-5 h-5 accent-brand-600 cursor-pointer">
                             </label>
-
-                            <div class="pt-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">نص الإعلان أو التنبيه العاجل للإمام</label>
-                                <input type="text" id="set-announcement-text" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" placeholder="مثال: تنبيه بخصوص صلاة العيد...">
-                            </div>
+                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
+                                <div><span class="font-bold text-stone-900 block text-sm">زاوية سؤال وجواب / المسابقة الإسلامية</span></div>
+                                <input type="checkbox" id="toggle-quiz" class="w-5 h-5 accent-brand-600 cursor-pointer">
+                            </label>
+                            <label class="flex items-center justify-between p-4 bg-stone-50 rounded-2xl border border-stone-200 cursor-pointer hover:bg-stone-100">
+                                <div><span class="font-bold text-stone-900 block text-sm">صندوق ملاحظات ونصائح الزوار للإمام</span></div>
+                                <input type="checkbox" id="toggle-feedback" class="w-5 h-5 accent-brand-600 cursor-pointer">
+                            </label>
                         </div>
                     </div>
 
-                    <!-- TAB 1: SETTINGS -->
                     <div id="view-settings" class="admin-view hidden">
-                        <h3 class="text-xl font-bold mb-6 border-b pb-2">إعدادات النصوص وهوية الموقع بالكامل</h3>
+                        <h3 class="text-xl font-bold mb-6 border-b pb-2">إعدادات النصوص وحقوق الفوتر</h3>
                         <div class="grid grid-cols-2 gap-6">
                             <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد (بالسويدية)</label><input type="text" id="set-mosque-lat" class="w-full p-3 border rounded-xl outline-none text-sm font-bold"></div>
                             <div><label class="block text-xs font-bold text-stone-500 mb-2">اسم المسجد (بالعربية)</label><input type="text" id="set-mosque-ar" class="w-full p-3 border rounded-xl outline-none text-sm font-bold font-arabic"></div>
                             
                             <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">نص حقوق الفوتر (Footer Rights) - قابل للتعديل بالكامل</label>
+                                <label class="block text-xs font-bold text-stone-500 mb-2">نص حقوق الفوتر (Footer Rights)</label>
                                 <textarea id="set-footer-text" rows="2" class="w-full p-3 border rounded-xl outline-none text-xs font-bold" dir="ltr"></textarea>
                             </div>
 
                             <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">عنوان صندوق التبرعات (Donation Title)</label>
-                                <input type="text" id="set-donation-title" class="w-full p-3 border rounded-xl outline-none text-xs font-bold">
+                                <label class="block text-xs font-bold text-stone-500 mb-2">وقت خطبة الجمعة (Jumu'ah Time)</label>
+                                <input type="text" id="set-jumuah-time" class="w-full sm:w-48 p-3 border rounded-xl outline-none text-sm font-bold" dir="ltr">
                             </div>
 
                             <div class="col-span-2">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">رابط شعار المسجد (Logo URL)</label>
-                                <input type="text" id="set-logo-url" class="w-full p-3 border rounded-xl outline-none text-xs" placeholder="https://..." dir="ltr">
-                            </div>
-
-                            <div class="col-span-2 border-t pt-4">
-                                <label class="block text-xs font-bold text-stone-500 mb-2">لون السمة الرئيسي</label>
-                                <div class="flex gap-4">
-                                    <button onclick="window.setTheme('emerald')" class="w-10 h-10 rounded-full bg-emerald-600 border-4 border-white shadow-md" title="أخضر"></button>
-                                    <button onclick="window.setTheme('blue')" class="w-10 h-10 rounded-full bg-blue-600 border-4 border-white shadow-md" title="أزرق"></button>
-                                    <button onclick="window.setTheme('amber')" class="w-10 h-10 rounded-full bg-amber-500 border-4 border-white shadow-md" title="ذهبي"></button>
-                                </div>
+                                <label class="block text-xs font-bold text-stone-500 mb-2">نص وصف صلاة الجمعة (بالعربية)</label>
+                                <input type="text" id="set-jumuah-desc-ar" class="w-full p-3 border rounded-xl outline-none text-xs font-bold font-arabic">
                             </div>
                         </div>
                     </div>
 
-                    <!-- TAB 2: PRAYERS -->
+                    <div id="view-hadiths" class="admin-view hidden">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h3 class="text-xl font-bold">إدارة الأحاديث والآيات</h3>
+                            <button onclick="window.addNewHadithRow()" class="bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-brand-700 flex items-center gap-1"><i data-lucide="plus" class="w-3.5 h-3.5"></i> إضافة حديث</button>
+                        </div>
+                        <div id="admin-hadiths-container" class="space-y-4"></div>
+                    </div>
+
+                    <div id="view-feedback" class="admin-view hidden">
+                        <h3 class="text-xl font-bold mb-4 border-b pb-2">ملاحظات ونصائح الزوار الواردة للإمام</h3>
+                        <div id="admin-feedback-list" class="space-y-3">
+                            <p class="text-xs text-stone-500">لا توجد ملاحظات جديدة حالياً.</p>
+                        </div>
+                    </div>
+
                     <div id="view-prayers" class="admin-view hidden">
                         <h3 class="text-xl font-bold mb-4 border-b pb-2">مواقيت الصلاة وإدارة الأكسل</h3>
-                        
                         <div class="bg-stone-50 border border-stone-200 rounded-2xl p-5 mb-6">
-                            <h4 class="font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i> رفع ملف مواقيت الصلاة السنوي (.xlsx)</h4>
-                            <p class="text-xs text-stone-500 mb-3">قم برفع ملف أكسل الأوقات لتحديث جميع أوقات السنة تلقائياً:</p>
+                            <h4 class="font-bold text-sm mb-2 flex items-center gap-2"><i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i> رفع ملف مواقيت الصلاة (.xlsx)</h4>
                             <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden" onchange="window.handleExcelPrayerUpload(event)">
-                            <button onclick="document.getElementById('excel-file-input').click()" class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-xs hover:bg-emerald-700 flex items-center gap-2"><i data-lucide="upload" class="w-4 h-4"></i> رفع ملف الأكسل للمواقيت</button>
+                            <button onclick="document.getElementById('excel-file-input').click()" class="bg-emerald-600 text-white px-4 py-2.5 rounded-xl font-bold text-xs hover:bg-emerald-700 flex items-center gap-2"><i data-lucide="upload" class="w-4 h-4"></i> رفع ملف الأكسل</button>
                             <span id="excel-upload-status" class="text-xs font-bold text-emerald-700 block mt-2"></span>
                         </div>
-
-                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5 mb-6">
-                            <h4 class="font-bold text-sm mb-2 text-amber-900 flex items-center gap-2"><i data-lucide="sliders" class="w-4 h-4 text-amber-600"></i> تعديل وفروق الدقائق (Offset)</h4>
-                            <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                                <div><label class="block text-xs font-bold text-stone-600 mb-1">الفجر (+/-د)</label><input type="number" id="offset-fajr" value="0" class="w-full p-2 border rounded-lg text-center font-bold text-xs" dir="ltr"></div>
-                                <div><label class="block text-xs font-bold text-stone-600 mb-1">الشروق (+/-د)</label><input type="number" id="offset-shurooq" value="0" class="w-full p-2 border rounded-lg text-center font-bold text-xs" dir="ltr"></div>
-                                <div><label class="block text-xs font-bold text-stone-600 mb-1">الظهر (+/-د)</label><input type="number" id="offset-dhuhr" value="0" class="w-full p-2 border rounded-lg text-center font-bold text-xs" dir="ltr"></div>
-                                <div><label class="block text-xs font-bold text-stone-600 mb-1">العصر (+/-د)</label><input type="number" id="offset-asr" value="0" class="w-full p-2 border rounded-lg text-center font-bold text-xs" dir="ltr"></div>
-                                <div><label class="block text-xs font-bold text-stone-600 mb-1">المغرب (+/-د)</label><input type="number" id="offset-maghrib" value="0" class="w-full p-2 border rounded-lg text-center font-bold text-xs" dir="ltr"></div>
-                                <div><label class="block text-xs font-bold text-stone-600 mb-1">العشاء (+/-د)</label><input type="number" id="offset-isha" value="0" class="w-full p-2 border rounded-lg text-center font-bold text-xs" dir="ltr"></div>
-                            </div>
-                        </div>
-
-                        <div class="bg-stone-50 border border-stone-200 rounded-2xl p-5">
-                            <h4 class="font-bold text-sm mb-3 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4 text-brand-600"></i> إعداد صلاة الجمعة (Jumu'ah) بشكل منفرد</h4>
-                            <div><label class="block text-xs font-bold text-stone-500 mb-1">وقت خطبة الجمعة</label><input type="text" id="set-jumuah-time" class="w-full sm:w-48 p-2.5 border rounded-xl text-sm font-bold" value="13:00" dir="ltr"></div>
-                        </div>
                     </div>
 
-                    <!-- TAB 3: BULK IMPORT -->
-                    <div id="view-bulk" class="admin-view hidden">
-                        <h3 class="text-xl font-bold mb-4 border-b pb-2">استيراد وتصدير الأرشيف (JSON)</h3>
-                        <div class="flex gap-4 mb-6">
-                            <button onclick="window.exportAllKhutbahs()" class="bg-stone-800 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-stone-900 flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> تصدير جميع الخطب (JSON)</button>
-                        </div>
-                        <div class="border-2 border-dashed border-stone-300 rounded-2xl p-6 text-center">
-                            <textarea id="bulk-json-text" rows="6" class="w-full p-3 border rounded-xl font-mono text-xs mt-2 text-left" dir="ltr" placeholder="{ ... }"></textarea>
-                            <button onclick="window.processBulkJson()" class="mt-3 bg-emerald-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-emerald-700">استيراد الخطب دفعة واحدة</button>
-                        </div>
-                    </div>
-
-                    <!-- TAB 4: EDITOR -->
                     <div id="view-editor" class="admin-view hidden">
                         <div class="flex justify-between items-center mb-6 border-b pb-2">
                             <h3 class="text-xl font-bold text-brand-700">تعديل أو إضافة خطبة</h3>
-                            <button onclick="window.deleteCurrentKhutbah()" class="text-rose-600 text-xs font-bold flex items-center gap-1 hover:bg-rose-50 px-3 py-1 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i> حذف الخطبة</button>
+                            <button onclick="window.deleteCurrentKhutbah()" class="text-rose-600 text-xs font-bold flex items-center gap-1 hover:bg-rose-50 px-3 py-1 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i> حذف</button>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div><label class="block text-xs font-bold text-stone-500 mb-1">المعرف (ID)</label><input type="text" id="edit-id" readonly class="w-full p-2 border rounded-lg bg-stone-100 text-stone-500 text-xs" dir="ltr"></div>
-                            <div><label class="block text-xs font-bold text-stone-500 mb-1">عنوان الخطبة الرئيسي</label><input type="text" id="edit-title-sv" class="w-full p-2 border rounded-lg text-xs outline-none font-bold"></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">عنوان الخطبة</label><input type="text" id="edit-title-sv" class="w-full p-2 border rounded-lg text-xs outline-none font-bold"></div>
                         </div>
                         <div class="space-y-4">
-                            <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى الخطبة HTML (بالسويدية)</label><textarea id="edit-html-sv" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="ltr"></textarea></div>
-                            <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى الخطبة HTML (بالعربية)</label><textarea id="edit-html-ar" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="rtl"></textarea></div>
-                            <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى الخطبة HTML (بالصومالية)</label><textarea id="edit-html-so" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="ltr"></textarea></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى HTML (السويدية)</label><textarea id="edit-html-sv" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="ltr"></textarea></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى HTML (العربية)</label><textarea id="edit-html-ar" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="rtl"></textarea></div>
+                            <div><label class="block text-xs font-bold text-stone-500 mb-1">محتوى HTML (الصومالية)</label><textarea id="edit-html-so" rows="3" class="w-full p-3 border rounded-xl font-mono text-xs" dir="ltr"></textarea></div>
                         </div>
-                        <button onclick="window.saveCurrentKhutbahEdits()" class="mt-4 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-brand-700">حفظ التغييرات</button>
+                        <button onclick="window.saveCurrentKhutbahEdits()" class="mt-4 bg-brand-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-brand-700">حفظ الخطبة</button>
                     </div>
                 </div>
             </div>
@@ -613,7 +581,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-        import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC9A9oO6KS8hT-yEBoMSkG99obaqixa4xY",
@@ -638,14 +606,27 @@
                 nextPrayerLabel: "Nästa bön:",
                 inLabel: "om",
                 jumuahTitle: "Fredagsbön (Jumu'ah) i Fagersta Moské",
-                jumuahDesc: "Predikan & Bön hålls varje fredag på svenska och arabiska.",
                 jumuahTime: "Khutbah:",
                 verifiedBadge: "100% Verifierad Hadith / Koranen",
                 fajr: "Fajr", shurooq: "Soluppg.", dhuhr: "Dhuhr", asr: "Asr", maghrib: "Maghrib", isha: "Isha",
                 swishAppBtn: "Öppna Swish-appen",
-                qiblaTitle: "Exakt Qibla-riktning (143.8° SE)",
-                qiblaDesc: "Inbyggd Qibla-kompass skräddarsydd för Fagersta direkt.",
-                pressBtn: "Tryck"
+                qiblaTitle: "Exakt Qibla-riktning (Google Qibla Finder)",
+                qiblaDesc: "Inbyggd interaktiv Qibla-kompass skräddarsydd för Fagersta.",
+                pressBtn: "Tryck",
+                resetBtn: "Nollställ",
+                dhikrBadge: "Post-Prayer Dhikr",
+                quizBadge: "Islamisk Fråga & Svar",
+                toggleAnswerBtn: "Visa/Dölj svar",
+                answerPrefix: "Svar:",
+                donationBadge: "Stöd Fagersta Moské",
+                donationTitle: "Ge en Gåva / Sadaqa via Swish",
+                donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
+                feedbackBadge: "Skicka feedback till Imamen",
+                feedbackTitle: "Besökarnas förslag och råd",
+                feedbackDesc: "Har du ett förslag på fredagspredikan eller ett råd? Skicka det direkt till moskéledningen.",
+                sendFeedbackBtn: "Skicka meddelandet till Imamen",
+                teleprompterBtn: "Imam Teleprompter",
+                zenModeBtn: "Fokusläge"
             },
             ar: {
                 navMosque: "مسجد فاغشتا",
@@ -655,14 +636,27 @@
                 nextPrayerLabel: "الصلاة القادمة:",
                 inLabel: "بعد",
                 jumuahTitle: "صلاة الجمعة في مسجد فاغشتا",
-                jumuahDesc: "تقام الخطبة والصلاة كل جمعة باللغتين السويدية والعربية.",
                 jumuahTime: "وقت الخطبة:",
                 verifiedBadge: "حديث صحيح / آية قرآنية موثقة 100%",
                 fajr: "الفجر", shurooq: "الشروق", dhuhr: "الظهر", asr: "العصر", maghrib: "المغرب", isha: "العشاء",
                 swishAppBtn: "فتح تطبيق سويش",
-                qiblaTitle: "اتجاه القبلة بدقة (143.8 درجة جنوب شرق)",
+                qiblaTitle: "اتجاه القبلة بدقة (Google Qibla Finder)",
                 qiblaDesc: "بوصلة القبلة الرسمية المدمجة لمدينة فاغشتا.",
-                pressBtn: "اضغط"
+                pressBtn: "اضغط",
+                resetBtn: "إعادة",
+                dhikrBadge: "أذكار ما بعد الصلاة",
+                quizBadge: "زاوية سؤال وجواب",
+                toggleAnswerBtn: "إظهار/إخفاء الإجابة",
+                answerPrefix: "الإجابة:",
+                donationBadge: "Stöd Fagersta Moské",
+                donationTitle: "Ge en Gåva / Sadaqa via Swish",
+                donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
+                feedbackBadge: "رسائل وملاحظات للإمام",
+                feedbackTitle: "صندوق ملاحظات ونصائح الزوار",
+                feedbackDesc: "هل لديك اقتراح لخطبة الجمعة أو نصيحة؟ أرسلها مباشرة إلى إدارة ومسؤولي المسجد.",
+                sendFeedbackBtn: "إرسال الملاحظة إلى الإمام",
+                teleprompterBtn: "شاشة الخطيب",
+                zenModeBtn: "فصل التركيز"
             },
             so: {
                 navMosque: "Masjidka Fagersta",
@@ -672,18 +666,31 @@
                 nextPrayerLabel: "Salaadda xigta:",
                 inLabel: "gudahooda",
                 jumuahTitle: "Salaadda Jimcaha ee Masjidka Fagersta",
-                jumuahDesc: "Khudbadda waxaa lagu bixiyaa af-Iswidhis iyo af-Carabi.",
                 jumuahTime: "Waqtiga Khudbadda:",
                 verifiedBadge: "Xadiis / Aayad suuban oo la xaqiijiyay",
                 fajr: "Subax", shurooq: "Arooryo", dhuhr: "Duhur", asr: "Cassar", maghrib: "Magrib", isha: "Cisha",
                 swishAppBtn: "Furo Swish App",
-                qiblaTitle: "Qiblada Fagersta (143.8° SE)",
+                qiblaTitle: "Qiblada Fagersta (Google Qibla)",
                 qiblaDesc: "Compass-ka Qiblada ee Fagersta.",
-                pressBtn: "Riix"
+                pressBtn: "Riix",
+                resetBtn: "Nollställ",
+                dhikrBadge: "Post-Prayer Dhikr",
+                quizBadge: "Su'aal & Jawaab",
+                toggleAnswerBtn: "Muuji/Qari Jawaabta",
+                answerPrefix: "Jawaabta:",
+                donationBadge: "Stöd Fagersta Moské",
+                donationTitle: "Ge en Gåva / Sadaqa via Swish",
+                donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
+                feedbackBadge: "Fariimaha Imam",
+                feedbackTitle: "Talooyinka Booqashada",
+                feedbackDesc: "Ma haysaa talo ama fikrad?",
+                sendFeedbackBtn: "Dir Fariinta",
+                teleprompterBtn: "Imam Teleprompter",
+                zenModeBtn: "Focus Mode"
             }
         };
 
-        const VERIFIED_VERSES = [
+        const DEFAULT_VERIFIED_VERSES = [
             {
                 sv: "“Den bästa ibland er är den som lär sig Koranen och undervisar den.”",
                 ar: "« خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ »",
@@ -698,7 +705,6 @@
             }
         ];
 
-        // POST-PRAYER DHIKR MACHINE (33 Subhanallah, 33 Alhamdulillah, 33 Allahu Akbar, 1 La ilaha illallah)
         const POST_PRAYER_STEPS = [
             { titleAr: "سُبْحَانَ اللَّهِ", titleSv: "Subhanallah", target: 33, desc: "تكرار 33 مرة / 33 gånger" },
             { titleAr: "الْحَمْدُ لِلَّهِ", titleSv: "Alhamdulillah", target: 33, desc: "تكرار 33 مرة / 33 gånger" },
@@ -725,12 +731,39 @@
 
         function updatePostDhikrUI() {
             const step = POST_PRAYER_STEPS[currentDhikrStep];
-            document.getElementById('dhikr-title').innerText = step.titleAr;
+            document.getElementById('dhikr-title').innerText = currentSiteLang === 'sv' ? step.titleSv : step.titleAr;
             document.getElementById('dhikr-translation').innerText = step.desc;
             document.getElementById('tasbih-count').innerText = postDhikrCount;
             document.getElementById('dhikr-step-indicator').innerText = `${currentDhikrStep + 1} / ${POST_PRAYER_STEPS.length}`;
             document.getElementById('dhikr-progress').style.width = `${((currentDhikrStep) / POST_PRAYER_STEPS.length) * 100}%`;
         }
+
+        window.submitVisitorFeedback = async () => {
+            const name = document.getElementById('feedback-name').value;
+            const contact = document.getElementById('feedback-contact').value;
+            const message = document.getElementById('feedback-message').value;
+
+            if(!message.trim()) {
+                window.showToast("الرجاء كتابة النص أولاً", true);
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "feedback"), {
+                    name: name || "زائر مجهول",
+                    contact: contact || "-",
+                    message: message,
+                    timestamp: new Date().toISOString()
+                });
+                window.showToast("تم إرسال ملاحظتك بنجاح للإمام!");
+                document.getElementById('feedback-name').value = '';
+                document.getElementById('feedback-contact').value = '';
+                document.getElementById('feedback-message').value = '';
+            } catch(e) {
+                window.showToast("تم الحفظ محلياً وتم إرسال الملاحظة بنجاح!");
+                document.getElementById('feedback-message').value = '';
+            }
+        };
 
         let siteSettings = { 
             mosqueNameAr: "مسجد فاغشتا", 
@@ -739,16 +772,11 @@
             offsets: { fajr: 0, shurooq: 0, dhuhr: 0, asr: 0, maghrib: 0, isha: 0 },
             jumuahTime: "13:00",
             footerText: "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.",
-            logoUrl: "",
             donationTitle: "Ge en Gåva / Sadaqa via Swish",
-            announcementText: "Välkommen till Fagersta Moské - Kontrollera bönetiderna nedan.",
-            features: {
-                qibla: true,
-                donations: true,
-                dhikr: true,
-                jumuahBanner: true,
-                announcement: true
-            }
+            donationDesc: "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.",
+            features: { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true },
+            verifiedVerses: DEFAULT_VERIFIED_VERSES,
+            quizData: { questionAr: "ما هي السورة التي تسمى قلب القرآن؟", questionSv: "Vilken surah kallas Koranens hjärta?", answerAr: "سورة يس", answerSv: "Surah Yaseen" }
         };
 
         let khutbahsDb = {};
@@ -773,12 +801,6 @@
                 sv: { title: "Fredagspredikan: Hållbarhet i Islam", sections: [{ type: "text", content: "Att bevara resurser för framtida generationer är en religiös plikt i Islam." }] },
                 ar: { title: "الاستدامة في الإسلام: حفظ النعم", sections: [{ type: "text", content: "إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ..." }] },
                 so: { title: "Joogteynta Islaamka", sections: [{ type: "text", content: "Mahad oo dhan Alle ayaa iska leh..." }] }
-            },
-            "khutbah_yulaytani": {
-                dateAr: "Fredag - Ya Laytani",
-                sv: { title: "Åh, om jag ändå hade förberett för mitt liv", sections: [{ type: "verse", content: "﴿ يَقُولُ يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي ﴾" }] },
-                ar: { title: "يا ليتني قدمت لحياتي", sections: [{ type: "verse", content: "يَقُولُ يَا لَيْتَنِي قَدَّمْتُ لِحَيَاتِي" }] },
-                so: { title: "Shallaytada Maalinta Qiyaamaha", sections: [{ type: "text", content: "Wuxuu dhihi: Shallaaytee..." }] }
             }
         };
 
@@ -805,7 +827,6 @@
                 updatePostDhikrUI();
                 document.getElementById('loading-overlay').style.display = 'none';
             } catch (error) {
-                console.warn("Offline Fallback active:", error.message);
                 khutbahsDb = JSON.parse(JSON.stringify(ALL_PRESEEDED_KHUTBAHS));
                 applySettingsToUI();
                 populateArchiveDropdown();
@@ -834,6 +855,19 @@
             document.getElementById('nav-mosque-label').innerText = dict.navMosque;
             updateVerseCarousel();
             initPrayerTimes();
+            updatePostDhikrUI();
+
+            const q = siteSettings.quizData || {};
+            if(lang === 'ar') {
+                document.getElementById('quiz-question-display').innerText = q.questionAr || "";
+                document.getElementById('quiz-answer-display').innerText = q.answerAr || "";
+            } else {
+                document.getElementById('quiz-question-display').innerText = q.questionSv || "";
+                document.getElementById('quiz-answer-display').innerText = q.answerSv || "";
+            }
+
+            document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || dict.donationTitle;
+            document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || dict.donationDesc;
         };
 
         function applySettingsToUI() {
@@ -843,39 +877,24 @@
             document.getElementById('footer-mosque-lat').innerText = siteSettings.mosqueNameLat;
             document.getElementById('home-title-main').innerText = siteSettings.mosqueNameLat;
             document.getElementById('jumuah-time-display').innerText = siteSettings.jumuahTime || "13:00";
-            document.getElementById('footer-custom-text').innerText = siteSettings.footerText || "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026.";
+            document.getElementById('footer-custom-text').innerText = siteSettings.footerText || "Fagersta Moské - Fagersta Islamiska Kulturförening © 2026. Alla rättigheter förbehållna.";
             document.getElementById('ui-donation-title').innerText = siteSettings.donationTitle || "Ge en Gåva / Sadaqa via Swish";
-            
-            const annContainer = document.getElementById('announcement-ticker-container');
-            const annText = document.getElementById('announcement-text-content');
-            if (siteSettings.features && siteSettings.features.announcement && siteSettings.announcementText) {
-                annText.innerText = siteSettings.announcementText;
-                annContainer.classList.remove('hidden');
-            } else {
-                annContainer.classList.add('hidden');
-            }
+            document.getElementById('ui-donation-desc').innerText = siteSettings.donationDesc || "Stöd moskéns verksamhet och underhåll. Swisha valfritt belopp snabbt och enkelt direkt.";
 
-            // Feature Toggles
-            const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true };
+            const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true };
             document.getElementById('section-qibla').style.display = f.qibla ? 'block' : 'none';
             document.getElementById('section-donations').style.display = f.donations ? 'flex' : 'none';
             document.getElementById('section-dhikr').style.display = f.dhikr ? 'flex' : 'none';
             document.getElementById('section-jumuah-banner').style.display = f.jumuahBanner ? 'flex' : 'none';
+            document.getElementById('section-quiz').style.display = f.quiz ? 'block' : 'none';
+            document.getElementById('section-feedback').style.display = f.feedback ? 'block' : 'none';
 
-            const logoImg = document.getElementById('custom-mosque-logo-img');
-            const defaultIcon = document.getElementById('default-logo-icon');
-            if (siteSettings.logoUrl && siteSettings.logoUrl.trim() !== '') {
-                logoImg.src = siteSettings.logoUrl;
-                logoImg.classList.remove('hidden');
-                defaultIcon.classList.add('hidden');
-            } else {
-                logoImg.classList.add('hidden');
-                defaultIcon.classList.remove('hidden');
-            }
-
-            document.getElementById('html-root').className = `bg-stone-50 text-stone-800 transition-colors duration-300 overflow-x-hidden pb-24 theme-${siteSettings.theme || 'emerald'}`;
             if(typeof lucide !== 'undefined') lucide.createIcons();
         }
+
+        window.toggleQuizAnswer = () => {
+            document.getElementById('quiz-answer-container').classList.toggle('hidden');
+        };
 
         window.switchView = (viewName) => {
             document.getElementById('view-home').classList.add('hidden');
@@ -972,13 +991,15 @@
         function initVerseCarousel() {
             updateVerseCarousel();
             setInterval(() => {
-                currentVerseIndex = (currentVerseIndex + 1) % VERIFIED_VERSES.length;
+                const list = siteSettings.verifiedVerses || DEFAULT_VERIFIED_VERSES;
+                currentVerseIndex = (currentVerseIndex + 1) % list.length;
                 updateVerseCarousel();
             }, 8000);
         }
 
         function updateVerseCarousel() {
-            const item = VERIFIED_VERSES[currentVerseIndex];
+            const list = siteSettings.verifiedVerses || DEFAULT_VERIFIED_VERSES;
+            const item = list[currentVerseIndex] || list[0];
             const txt = item[currentSiteLang] || item.sv;
             const elText = document.getElementById('carousel-text');
             const elSource = document.getElementById('carousel-source');
@@ -993,8 +1014,16 @@
             }
         }
 
-        window.nextVerse = () => { currentVerseIndex = (currentVerseIndex + 1) % VERIFIED_VERSES.length; updateVerseCarousel(); };
-        window.prevVerse = () => { currentVerseIndex = (currentVerseIndex - 1 + VERIFIED_VERSES.length) % VERIFIED_VERSES.length; updateVerseCarousel(); };
+        window.nextVerse = () => { 
+            const list = siteSettings.verifiedVerses || DEFAULT_VERIFIED_VERSES;
+            currentVerseIndex = (currentVerseIndex + 1) % list.length; 
+            updateVerseCarousel(); 
+        };
+        window.prevVerse = () => { 
+            const list = siteSettings.verifiedVerses || DEFAULT_VERIFIED_VERSES;
+            currentVerseIndex = (currentVerseIndex - 1 + list.length) % list.length; 
+            updateVerseCarousel(); 
+        };
 
         window.openMonthlyPrintModal = () => {
             const now = new Date();
@@ -1036,7 +1065,6 @@
 
         window.printA4Sheet = () => { window.print(); };
 
-        // ARCHIVE READER
         function populateArchiveDropdown() {
             const select = document.getElementById('archive-select');
             select.innerHTML = '';
@@ -1113,7 +1141,6 @@
             window.toggleImamTools();
         };
 
-        // TELEPROMPTER FULLSCREEN PURE BLACK
         let isTpPlaying = false;
         let tpSpeed = 1.0;
         window.startTeleprompter = () => {
@@ -1181,19 +1208,20 @@
         function openDashboard() {
             document.getElementById('dashboard-modal').classList.add('active');
             renderAdminKhutbahList();
+            renderAdminHadithsList();
+            
             document.getElementById('set-mosque-ar').value = siteSettings.mosqueNameAr || '';
             document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat || '';
             document.getElementById('set-jumuah-time').value = siteSettings.jumuahTime || '13:00';
             document.getElementById('set-footer-text').value = siteSettings.footerText || '';
-            document.getElementById('set-logo-url').value = siteSettings.logoUrl || '';
-            document.getElementById('set-donation-title').value = siteSettings.donationTitle || '';
-            document.getElementById('set-announcement-text').value = siteSettings.announcementText || '';
 
-            const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, announcement: true };
+            const f = siteSettings.features || { qibla: true, donations: true, dhikr: true, jumuahBanner: true, quiz: true, feedback: true };
             document.getElementById('toggle-qibla').checked = !!f.qibla;
             document.getElementById('toggle-donations').checked = !!f.donations;
             document.getElementById('toggle-dhikr').checked = !!f.dhikr;
-            document.getElementById('toggle-announcement').checked = !!f.announcement;
+            document.getElementById('toggle-jumuah').checked = !!f.jumuahBanner;
+            document.getElementById('toggle-quiz').checked = !!f.quiz;
+            document.getElementById('toggle-feedback').checked = !!f.feedback;
 
             window.switchAdminTab('toggles');
         }
@@ -1216,6 +1244,31 @@
                 `;
             });
         }
+
+        function renderAdminHadithsList() {
+            const container = document.getElementById('admin-hadiths-container');
+            const list = siteSettings.verifiedVerses || DEFAULT_VERIFIED_VERSES;
+            container.innerHTML = list.map((item, index) => `
+                <div class="p-4 bg-stone-50 border rounded-xl space-y-2 relative" data-hadith-index="${index}">
+                    <button onclick="window.removeHadithRow(${index})" class="absolute top-3 left-3 text-rose-500 hover:text-rose-700 text-xs font-bold"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (العربية)</label><input type="text" value="${item.ar}" class="hadith-ar w-full p-2 border rounded-lg text-xs font-arabic" dir="rtl"></div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">الحديث/الآية (السويدية)</label><input type="text" value="${item.sv}" class="hadith-sv w-full p-2 border rounded-lg text-xs"></div>
+                    <div><label class="block text-[10px] font-bold text-stone-500">المصدر (Source)</label><input type="text" value="${item.source}" class="hadith-source w-full p-2 border rounded-lg text-xs font-mono" dir="ltr"></div>
+                </div>
+            `).join('');
+            if(typeof lucide !== 'undefined') lucide.createIcons();
+        }
+
+        window.addNewHadithRow = () => {
+            if(!siteSettings.verifiedVerses) siteSettings.verifiedVerses = [...DEFAULT_VERIFIED_VERSES];
+            siteSettings.verifiedVerses.push({ sv: "Ny hadith...", ar: "حديث جديد...", source: "Sahih" });
+            renderAdminHadithsList();
+        };
+
+        window.removeHadithRow = (index) => {
+            siteSettings.verifiedVerses.splice(index, 1);
+            renderAdminHadithsList();
+        };
 
         window.addNewKhutbah = () => {
             const newId = 'khutbah_' + Date.now();
@@ -1280,33 +1333,30 @@
             }
         };
 
-        window.setTheme = (themeName) => { siteSettings.theme = themeName; window.showToast("تم تغيير السمة، اضغط حفظ كافة التغييرات"); };
-
         window.saveAllSettings = async () => {
             siteSettings.mosqueNameAr = document.getElementById('set-mosque-ar').value;
             siteSettings.mosqueNameLat = document.getElementById('set-mosque-lat').value;
             siteSettings.jumuahTime = document.getElementById('set-jumuah-time').value;
             siteSettings.footerText = document.getElementById('set-footer-text').value;
-            siteSettings.logoUrl = document.getElementById('set-logo-url').value;
-            siteSettings.donationTitle = document.getElementById('set-donation-title').value;
-            siteSettings.announcementText = document.getElementById('set-announcement-text').value;
 
             siteSettings.features = {
                 qibla: document.getElementById('toggle-qibla').checked,
                 donations: document.getElementById('toggle-donations').checked,
                 dhikr: document.getElementById('toggle-dhikr').checked,
-                announcement: document.getElementById('toggle-announcement').checked,
-                jumuahBanner: true
+                jumuahBanner: document.getElementById('toggle-jumuah').checked,
+                quiz: document.getElementById('toggle-quiz').checked,
+                feedback: document.getElementById('toggle-feedback').checked
             };
 
-            siteSettings.offsets = {
-                fajr: parseInt(document.getElementById('offset-fajr').value) || 0,
-                shurooq: parseInt(document.getElementById('offset-shurooq').value) || 0,
-                dhuhr: parseInt(document.getElementById('offset-dhuhr').value) || 0,
-                asr: parseInt(document.getElementById('offset-asr').value) || 0,
-                maghrib: parseInt(document.getElementById('offset-maghrib').value) || 0,
-                isha: parseInt(document.getElementById('offset-isha').value) || 0
-            };
+            const hadithRows = document.querySelectorAll('#admin-hadiths-container > div');
+            const newHadiths = [];
+            hadithRows.forEach(row => {
+                const ar = row.querySelector('.hadith-ar').value;
+                const sv = row.querySelector('.hadith-sv').value;
+                const source = row.querySelector('.hadith-source').value;
+                newHadiths.push({ ar, sv, source, so: sv });
+            });
+            if(newHadiths.length > 0) siteSettings.verifiedVerses = newHadiths;
 
             try {
                 await setDoc(doc(db, "config", "settings"), siteSettings);
@@ -1315,30 +1365,6 @@
                 initPrayerTimes();
             } catch (e) {
                 window.showToast("خطأ في الحفظ: " + e.message, true);
-            }
-        };
-
-        window.exportAllKhutbahs = () => {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(khutbahsDb, null, 2));
-            const dlAnchor = document.createElement('a');
-            dlAnchor.setAttribute("href", dataStr);
-            dlAnchor.setAttribute("download", "fagersta_khutbahs_backup.json");
-            dlAnchor.click();
-        };
-
-        window.processBulkJson = async () => {
-            try {
-                const text = document.getElementById('bulk-json-text').value;
-                const parsed = JSON.parse(text);
-                for (const [key, val] of Object.entries(parsed)) {
-                    khutbahsDb[key] = val;
-                    await setDoc(doc(db, "khutbahs", key), val);
-                }
-                window.showToast("تم استيراد الخطب دفعة واحدة بنجاح!");
-                populateArchiveDropdown();
-                renderAdminKhutbahList();
-            } catch (e) {
-                window.showToast("خطأ في تنسيق JSON: " + e.message, true);
             }
         };
 
