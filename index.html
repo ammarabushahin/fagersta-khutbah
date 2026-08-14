@@ -11,6 +11,15 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
+    <!-- Mammoth for Word files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    
+    <!-- PDF.js for PDF files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    </script>
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -152,8 +161,8 @@
                 
                 <!-- Logo & Mosque Name -->
                 <div class="flex items-center gap-4 w-full md:w-auto justify-center md:justify-start">
-                    <div class="bg-brand-600 text-white p-3 rounded-2xl shadow-lg shadow-brand-200 hover:scale-105 transition-transform">
-                        <i data-lucide="book-open" class="w-8 h-8"></i>
+                    <div id="ui-logo-container" class="bg-brand-600 p-3 rounded-2xl shadow-lg shadow-brand-200 hover:scale-105 transition-transform flex items-center justify-center">
+                        <i data-lucide="book-open" class="w-8 h-8 text-white"></i>
                     </div>
                     <div class="flex flex-col text-center md:text-right">
                         <h1 id="ui-mosque-name-ar" class="text-2xl font-bold text-brand-950 leading-tight font-ui">مسجد فاغشتا</h1>
@@ -300,7 +309,17 @@
                                 <label class="block text-sm font-bold text-stone-500 mb-2">اسم المسجد (لاتيني)</label>
                                 <input type="text" id="set-mosque-lat" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none" dir="ltr">
                             </div>
-                            <div class="col-span-2">
+                            <div class="col-span-2 border-t pt-4">
+                                <label class="block text-sm font-bold text-stone-500 mb-2">رابط شعار المسجد (Logo URL) - اختياري</label>
+                                <input type="text" id="set-logo-url" placeholder="https://example.com/logo.png" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none text-left" dir="ltr">
+                                <p class="text-xs text-stone-400 mt-2">ضع رابط صورة الشعار هنا لتغيير شكل الكتاب في الأعلى.</p>
+                            </div>
+                            <div class="col-span-2 border-t pt-4">
+                                <label class="block text-sm font-bold text-stone-500 mb-2">مفتاح الذكاء الاصطناعي (Gemini API Key) للترجمة التلقائية</label>
+                                <input type="password" id="set-gemini-key" placeholder="AIzaSy..." class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none text-left" dir="ltr">
+                                <p class="text-xs text-stone-400 mt-2">احصل على المفتاح مجاناً من Google AI Studio لتفعيل زر الترجمة الآلية في محرر الخطب.</p>
+                            </div>
+                            <div class="col-span-2 border-t pt-4">
                                 <label class="block text-sm font-bold text-stone-500 mb-2">لون الموقع (Theme)</label>
                                 <div class="flex gap-4">
                                     <button onclick="window.setTheme('emerald')" class="w-12 h-12 rounded-full bg-emerald-600 border-4 border-white shadow-md ring-2 ring-transparent focus:ring-emerald-400"></button>
@@ -342,12 +361,27 @@
                             <input type="text" id="edit-title" class="w-full p-3 border rounded-xl focus:border-brand-500 outline-none text-lg font-bold">
                         </div>
 
+                        <!-- Translation Buttons -->
+                        <div class="flex gap-2 mb-6 bg-stone-50 p-3 rounded-xl border border-stone-200">
+                             <button onclick="window.autoTranslate('sv')" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-blue-700 flex items-center justify-center gap-2 transition-colors"><i data-lucide="bot" class="w-4 h-4"></i> ترجمة آلية للسويدية</button>
+                             <button onclick="window.autoTranslate('so')" class="flex-1 bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-emerald-700 flex items-center justify-center gap-2 transition-colors"><i data-lucide="bot" class="w-4 h-4"></i> ترجمة آلية للصومالية</button>
+                        </div>
+
                         <!-- SMART PARSER -->
                         <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-6">
                             <h4 class="font-bold text-indigo-800 mb-2 flex items-center gap-2"><i data-lucide="wand-2" class="w-5 h-5"></i> المحلل الذكي (Smart Parser)</h4>
-                            <p class="text-xs text-indigo-600 mb-3">انسخ نص الخطبة من الوورد أو PDF والصقه هنا. سيقوم الذكاء الاصطناعي بتفكيكه إلى فقرات، وتحديد الآيات والأحاديث والأدعية تلقائياً!</p>
+                            <p class="text-xs text-indigo-600 mb-3">انسخ نص الخطبة والصقه هنا، أو ارفع ملف Word / PDF ليتم استخراج النص وتفكيكه تلقائياً!</p>
+                            
+                            <div class="mb-3 flex flex-col md:flex-row items-start md:items-center gap-3">
+                                 <input type="file" id="file-upload" accept=".pdf,.docx" class="hidden" onchange="window.handleFileUpload(event)">
+                                 <button onclick="document.getElementById('file-upload').click()" class="bg-white border border-indigo-300 text-indigo-700 px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-100 flex items-center gap-2 transition-colors">
+                                     <i data-lucide="file-up" class="w-4 h-4"></i> رفع ملف (Word / PDF)
+                                 </button>
+                                 <span id="upload-status" class="text-xs text-indigo-600 font-bold bg-white px-3 py-1 rounded-full border border-indigo-100">في انتظار الملف...</span>
+                            </div>
+
                             <textarea id="smart-text" rows="4" class="w-full p-3 border border-indigo-300 rounded-lg outline-none focus:ring-2 focus:ring-indigo-400 text-sm mb-2" placeholder="الصق النص الكامل هنا..."></textarea>
-                            <button onclick="window.parseSmartText()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2"><i data-lucide="cpu" class="w-4 h-4"></i> تحليل وتفكيك النص</button>
+                            <button onclick="window.parseSmartText()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 flex items-center gap-2 transition-colors"><i data-lucide="cpu" class="w-4 h-4"></i> تحليل وتفكيك النص</button>
                         </div>
 
                         <!-- Sections Builder -->
@@ -396,7 +430,9 @@
         let siteSettings = {
             mosqueNameAr: "مسجد فاغشتا",
             mosqueNameLat: "Fagersta Mosken",
-            theme: "emerald"
+            theme: "emerald",
+            logoUrl: "",
+            geminiApiKey: ""
         };
         
         let currentKhutbahId = null;
@@ -481,6 +517,17 @@
             document.getElementById('ui-mosque-name-lat').innerText = siteSettings.mosqueNameLat;
             document.getElementById('footer-mosque-lat').innerText = siteSettings.mosqueNameLat;
             
+            // Apply Logo
+            const logoContainer = document.getElementById('ui-logo-container');
+            if (siteSettings.logoUrl && siteSettings.logoUrl.trim() !== "") {
+                logoContainer.innerHTML = `<img src="${siteSettings.logoUrl}" alt="Logo" class="w-12 h-12 object-contain rounded-xl">`;
+                logoContainer.className = "bg-white p-1 rounded-2xl shadow-lg border border-stone-100 hover:scale-105 transition-transform flex items-center justify-center";
+            } else {
+                logoContainer.innerHTML = `<i data-lucide="book-open" class="w-8 h-8 text-white"></i>`;
+                logoContainer.className = "bg-brand-600 p-3 rounded-2xl shadow-lg shadow-brand-200 hover:scale-105 transition-transform flex items-center justify-center";
+                if(typeof lucide !== 'undefined') lucide.createIcons();
+            }
+
             // Apply Theme
             const root = document.getElementById('html-root');
             root.className = `bg-stone-50 text-stone-800 transition-colors duration-300 overflow-x-hidden pb-24 theme-${siteSettings.theme}`;
@@ -676,8 +723,10 @@
             renderAdminKhutbahList();
             
             // Fill Settings
-            document.getElementById('set-mosque-ar').value = siteSettings.mosqueNameAr;
-            document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat;
+            document.getElementById('set-mosque-ar').value = siteSettings.mosqueNameAr || '';
+            document.getElementById('set-mosque-lat').value = siteSettings.mosqueNameLat || '';
+            document.getElementById('set-logo-url').value = siteSettings.logoUrl || '';
+            document.getElementById('set-gemini-key').value = siteSettings.geminiApiKey || '';
             
             window.switchAdminTab('settings');
         }
@@ -714,6 +763,9 @@
             // Save Settings
             siteSettings.mosqueNameAr = document.getElementById('set-mosque-ar').value;
             siteSettings.mosqueNameLat = document.getElementById('set-mosque-lat').value;
+            siteSettings.logoUrl = document.getElementById('set-logo-url').value;
+            siteSettings.geminiApiKey = document.getElementById('set-gemini-key').value;
+            
             try {
                 await setDoc(doc(db, "config", "settings"), siteSettings);
                 
@@ -853,6 +905,122 @@
         window.addEmptyBlock = () => { editingData[editLang].sections.push({type: 'text', content: ''}); renderEditorBlocks(); }
 
         // --- THE SMART PARSER LOGIC ---
+
+        window.handleFileUpload = async (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const statusEl = document.getElementById('upload-status');
+            statusEl.innerText = "⏳ جاري القراءة والتحليل...";
+            
+            try {
+                if (file.name.endsWith('.docx')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const result = await mammoth.extractRawText({arrayBuffer: arrayBuffer});
+                    document.getElementById('smart-text').value = result.value;
+                    statusEl.innerText = "✅ تم استخراج النص! اضغط 'تحليل وتفكيك'.";
+                } else if (file.name.endsWith('.pdf')) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
+                    let fullText = "";
+                    for (let i = 1; i <= pdf.numPages; i++) {
+                        const page = await pdf.getPage(i);
+                        const textContent = await page.getTextContent();
+                        const pageText = textContent.items.map(item => item.str).join(' ');
+                        fullText += pageText + "\n\n";
+                    }
+                    document.getElementById('smart-text').value = fullText;
+                    statusEl.innerText = "✅ تم استخراج النص! اضغط 'تحليل وتفكيك'.";
+                } else {
+                    statusEl.innerText = "❌ عذراً، الصيغة المدعومة هي PDF و DOCX فقط.";
+                }
+            } catch (e) {
+                console.error(e);
+                statusEl.innerText = "❌ حدث خطأ، تأكد من أن الملف سليم.";
+            }
+        };
+
+        window.autoTranslate = async (targetLang) => {
+            if (!siteSettings.geminiApiKey) {
+                alert("يرجى إضافة مفتاح الذكاء الاصطناعي (Gemini API Key) في إعدادات الموقع أولاً للحصول على الترجمة المجانية!");
+                window.switchAdminTab('settings');
+                return;
+            }
+
+            if (!editingData.ar || !editingData.ar.sections || editingData.ar.sections.length === 0) {
+                alert("يرجى تفكيك وإضافة نص الخطبة باللغة العربية أولاً قبل البدء بالترجمة!");
+                return;
+            }
+
+            const langName = targetLang === 'sv' ? "Swedish" : "Somali";
+            const sectionsJson = JSON.stringify(editingData.ar.sections);
+            
+            const prompt = `You are an expert Islamic translator. Translate the following JSON array of Friday Khutbah sections from Arabic to ${langName}.
+Rules:
+1. Keep the EXACT same JSON array structure.
+2. DO NOT change the "type" field values (keep them as "text", "verse", "hadith", "dua", "intro", "highlight", "divider").
+3. Translate ONLY the "content" and "title" fields into highly accurate and spiritual ${langName}.
+4. Return ONLY the raw JSON array. Do not wrap it in markdown blockquotes like \`\`\`json. Just the raw array starting with [ and ending with ].
+
+Input JSON:
+${sectionsJson}`;
+
+            try {
+                document.getElementById('loading-overlay').style.display = 'flex';
+                document.querySelector('#loading-overlay h2').innerText = `جاري ترجمة الخطبة إلى ${langName} بواسطة الذكاء الاصطناعي...`;
+
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${siteSettings.geminiApiKey}`;
+
+                // Translate Sections
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                const result = await response.json();
+                if (result.error) throw new Error(result.error.message);
+
+                const translatedText = result.candidates[0].content.parts[0].text;
+                let translatedSections;
+                try {
+                    translatedSections = JSON.parse(translatedText.replace(/```json/g, '').replace(/```/g, '').trim());
+                } catch(err) {
+                    throw new Error("فشل الذكاء الاصطناعي في تنسيق النتيجة. حاول الترجمة مرة أخرى.");
+                }
+
+                // Translate Title
+                const titlePrompt = `Translate this Arabic Khutbah title to ${langName}. Return only the translated text. Title: "${editingData.ar.title}"`;
+                const titleResponse = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: titlePrompt }] }] })
+                });
+                const titleResult = await titleResponse.json();
+                const translatedTitle = titleResult.candidates[0].content.parts[0].text.trim();
+
+                // Apply Translations
+                if (!editingData[targetLang]) {
+                    editingData[targetLang] = { dir: "ltr", fontClass: "font-latin" };
+                }
+                editingData[targetLang].title = translatedTitle;
+                editingData[targetLang].sections = translatedSections;
+
+                window.switchEditorLang(targetLang);
+                alert("🎉 تمت الترجمة بنجاح! راجع النص الآن في الأسفل ثم اضغط حفظ التغييرات.");
+
+            } catch (error) {
+                console.error("Translation Error:", error);
+                alert("حدث خطأ أثناء الترجمة: " + error.message);
+            } finally {
+                document.getElementById('loading-overlay').style.display = 'none';
+                document.querySelector('#loading-overlay h2').innerText = "جاري تحميل المنصة...";
+            }
+        };
+
         window.parseSmartText = () => {
             const raw = document.getElementById('smart-text').value;
             if(!raw.trim()) return;
