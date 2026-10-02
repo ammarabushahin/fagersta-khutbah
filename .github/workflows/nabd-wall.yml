@@ -1,11 +1,10 @@
-name: Nabd wall · publish and feed cache
+name: Nabd 2 · isolated publish and verification
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'nabd/release/**'
-      - 'nabd/verify.py'
+      - 'nabd/v2-release/**'
       - '.github/workflows/nabd-wall.yml'
   schedule:
     - cron: '17,47 * * * *'
@@ -15,91 +14,79 @@ concurrency:
   group: nabd-wall-cache
   cancel-in-progress: false
 jobs:
-  refresh:
+  upgrade:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
-      - name: Publish exact tested app and fetch public timeline
+      - name: Decode checksum-verified public sources only
+        if: github.event_name != 'schedule'
         shell: python
-        env:
-          EVENT_NAME: ${{ github.event_name }}
         run: |
-          import base64, datetime, hashlib, json, lzma, os, pathlib, urllib.request
+          import base64, hashlib, json, lzma, pathlib
           root = pathlib.Path('nabd')
-          root.mkdir(exist_ok=True)
-          if os.environ['EVENT_NAME'] != 'schedule' or not (root / 'index.html').exists():
-              parts = [root / 'release' / ('part' + str(i) + '.b64') for i in range(1, 6)]
-              encoded = ''.join(part.read_text().strip() for part in parts)
-              html = lzma.decompress(base64.b64decode(encoded, validate=True), memlimit=268435456)
-              if hashlib.sha256(html).hexdigest() != 'd0f14cc571f012c60b145dfe70a48b13c2dc83956be2008d9c0bb966cf740c7b':
-                  raise ValueError('Base release integrity check failed')
-              old = b'feed.appendChild(el);'
-              new = b'const anchor=feed.children[ar.indexOf(p)];if(anchor!==el)feed.insertBefore(el,anchor||null);'
-              assert html.count(old) == 1
-              html = html.replace(old, new)
-              actual = hashlib.sha256(html).hexdigest()
-              if len(html) != 97501 or actual != '7df9d57cd35206e2351ab0e2b36f3d7afa2bf88abcf6e47a84b22495e53d445e':
-                  raise ValueError('Final release integrity check failed: ' + actual)
-              (root / 'index.html').write_bytes(html)
-              print('Verified final standalone HTML release:', actual)
-          now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-          report = {'checked_at': now, 'account': 'SalmaRashwani', 'provider': 'FxEmbed public API v2'}
-          try:
-              request = urllib.request.Request('https://api.fxtwitter.com/2/profile/SalmaRashwani/statuses?count=50', headers={'Accept': 'application/json', 'User-Agent': 'NabdPublicWall/1.0', 'Origin': 'https://ammarabushahin.github.io'})
-              with urllib.request.urlopen(request, timeout=30) as response:
-                  data = json.load(response)
-                  report['http_status'] = response.status
-                  report['cors'] = response.headers.get('Access-Control-Allow-Origin')
-              if data.get('code') != 200 or not isinstance(data.get('results'), list):
-                  raise ValueError('Provider did not return a valid timeline: ' + str(data.get('message', data.get('code'))))
-              report['ok'] = True
-              report['count'] = len(data['results'])
-              seed = {'fetched_at': now, 'account': 'SalmaRashwani', 'provider': 'FxEmbed public API v2', 'data': data}
-              (root / 'seed.json').write_text(json.dumps(seed, ensure_ascii=False), encoding='utf-8')
-              print('Timeline retrieved:', report['count'], 'posts; CORS:', report['cors'])
-          except Exception as error:
-              report['ok'] = False
-              report['error'] = str(error)
-              print('Public timeline unavailable:', error)
-          report['html_sha256'] = hashlib.sha256((root / 'index.html').read_bytes()).hexdigest()
-          (root / 'health.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
-      - name: Commit only the isolated app and cache
-        run: |
-          git config user.name 'Nabd wall bot'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add nabd/index.html nabd/health.json
-          test ! -f nabd/seed.json || git add nabd/seed.json
-          if ! git diff --cached --quiet; then
-            git commit -m 'Publish tested Nabd app and refresh public feed [skip ci]'
-            git pull --rebase origin main
-            git push
-          fi
-      - name: Install browser testing tools for this release
+          encoded = ''.join((root / 'v2-release' / ('part' + str(i) + '.b64')).read_text().strip() for i in range(1,6))
+          raw = lzma.decompress(base64.b64decode(encoded, validate=True), memlimit=268435456)
+          assert len(raw) < 500000
+          assert hashlib.sha256(raw).hexdigest() == 'd95589bfa13a16dae980308fba8bae9def9866d7fb4630abcd0f14f0b845677a', 'Source integrity check failed'
+          files = json.loads(raw)
+          allowed = {'verify_live.py','upgrade.css','members.json','build.py','test_ui.py','shell.html','upgrade.js','auth.json','probe.py'}
+          assert set(files) == allowed
+          target = root / 'v2-src'
+          target.mkdir(exist_ok=True)
+          for name, content in files.items():
+              assert isinstance(content, str)
+              (target / name).write_text(content, encoding='utf-8')
+          print('Nine allowlisted public source files verified. No private source document is used in CI.')
+      - name: Build the isolated app
+        if: github.event_name != 'schedule'
+        run: python nabd/v2-src/build.py nabd
+      - name: Install browser testing tools
         if: github.event_name != 'schedule'
         run: |
           python -m pip install --quiet playwright
           python -m playwright install chromium --with-deps
-      - name: Verify public URL and real browser interactions
+      - name: Test controls using isolated local fixtures and a separate test-only password
+        id: ui
         if: github.event_name != 'schedule'
-        run: python nabd/verify.py
-      - name: Retain public verification and screenshots
+        run: python nabd/v2-src/test_ui.py nabd
+      - name: Publish only the tested Nabd app
+        if: github.event_name != 'schedule'
+        run: |
+          git config user.name 'Nabd wall bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add nabd/index.html nabd/wall.html nabd/build-v2.json nabd/v2-src/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish verified Nabd 2 app without private account credentials [skip ci]'
+            git pull --rebase origin main
+            git push
+          fi
+      - name: Check public sources without account authentication
+        run: python nabd/v2-src/probe.py
+      - name: Verify the real public deployment
+        if: github.event_name != 'schedule'
+        run: python nabd/v2-src/verify_live.py
+      - name: Retain test reports and screenshots
         if: always() && github.event_name != 'schedule'
         uses: actions/upload-artifact@v4
         with:
-          name: nabd-live-verification
+          name: nabd-v2-verification
           path: |
-            nabd/verification.json
-            nabd/live-*.png
+            nabd/local-tests.json
+            nabd/local-*.png
+            nabd/verification-v2.json
+            nabd/live-v2-*.png
+            nabd/provider-check-v2.json
           retention-days: 7
-      - name: Record verification result without modifying the existing site
-        if: always() && github.event_name != 'schedule'
+      - name: Record diagnostics without changing the unrelated root site
+        if: always()
         run: |
-          if [ -f nabd/verification.json ]; then
-            git add nabd/verification.json
-            if ! git diff --cached --quiet; then
-              git commit -m 'Record Nabd public deployment verification [skip ci]'
-              git pull --rebase origin main
-              git push
-            fi
+          git config user.name 'Nabd wall bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for file in nabd/local-tests.json nabd/verification-v2.json nabd/provider-check-v2.json; do
+            if [ -f "$file" ]; then git add "$file"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git commit -m 'Record Nabd 2 verification diagnostics [skip ci]'
+            git push
           fi
