@@ -70,7 +70,59 @@
     },
     {
       "test": "Fullscreen activated from user click",
-      "pass": false
+      "pass": true
+    },
+    {
+      "test": "Full inner document reloads while outer document persists",
+      "pass": true
+    },
+    {
+      "test": "Fullscreen survives full inner reload",
+      "pass": true
+    },
+    {
+      "test": "Nabd cookies are deleted",
+      "pass": true
+    },
+    {
+      "test": "Namespaced application cache cleared",
+      "pass": true
+    },
+    {
+      "test": "Display and Facebook settings survive forced reload",
+      "pass": true
+    },
+    {
+      "test": "Edit lease survives forced inner reload",
+      "pass": true
+    },
+    {
+      "test": "Manual lock works",
+      "pass": true
+    },
+    {
+      "test": "Settings input blocked while locked",
+      "pass": true
+    },
+    {
+      "test": "Share excludes passwords and auth records",
+      "pass": true
+    },
+    {
+      "test": "Shared link preserves platform sources and remains read-only",
+      "pass": true
+    },
+    {
+      "test": "Noindex present in shell and inner document",
+      "pass": true
+    },
+    {
+      "test": "Mobile shell and wall have no horizontal overflow",
+      "pass": true
+    },
+    {
+      "test": "No uncaught exceptions across interactions",
+      "pass": true
     }
   ],
   "errors": [],

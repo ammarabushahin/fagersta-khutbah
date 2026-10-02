@@ -1,0 +1,145 @@
+{
+  "checked_at": "2026-10-02T13:41:49.081227+00:00",
+  "authentication_used": false,
+  "x_account_count": 10,
+  "facebook_source_count": 10,
+  "third_platform_present": false,
+  "sources": [
+    {
+      "handle": "RaniaAlkilany",
+      "x": {
+        "ok": false,
+        "http_status": 404
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": true,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "Al_morakeb_404",
+      "x": {
+        "ok": false,
+        "http_status": 404
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "QamarAlbarodi",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 19,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "AmaniBarazi",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "amirabaniomaya2",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "NoraRawas",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "kamiliabal19551",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 18,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "YomnaKadi",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "SalmaRashwani",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 21,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "remamuraad",
+      "x": {
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": false,
+        "verified_timeline_fetched": false
+      }
+    }
+  ]
+}
