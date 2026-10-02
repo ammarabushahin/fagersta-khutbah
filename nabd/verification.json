@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-10-02T12:57:08.874041+00:00",
+  "url": "https://ammarabushahin.github.io/fagersta-khutbah/nabd/",
+  "tests": [
+    {
+      "test": "Public HTTPS page serves the exact tested release",
+      "pass": true
+    },
+    {
+      "test": "Public page opens in a real Chromium browser",
+      "pass": true
+    },
+    {
+      "test": "Default ten genuine posts displayed",
+      "pass": true
+    },
+    {
+      "test": "Initial account is SalmaRashwani",
+      "pass": true
+    },
+    {
+      "test": "Global count control works on deployed page",
+      "pass": true
+    },
+    {
+      "test": "Individual card enlarges",
+      "pass": false
+    }
+  ],
+  "errors": [],
+  "last_http_error": "HTTP Error 404: Not Found",
+  "http_status": 200,
+  "html_sha256": "d0f14cc571f012c60b145dfe70a48b13c2dc83956be2008d9c0bb966cf740c7b",
+  "initial_cards": 10,
+  "initial_source_status": {
+    "salmarashwani": {
+      "ok": true,
+      "at": "2026-10-02T12:58:35.607Z",
+      "count": 20,
+      "cached": false
+    }
+  },
+  "fetched_posts": 20,
+  "initial_post_ids": [
+    "2106001782182724033",
+    "2106001761001488468",
+    "2106001762914050356",
+    "2105989642759647259",
+    "2105989623629369724",
+    "2105989621549093301",
+    "2105986637184324055",
+    "2105986617529823564",
+    "2105986619094269953",
+    "2105977045834494282"
+  ],
+  "live_timeline_api_ok": true,
+  "ok": false,
+  "failure": "Individual card enlarges"
+}
