@@ -1,0 +1,103 @@
+{
+  "test_mode": "offline fixtures with a separate test-only password; no live view generation",
+  "tests": [
+    {
+      "test": "Ten registered X and Facebook sources preserved",
+      "pass": true
+    },
+    {
+      "test": "All X cards use official widget hosts",
+      "pass": true
+    },
+    {
+      "test": "Explicit statement about non-counting embedded views",
+      "pass": true
+    },
+    {
+      "test": "Edit lock remains enabled",
+      "pass": true
+    },
+    {
+      "test": "Only documented display options passed to SDK",
+      "pass": true
+    },
+    {
+      "test": "Widget library loaded once per document",
+      "pass": true
+    },
+    {
+      "test": "First click zooms the embedded card",
+      "pass": true
+    },
+    {
+      "test": "Zoom preserves the same widget iframe",
+      "pass": true
+    },
+    {
+      "test": "Ordinary re-renders do not recreate embeds",
+      "pass": true
+    },
+    {
+      "test": "Pinning reorders actual embedded cards",
+      "pass": true
+    },
+    {
+      "test": "Bookmark button continues to work",
+      "pass": true
+    },
+    {
+      "test": "Official dark theme is applied",
+      "pass": true
+    },
+    {
+      "test": "Official media visibility option is applied",
+      "pass": true
+    },
+    {
+      "test": "Pending manual links use official SDK directly",
+      "pass": true
+    },
+    {
+      "test": "No custom view counters in embedded cards",
+      "pass": true
+    },
+    {
+      "test": "Facebook directory remains available",
+      "pass": true
+    },
+    {
+      "test": "Full refresh recreates inner document and embeds",
+      "pass": true
+    },
+    {
+      "test": "Outer fullscreen survives the refresh",
+      "pass": true
+    },
+    {
+      "test": "Settings and edit lease preserved",
+      "pass": true
+    },
+    {
+      "test": "No mobile horizontal overflow",
+      "pass": true
+    },
+    {
+      "test": "Noindex preserved in both documents",
+      "pass": true
+    },
+    {
+      "test": "Blocked SDK produces an explicit fallback",
+      "pass": true
+    },
+    {
+      "test": "Fallback includes a manual retry button",
+      "pass": true
+    },
+    {
+      "test": "No uncaught JavaScript exceptions",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "ok": true
+}

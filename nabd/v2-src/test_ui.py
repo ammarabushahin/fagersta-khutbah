@@ -29,6 +29,7 @@ with sync_playwright() as pw:
  ctx=browser.new_context(viewport={'width':1440,'height':1000},locale='ar')
  ctx.route('https://api.fxtwitter.com/**',mock_api)
  ctx.route('https://www.facebook.com/**',lambda r:r.fulfill(status=200,content_type='text/html',body='<p>Local test of external frame boundary</p>'))
+ ctx.route('https://platform.twitter.com/**',lambda r:r.abort())
  ctx.route('https://fonts.googleapis.com/**',lambda r:r.abort())
  ctx.route('https://fonts.gstatic.com/**',lambda r:r.abort())
  page=ctx.new_page();page.on('pageerror',lambda e:errors.append(str(e)));page.set_default_timeout(10000)
