@@ -1,0 +1,147 @@
+{
+  "checked_at": "2026-10-02T13:46:20.268950+00:00",
+  "url": "https://ammarabushahin.github.io/fagersta-khutbah/nabd/",
+  "tests": [
+    {
+      "test": "Public HTTPS pages match tested build",
+      "pass": true
+    },
+    {
+      "test": "Public shell opens",
+      "pass": true
+    },
+    {
+      "test": "Ten X and ten Facebook sources loaded",
+      "pass": true
+    },
+    {
+      "test": "Settings locked by default",
+      "pass": true
+    },
+    {
+      "test": "At least one real X source returns posts",
+      "pass": true
+    },
+    {
+      "test": "Live settings action asks for password",
+      "pass": true
+    },
+    {
+      "test": "Incorrect password rejected on live site",
+      "pass": true
+    },
+    {
+      "test": "Browser enters fullscreen",
+      "pass": true
+    },
+    {
+      "test": "Full inner page reload without reloading shell",
+      "pass": true
+    },
+    {
+      "test": "Fullscreen retained after forced reload",
+      "pass": true
+    },
+    {
+      "test": "Readable Nabd test cookie removed",
+      "pass": true
+    },
+    {
+      "test": "Noindex on both real pages",
+      "pass": true
+    },
+    {
+      "test": "Mobile viewport has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "test": "No uncaught JS errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "source_statuses": {
+    "raniaalkilany": {
+      "error": "تعذر الجلب (404)",
+      "ok": false,
+      "retryAt": 1790948841461,
+      "backoff": 60
+    },
+    "qamaralbarodi": {
+      "error": "تعذر الجلب (404)",
+      "ok": false,
+      "retryAt": 1790948842233,
+      "backoff": 60
+    },
+    "al_morakeb_404": {
+      "error": "تعذر الجلب (404)",
+      "ok": false,
+      "retryAt": 1790948842252,
+      "backoff": 60
+    },
+    "amanibarazi": {
+      "error": "تعذر الجلب (404)",
+      "ok": false,
+      "retryAt": 1790948842342,
+      "backoff": 60
+    },
+    "amirabaniomaya2": {
+      "ok": true,
+      "at": "2026-10-02T13:46:22.873Z",
+      "count": 20,
+      "cached": false
+    },
+    "norarawas": {
+      "ok": true,
+      "at": "2026-10-02T13:46:23.670Z",
+      "count": 20,
+      "cached": false
+    },
+    "yomnakadi": {
+      "ok": true,
+      "at": "2026-10-02T13:46:23.794Z",
+      "count": 20,
+      "cached": false
+    },
+    "kamiliabal19551": {
+      "ok": true,
+      "at": "2026-10-02T13:46:23.433Z",
+      "count": 38,
+      "cached": false
+    },
+    "salmarashwani": {
+      "ok": true,
+      "at": "2026-10-02T13:46:24.548Z",
+      "count": 21,
+      "cached": false
+    },
+    "remamuraad": {
+      "error": "تعذر الجلب (404)",
+      "ok": false,
+      "retryAt": 1790948844898,
+      "backoff": 60
+    }
+  },
+  "displayed_x_posts": 10,
+  "real_post_ids": [
+    "2106013656190181410",
+    "2106003722748711387",
+    "2105988508275884347",
+    "2106009590395543950",
+    "2106006081637875877",
+    "2106002542341582856",
+    "2105643172638363922",
+    "2105987998416322822",
+    "2106007143291699445",
+    "2106006062105027008"
+  ],
+  "screen_state": {
+    "reloads": 1,
+    "awake": false,
+    "wantWake": true,
+    "fullscreen": true,
+    "interval": 60,
+    "auto": true
+  },
+  "ok": true
+}
