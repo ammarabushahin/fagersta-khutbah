@@ -59,7 +59,7 @@ jobs:
         run: |
           git config user.name 'Nabd wall bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add nabd/index.html nabd/wall.html nabd/build-v2.json nabd/v2-src/
+          git add nabd/index.html nabd/wall.html nabd/build-v2.json nabd/v2-src/ nabd/local-tests.json
           if ! git diff --cached --quiet; then
             git commit -m 'Publish verified Nabd 2 app without private account credentials [skip ci]'
             git pull --rebase origin main
@@ -71,6 +71,29 @@ jobs:
       - name: Verify the real public deployment
         if: github.event_name != 'schedule' && success()
         run: python nabd/v2-src/verify_live.py
+      - name: Inspect public Facebook post discovery without signing in
+        if: always() && github.event_name != 'schedule'
+        shell: python
+        run: |
+          import html, json, pathlib, re, urllib.request
+          report = {'authenticated': False, 'checks': []}
+          for handle in ['SalmaRashwani', 'QamarAlbarodi']:
+              item = {'handle': handle}
+              try:
+                  request = urllib.request.Request('https://www.facebook.com/' + handle, headers={'User-Agent': 'Mozilla/5.0'})
+                  with urllib.request.urlopen(request, timeout=20) as response:
+                      text = html.unescape(response.read(3000000).decode('utf-8', 'replace').replace('\\/', '/'))
+                      item['http_status'] = response.status
+                  title = re.search(r'<title[^>]*>(.*?)</title>', text, re.S)
+                  item['page_title'] = re.sub('<[^>]+>', '', title.group(1))[:160] if title else None
+                  links = re.findall(r'https://(?:www\.)?facebook\.com/[A-Za-z0-9_.-]+/(?:posts|videos|reel)/[A-Za-z0-9]+', text)
+                  item['public_post_links'] = sorted(set(links))[:20]
+                  item['public_post_link_count'] = len(set(links))
+              except Exception as error:
+                  item['error_type'] = type(error).__name__
+              report['checks'].append(item)
+          pathlib.Path('nabd/facebook-discovery-check.json').write_text(json.dumps(report, ensure_ascii=False, indent=2))
+          print(json.dumps(report, ensure_ascii=False, indent=2))
       - name: Retain test reports and screenshots
         if: always() && github.event_name != 'schedule'
         uses: actions/upload-artifact@v4
@@ -82,13 +105,14 @@ jobs:
             nabd/verification-v2.json
             nabd/live-v2-*.png
             nabd/provider-check-v2.json
+            nabd/facebook-discovery-check.json
           retention-days: 7
       - name: Record diagnostics without changing the unrelated root site
         if: always()
         run: |
           git config user.name 'Nabd wall bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          for file in nabd/local-tests.json nabd/verification-v2.json nabd/provider-check-v2.json; do
+          for file in nabd/local-tests.json nabd/verification-v2.json nabd/provider-check-v2.json nabd/facebook-discovery-check.json; do
             if [ -f "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then
