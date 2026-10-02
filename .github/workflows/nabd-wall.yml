@@ -1,0 +1,65 @@
+name: Nabd wall · publish and feed cache
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'nabd/release.b64'
+      - '.github/workflows/nabd-wall.yml'
+  schedule:
+    - cron: '17,47 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: nabd-wall-cache
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish isolated app and fetch public account timeline
+        shell: python
+        run: |
+          import base64, datetime, hashlib, json, pathlib, urllib.request, zlib
+          root = pathlib.Path('nabd')
+          root.mkdir(exist_ok=True)
+          release = root / 'release.b64'
+          if release.exists():
+              html = zlib.decompress(base64.b64decode(release.read_text()), max_length=2000000) if False else zlib.decompress(base64.b64decode(release.read_text()))
+              if len(html) > 2000000 or not html.startswith(b'<!DOCTYPE html>'):
+                  raise ValueError('Invalid Nabd standalone HTML release')
+              (root / 'index.html').write_bytes(html)
+          now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+          report = {'checked_at': now, 'account': 'SalmaRashwani', 'provider': 'FxEmbed public API v2', 'attempts': []}
+          url = 'https://api.fxtwitter.com/2/profile/SalmaRashwani/statuses?count=50'
+          try:
+              request = urllib.request.Request(url, headers={'Accept': 'application/json', 'User-Agent': 'NabdPublicWall/1.0', 'Origin': 'https://ammarabushahin.github.io'})
+              with urllib.request.urlopen(request, timeout=30) as response:
+                  data = json.load(response)
+                  report['http_status'] = response.status
+                  report['cors'] = response.headers.get('Access-Control-Allow-Origin')
+              if data.get('code') != 200 or not isinstance(data.get('results'), list):
+                  raise ValueError('Provider did not return a valid timeline: ' + str(data.get('message', data.get('code'))))
+              report['ok'] = True
+              report['count'] = len(data['results'])
+              seed = {'fetched_at': now, 'account': 'SalmaRashwani', 'provider': 'FxEmbed public API v2', 'data': data}
+              (root / 'seed.json').write_text(json.dumps(seed, ensure_ascii=False), encoding='utf-8')
+              print('Timeline retrieved:', report['count'], 'posts; CORS:', report['cors'])
+          except Exception as error:
+              report['ok'] = False
+              report['error'] = str(error)
+              print('Public timeline unavailable:', error)
+          if (root / 'index.html').exists():
+              report['html_sha256'] = hashlib.sha256((root / 'index.html').read_bytes()).hexdigest()
+          (root / 'health.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
+      - name: Commit only the isolated app and cache
+        run: |
+          git config user.name 'Nabd wall bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add nabd/index.html nabd/seed.json nabd/health.json 2>/dev/null || git add nabd/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Update Nabd standalone app and public feed cache [skip ci]'
+            git push
+          fi
