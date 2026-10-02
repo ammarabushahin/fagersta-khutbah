@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'nabd/release.b64'
+      - 'nabd/release/**'
+      - 'nabd/verify.py'
       - '.github/workflows/nabd-wall.yml'
   schedule:
     - cron: '17,47 * * * *'
@@ -16,23 +17,31 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
-      - name: Publish isolated app and fetch public account timeline
+      - name: Publish exact tested app and fetch public timeline
         shell: python
+        env:
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          import base64, datetime, hashlib, json, pathlib, urllib.request, zlib
+          import base64, datetime, hashlib, json, lzma, os, pathlib, urllib.request
           root = pathlib.Path('nabd')
           root.mkdir(exist_ok=True)
-          release = root / 'release.b64'
-          if release.exists():
-              html = zlib.decompress(base64.b64decode(release.read_text()), max_length=2000000) if False else zlib.decompress(base64.b64decode(release.read_text()))
-              if len(html) > 2000000 or not html.startswith(b'<!DOCTYPE html>'):
-                  raise ValueError('Invalid Nabd standalone HTML release')
+          if os.environ['EVENT_NAME'] != 'schedule' or not (root / 'index.html').exists():
+              parts = [root / 'release' / ('part' + str(i) + '.b64') for i in range(1, 6)]
+              for part in parts:
+                  print(part.name, hashlib.sha256(part.read_bytes()).hexdigest())
+              encoded = ''.join(part.read_text().strip() for part in parts)
+              html = lzma.decompress(base64.b64decode(encoded, validate=True), memlimit=268435456)
+              actual = hashlib.sha256(html).hexdigest()
+              expected = 'd0f14cc571f012c60b145dfe70a48b13c2dc83956be2008d9c0bb966cf740c7b'
+              if len(html) != 97430 or actual != expected:
+                  raise ValueError('Release integrity check failed: ' + actual)
               (root / 'index.html').write_bytes(html)
+              print('Verified standalone HTML release:', actual)
           now = datetime.datetime.now(datetime.timezone.utc).isoformat()
-          report = {'checked_at': now, 'account': 'SalmaRashwani', 'provider': 'FxEmbed public API v2', 'attempts': []}
+          report = {'checked_at': now, 'account': 'SalmaRashwani', 'provider': 'FxEmbed public API v2'}
           url = 'https://api.fxtwitter.com/2/profile/SalmaRashwani/statuses?count=50'
           try:
               request = urllib.request.Request(url, headers={'Accept': 'application/json', 'User-Agent': 'NabdPublicWall/1.0', 'Origin': 'https://ammarabushahin.github.io'})
@@ -51,15 +60,44 @@ jobs:
               report['ok'] = False
               report['error'] = str(error)
               print('Public timeline unavailable:', error)
-          if (root / 'index.html').exists():
-              report['html_sha256'] = hashlib.sha256((root / 'index.html').read_bytes()).hexdigest()
+          report['html_sha256'] = hashlib.sha256((root / 'index.html').read_bytes()).hexdigest()
           (root / 'health.json').write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
       - name: Commit only the isolated app and cache
         run: |
           git config user.name 'Nabd wall bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add nabd/index.html nabd/seed.json nabd/health.json 2>/dev/null || git add nabd/
+          git add nabd/index.html nabd/health.json
+          test ! -f nabd/seed.json || git add nabd/seed.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Update Nabd standalone app and public feed cache [skip ci]'
+            git commit -m 'Publish tested Nabd app and refresh public feed [skip ci]'
+            git pull --rebase origin main
             git push
+          fi
+      - name: Install browser testing tools for this release
+        if: github.event_name != 'schedule'
+        run: |
+          python -m pip install --quiet playwright
+          python -m playwright install chromium --with-deps
+      - name: Verify public URL and real browser interactions
+        if: github.event_name != 'schedule'
+        run: python nabd/verify.py
+      - name: Retain public verification and screenshots
+        if: always() && github.event_name != 'schedule'
+        uses: actions/upload-artifact@v4
+        with:
+          name: nabd-live-verification
+          path: |
+            nabd/verification.json
+            nabd/live-*.png
+          retention-days: 7
+      - name: Record verification result without modifying the existing site
+        if: always() && github.event_name != 'schedule'
+        run: |
+          if [ -f nabd/verification.json ]; then
+            git add nabd/verification.json
+            if ! git diff --cached --quiet; then
+              git commit -m 'Record Nabd public deployment verification [skip ci]'
+              git pull --rebase origin main
+              git push
+            fi
           fi
