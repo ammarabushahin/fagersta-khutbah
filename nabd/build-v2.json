@@ -1,0 +1,11 @@
+{
+  "version": "2.0.0",
+  "files": {
+    "index.html": "eacdf6f9d1fa9522a4ca7ebdd32e1e4b7dfcbcc7af11b6921c26b081de52b39c",
+    "wall.html": "bf693d259e890a6df1b0404b6d77113a119a8f45f3e7aa6baefd6557626f8dd8"
+  },
+  "x_accounts": 10,
+  "facebook_sources": 10,
+  "credentials_included": false,
+  "security": "browser-local edit lock, not server auth"
+}
