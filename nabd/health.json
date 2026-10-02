@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-02T12:32:57.725662+00:00",
+  "account": "SalmaRashwani",
+  "provider": "FxEmbed public API v2",
+  "attempts": [],
+  "http_status": 200,
+  "cors": "*",
+  "ok": true,
+  "count": 20
+}
