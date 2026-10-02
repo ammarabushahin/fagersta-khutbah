@@ -1,0 +1,78 @@
+{
+  "tests": [
+    {
+      "test": "Startup without JS errors",
+      "pass": true
+    },
+    {
+      "test": "Ten X and ten Facebook sources",
+      "pass": true
+    },
+    {
+      "test": "Ten displayed X posts",
+      "pass": true
+    },
+    {
+      "test": "Balanced account representation",
+      "pass": true
+    },
+    {
+      "test": "Default edit lock engaged",
+      "pass": true
+    },
+    {
+      "test": "Accounts require password",
+      "pass": true
+    },
+    {
+      "test": "Wrong password rejected",
+      "pass": true
+    },
+    {
+      "test": "Correct password unlocks settings",
+      "pass": true
+    },
+    {
+      "test": "Facebook management contains ten profiles",
+      "pass": true
+    },
+    {
+      "test": "Display count editable",
+      "pass": true
+    },
+    {
+      "test": "Individual X card enlarges",
+      "pass": true
+    },
+    {
+      "test": "Timer interval is editable and sent to shell",
+      "pass": true
+    },
+    {
+      "test": "Automatic refresh can pause",
+      "pass": true
+    },
+    {
+      "test": "Facebook view has source cards, not fabricated posts",
+      "pass": true
+    },
+    {
+      "test": "Public page embedding is offered honestly",
+      "pass": true
+    },
+    {
+      "test": "Facebook post URLs deduplicate and strip tracking",
+      "pass": true
+    },
+    {
+      "test": "Facebook embedded card supports zoom",
+      "pass": true
+    },
+    {
+      "test": "Fullscreen activated from user click",
+      "pass": false
+    }
+  ],
+  "errors": [],
+  "network": "local fixtures with a separate test-only password; no deployed password used or stored"
+}
