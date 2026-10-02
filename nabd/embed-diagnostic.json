@@ -1,0 +1,42 @@
+{
+  "errors": [
+    {
+      "message": "Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'.",
+      "stack": "TypeError: Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'.\n    at e.value (https://platform.twitter.com/embed/embed.5332.340f0930f4dd862af95f.js:1:106242)\n    at https://platform.twitter.com/embed/embed.5332.340f0930f4dd862af95f.js:1:108053"
+    },
+    {
+      "message": "Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'.",
+      "stack": "TypeError: Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'.\n    at e.value (https://platform.twitter.com/embed/embed.5332.340f0930f4dd862af95f.js:1:106242)\n    at https://platform.twitter.com/embed/embed.5332.340f0930f4dd862af95f.js:1:108053"
+    }
+  ],
+  "console_errors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://api.fxtwitter.com/2/profile/RaniaAlkilany/statuses?count=20&_nabd=mur483l7",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 ()",
+      "location": {
+        "url": "https://api.fxtwitter.com/2/profile/Al_morakeb_404/statuses?count=20&_nabd=mur483l9",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "embed_status": {
+    "renderer": "official-x-widgets",
+    "loaded": 6,
+    "failed": 0,
+    "total": 10,
+    "active": 0,
+    "embeddedViewsCountOnX": false
+  }
+}
