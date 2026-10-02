@@ -1,0 +1,107 @@
+{
+  "url": "https://ammarabushahin.github.io/fagersta-khutbah/nabd/",
+  "checked_at": "2026-10-02T15:23:31.770443+00:00",
+  "network": "real public deployment and official X widgets; not fixtures",
+  "tests": [
+    {
+      "test": "Public HTTPS serves the checksum-verified embedding release",
+      "pass": true
+    },
+    {
+      "test": "Default X cards are official embed containers",
+      "pass": true
+    },
+    {
+      "test": "Existing account sources and settings gate preserved",
+      "pass": true
+    },
+    {
+      "test": "View count limitation visible",
+      "pass": true
+    },
+    {
+      "test": "Official widgets.js loaded from X",
+      "pass": true
+    },
+    {
+      "test": "Tweet frames use the official X embed origin",
+      "pass": true
+    },
+    {
+      "test": "Genuine post content rendered inside at least one X iframe",
+      "pass": true
+    },
+    {
+      "test": "Full inner refresh reconstructs official embeds",
+      "pass": true
+    },
+    {
+      "test": "Fullscreen and outer document survive refresh",
+      "pass": true
+    },
+    {
+      "test": "Real embeds fit the mobile layout",
+      "pass": true
+    },
+    {
+      "test": "Noindex retained in both documents",
+      "pass": true
+    },
+    {
+      "test": "No uncaught JavaScript errors",
+      "pass": false
+    }
+  ],
+  "errors": [
+    "Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'.",
+    "Failed to execute 'appendChild' on 'Node': parameter 1 is not of type 'Node'."
+  ],
+  "view_count_increase_claimed": false,
+  "embed_status": {
+    "renderer": "official-x-widgets",
+    "loaded": 3,
+    "failed": 0,
+    "total": 10,
+    "active": 3,
+    "embeddedViewsCountOnX": false
+  },
+  "sdk_http_statuses": [
+    200,
+    200
+  ],
+  "official_frame_count": 6,
+  "content_checks": [
+    {
+      "origin": "platform.twitter.com",
+      "content_detected": true,
+      "text_length": 232
+    },
+    {
+      "origin": "platform.twitter.com",
+      "content_detected": true,
+      "text_length": 232
+    },
+    {
+      "origin": "platform.twitter.com",
+      "content_detected": true,
+      "text_length": 351
+    },
+    {
+      "origin": "platform.twitter.com",
+      "content_detected": true,
+      "text_length": 271
+    },
+    {
+      "origin": "platform.twitter.com",
+      "content_detected": true,
+      "text_length": 275
+    },
+    {
+      "origin": "platform.twitter.com",
+      "content_detected": true,
+      "text_length": 222
+    }
+  ],
+  "ok": false,
+  "failure": "No uncaught JavaScript errors"
+}
