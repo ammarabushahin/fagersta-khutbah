@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-02T12:57:08.874041+00:00",
+  "checked_at": "2026-10-02T13:02:44.952331+00:00",
   "url": "https://ammarabushahin.github.io/fagersta-khutbah/nabd/",
   "tests": [
     {
@@ -23,37 +23,99 @@
       "pass": true
     },
     {
-      "test": "Individual card enlarges",
-      "pass": false
+      "test": "First click enlarges a card after editing a number",
+      "pass": true
+    },
+    {
+      "test": "Pin reorders the real cards",
+      "pass": true
+    },
+    {
+      "test": "Refresh seconds editable",
+      "pass": true
+    },
+    {
+      "test": "Countdown can be paused",
+      "pass": true
+    },
+    {
+      "test": "Countdown resumes",
+      "pass": true
+    },
+    {
+      "test": "Manual real URL is stored once",
+      "pass": true
+    },
+    {
+      "test": "Settings survive reloading",
+      "pass": true
+    },
+    {
+      "test": "Bookmark survives reloading",
+      "pass": true
+    },
+    {
+      "test": "Account editing controls available",
+      "pass": true
+    },
+    {
+      "test": "Mobile layout has no horizontal overflow",
+      "pass": true
+    },
+    {
+      "test": "Share URL opens presentation mode",
+      "pass": true
+    },
+    {
+      "test": "Shared view does not expose saved bookmarks",
+      "pass": true
+    },
+    {
+      "test": "No uncaught JavaScript exceptions",
+      "pass": true
     }
   ],
   "errors": [],
-  "last_http_error": "HTTP Error 404: Not Found",
   "http_status": 200,
-  "html_sha256": "d0f14cc571f012c60b145dfe70a48b13c2dc83956be2008d9c0bb966cf740c7b",
+  "html_sha256": "7df9d57cd35206e2351ab0e2b36f3d7afa2bf88abcf6e47a84b22495e53d445e",
   "initial_cards": 10,
   "initial_source_status": {
     "salmarashwani": {
       "ok": true,
-      "at": "2026-10-02T12:58:35.607Z",
-      "count": 20,
-      "cached": false
+      "cached": true,
+      "at": "2026-10-02T13:02:15.728911+00:00",
+      "count": 21
     }
   },
-  "fetched_posts": 20,
+  "fetched_posts": 21,
   "initial_post_ids": [
+    "2106006081637875877",
+    "2106006062105027008",
+    "2106006063556206780",
     "2106001782182724033",
     "2106001761001488468",
     "2106001762914050356",
     "2105989642759647259",
     "2105989623629369724",
     "2105989621549093301",
-    "2105986637184324055",
-    "2105986617529823564",
-    "2105986619094269953",
-    "2105977045834494282"
+    "2105986637184324055"
   ],
-  "live_timeline_api_ok": true,
-  "ok": false,
-  "failure": "Individual card enlarges"
+  "live_timeline_api_ok": false,
+  "zoom_value": 1.1,
+  "manual_post_loaded": true,
+  "api_responses": [
+    {
+      "url": "https://api.fxtwitter.com/2/profile/SalmaRashwani/statuses?count=20",
+      "status": 404
+    },
+    {
+      "url": "https://api.fxtwitter.com/2/status/2105889481257541697",
+      "status": 200
+    },
+    {
+      "url": "https://api.fxtwitter.com/2/profile/SalmaRashwani/statuses?count=20",
+      "status": 200
+    }
+  ],
+  "ok": true
 }
