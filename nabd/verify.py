@@ -1,4 +1,4 @@
-"""Validate only the isolated public Nabd wall; never change the existing root site."""
+"""Validate the isolated public Nabd wall using real network data and browser clicks."""
 import datetime
 import hashlib
 import json
@@ -8,7 +8,7 @@ import urllib.request
 from playwright.sync_api import sync_playwright
 
 URL = 'https://ammarabushahin.github.io/fagersta-khutbah/nabd/'
-EXPECTED = 'd0f14cc571f012c60b145dfe70a48b13c2dc83956be2008d9c0bb966cf740c7b'
+EXPECTED = '7df9d57cd35206e2351ab0e2b36f3d7afa2bf88abcf6e47a84b22495e53d445e'
 ROOT = pathlib.Path('nabd')
 report = {'checked_at': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'url': URL, 'tests': [], 'errors': []}
 
@@ -24,9 +24,8 @@ try:
         try:
             req = urllib.request.Request(URL + '?verify=' + str(int(time.time())), headers={'User-Agent': 'NabdDeploymentCheck/1.0', 'Cache-Control': 'no-cache'})
             with urllib.request.urlopen(req, timeout=12) as response:
-                body = response.read()
                 report['http_status'] = response.status
-                report['html_sha256'] = hashlib.sha256(body).hexdigest()
+                report['html_sha256'] = hashlib.sha256(response.read()).hexdigest()
                 ready = response.status == 200 and report['html_sha256'] == EXPECTED
             if ready:
                 break
@@ -52,12 +51,15 @@ try:
         check('Default ten genuine posts displayed', report['initial_cards'] == 10)
         check('Initial account is SalmaRashwani', page.evaluate('state.accounts[0].handle === "SalmaRashwani"'))
         report['live_timeline_api_ok'] = page.evaluate('!!statuses.salmarashwani?.ok && !statuses.salmarashwani?.cached')
-        page.screenshot(path=str(ROOT / 'live-desktop.png'), full_page=False)
+        page.wait_for_timeout(400)
+        page.screenshot(path=str(ROOT / 'live-desktop.png'), animations='disabled')
         page.locator('#global-limit').fill('3')
         page.locator('#global-limit').dispatch_event('change')
         check('Global count control works on deployed page', page.locator('.tweet').count() == 3)
+        zoom_id = page.locator('.tweet').first.get_attribute('data-id')
         page.locator('.tweet [data-action="post-larger"]').first.click()
-        check('Individual card enlarges', page.locator('.tweet .sizeval').first.inner_text() == '110%')
+        report['zoom_value'] = page.evaluate('(id)=>state.cards[id]?.scale', zoom_id)
+        check('First click enlarges a card after editing a number', report['zoom_value'] == 1.1)
         second = page.locator('.tweet').nth(1).get_attribute('data-id')
         page.locator('.tweet [data-action="pin"]').nth(1).click()
         check('Pin reorders the real cards', page.locator('.tweet').first.get_attribute('data-id') == second)
@@ -94,7 +96,7 @@ try:
         page.evaluate('setSetting("limit",10)')
         page.set_viewport_size({'width': 390, 'height': 844})
         check('Mobile layout has no horizontal overflow', page.evaluate('document.documentElement.scrollWidth<=innerWidth'))
-        page.screenshot(path=str(ROOT / 'live-mobile.png'), full_page=True)
+        page.screenshot(path=str(ROOT / 'live-mobile.png'), full_page=True, animations='disabled')
         page.set_viewport_size({'width': 1440, 'height': 1050})
         page.evaluate('share()')
         share_url = page.locator('#share-url').input_value()
@@ -104,7 +106,7 @@ try:
         viewer.wait_for_function('typeof busy !== "undefined" && !busy && state.posts.length>0', timeout=65000)
         check('Share URL opens presentation mode', viewer.evaluate('isScreen && sharedMode && document.body.classList.contains("presentation")'))
         check('Shared view does not expose saved bookmarks', viewer.evaluate('!Object.values(state.cards).some(c=>c.saved)'))
-        viewer.screenshot(path=str(ROOT / 'live-screen.png'), full_page=False)
+        viewer.screenshot(path=str(ROOT / 'live-screen.png'), animations='disabled')
         report['api_responses'] = api_responses
         check('No uncaught JavaScript exceptions', not report['errors'])
         browser.close()
