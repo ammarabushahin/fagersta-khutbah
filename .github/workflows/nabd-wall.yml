@@ -32,6 +32,10 @@ jobs:
           files = json.loads(raw)
           allowed = {'verify_live.py','upgrade.css','members.json','build.py','test_ui.py','shell.html','upgrade.js','auth.json','probe.py'}
           assert set(files) == allowed
+          old = "page.locator('#start-screen').click()\n  check"
+          new = "page.locator('#start-screen').click()\n  page.wait_for_function('!!document.fullscreenElement',timeout=10000)\n  check"
+          assert files['test_ui.py'].count(old) == 1
+          files['test_ui.py'] = files['test_ui.py'].replace(old,new)
           target = root / 'v2-src'
           target.mkdir(exist_ok=True)
           for name, content in files.items():
@@ -62,9 +66,10 @@ jobs:
             git push
           fi
       - name: Check public sources without account authentication
-        run: python nabd/v2-src/probe.py
+        if: always()
+        run: test ! -f nabd/v2-src/probe.py || python nabd/v2-src/probe.py
       - name: Verify the real public deployment
-        if: github.event_name != 'schedule'
+        if: github.event_name != 'schedule' && success()
         run: python nabd/v2-src/verify_live.py
       - name: Retain test reports and screenshots
         if: always() && github.event_name != 'schedule'
