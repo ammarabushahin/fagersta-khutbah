@@ -1,10 +1,11 @@
-name: Nabd Studio 3 · isolated publish and verification
+name: Nabd 2.1 · official X embeds and verification
 on:
   workflow_dispatch:
   push:
     branches: [main]
     paths:
-      - 'nabd/studio-src/**'
+      - 'nabd/v2-release/**'
+      - 'nabd/embed-release/**'
       - '.github/workflows/nabd-wall.yml'
   schedule:
     - cron: '17,47 * * * *'
@@ -14,95 +15,106 @@ concurrency:
   group: nabd-wall-cache
   cancel-in-progress: false
 jobs:
-  studio:
+  upgrade:
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
-      - name: Import the reviewed public code release once, never the private workbook
+      - name: Decode checksum-verified public sources only
+        if: github.event_name != 'schedule'
         shell: python
         run: |
-          import base64, hashlib, json, lzma, pathlib, urllib.request
+          import base64, hashlib, json, lzma, pathlib
           root = pathlib.Path('nabd')
-          target = root / 'studio-src'
-          if not (target / 'src/studio.js').exists():
-              # This short-lived URL contains only the public application source bundle.
-              # It does not grant access to the user's private source workbook or credentials.
-              url = 'https://sdmntprdenmarkeast.oaiusercontent.com/files/00000000-5ad8-8210-bc3a-cee93000f1d7/raw?se=2026-10-03T10%3A02%3A56Z&sp=r&sv=2026-02-06&sr=b&scid=06019cc6-1a32-54cb-8596-c53aaea6a60e&skoid=d294dba5-36f7-432b-aab8-935656489847&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-03T03%3A57%3A04Z&ske=2026-10-04T03%3A57%3A04Z&sks=b&skv=2026-02-06&sig=6fKwPZ%2BwxbfvufZWMmbQSKJh19VRgTyikOslgHmAk70%3D'
-              with urllib.request.urlopen(url, timeout=40) as r:
-                  encoded = r.read(200000)
-              raw = lzma.decompress(base64.b64decode(encoded, validate=True), memlimit=268435456)
-              assert len(raw) == 192683
-              assert hashlib.sha256(raw).hexdigest() == '187c2f9ec21f13dd4cd91c7bdd53357211ed6cdd39d0f745ac7347269ede07f8'
-              files = json.loads(raw)
-              allowed = {'build.py','seed.py','README-ar.md','src/studio.html','src/studio.css','src/studio.js','src/config.json','src/shell.html','tests/test_studio.py','tests/verify_live.py','privacy-check.json'}
-              assert set(files) == allowed
-              for name, content in files.items():
-                  assert isinstance(content, str)
-                  path = target / name
-                  path.parent.mkdir(parents=True, exist_ok=True)
-                  path.write_text(content, encoding='utf-8')
-              print('Reviewed public source imported and checksum verified.')
-          else:
-              print('Using version-controlled public source; no external download needed.')
-      - name: Retain source before building, without replacing the working app
-        run: |
-          git config user.name 'Nabd wall bot'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add nabd/studio-src/
-          if ! git diff --cached --quiet; then
-            git commit -m 'Retain reviewed Studio public sources; exclude private workbook [skip ci]'
-            git pull --rebase origin main
-            git push
-          fi
-      - name: Build Studio without altering unrelated site files
+          encoded = ''.join((root / 'v2-release' / ('part' + str(i) + '.b64')).read_text().strip() for i in range(1,6))
+          raw = lzma.decompress(base64.b64decode(encoded, validate=True), memlimit=268435456)
+          assert len(raw) < 500000
+          assert hashlib.sha256(raw).hexdigest() == 'd95589bfa13a16dae980308fba8bae9def9866d7fb4630abcd0f14f0b845677a', 'Source integrity check failed'
+          files = json.loads(raw)
+          allowed = {'verify_live.py','upgrade.css','members.json','build.py','test_ui.py','shell.html','upgrade.js','auth.json','probe.py'}
+          assert set(files) == allowed
+          old = "page.locator('#start-screen').click()\n  check"
+          new = "page.locator('#start-screen').click()\n  page.wait_for_function('!!document.fullscreenElement',timeout=10000)\n  check"
+          assert files['test_ui.py'].count(old) == 1
+          files['test_ui.py'] = files['test_ui.py'].replace(old,new)
+          old = " ctx.route('https://fonts.googleapis.com/**',lambda r:r.abort())"
+          new = " ctx.route('https://platform.twitter.com/**',lambda r:r.abort())\n" + old
+          assert files['test_ui.py'].count(old) == 1
+          files['test_ui.py'] = files['test_ui.py'].replace(old,new)
+          target = root / 'v2-src'
+          target.mkdir(exist_ok=True)
+          for name, content in files.items():
+              assert isinstance(content, str)
+              (target / name).write_text(content, encoding='utf-8')
+          encoded = ''.join((root / 'embed-release' / ('part' + str(i) + '.b64')).read_text().strip() for i in range(1,3))
+          raw = lzma.decompress(base64.b64decode(encoded, validate=True), memlimit=268435456)
+          assert len(raw) == 34934
+          assert hashlib.sha256(raw).hexdigest() == '62cc70470b6ab9b22239e6603743ae2c7198d631154b13e77221947cc8c7ff19', 'Embed source integrity check failed'
+          files = json.loads(raw)
+          assert set(files) == {'build.py','embeds.js','embeds.css','test_embed.py','verify_live.py'}
+          target = root / 'embed-src'
+          target.mkdir(exist_ok=True)
+          for name, content in files.items():
+              assert isinstance(content, str)
+              (target / name).write_text(content, encoding='utf-8')
+          print('Allowlisted public sources verified. No private account document or plaintext deployed password is used in CI.')
+      - name: Build isolated app with official X embeds
         if: github.event_name != 'schedule'
         run: |
-          python nabd/studio-src/build.py nabd
-          node --check nabd/studio-src/src/studio.js
-      - name: Install isolated browser testing tools
+          python nabd/v2-src/build.py nabd
+          python nabd/embed-src/build.py nabd
+      - name: Install browser testing tools
         if: github.event_name != 'schedule'
         run: |
           python -m pip install --quiet playwright
           python -m playwright install chromium --with-deps
-      - name: Test administration, embeds, backups, and persistent display using fixtures
+      - name: Test official embed integration using offline fixtures
         if: github.event_name != 'schedule'
-        run: python nabd/studio-src/tests/test_studio.py nabd
-      - name: Refresh only public X fallback data
-        run: python nabd/studio-src/seed.py nabd
-      - name: Publish the passing release and public cache
+        run: python nabd/embed-src/test_embed.py nabd
+      - name: Test existing display and security controls with separate test-only password
+        id: ui
+        if: github.event_name != 'schedule'
+        run: python nabd/v2-src/test_ui.py nabd
+      - name: Publish only the tested Nabd app
+        if: github.event_name != 'schedule'
         run: |
-          git add nabd/seed-studio.json nabd/studio-source-check.json
-          if [ '${{ github.event_name }}' != 'schedule' ]; then
-            git add nabd/index.html nabd/studio.html nabd/robots.txt nabd/build-studio.json nabd/studio-local-tests.json
-          fi
+          git config user.name 'Nabd wall bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add nabd/index.html nabd/wall.html nabd/build-v2.json nabd/build-embed.json nabd/v2-src/ nabd/embed-src/ nabd/local-tests.json nabd/embed-local-tests.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Publish verified Nabd Studio and public source cache [skip ci]'
+            git commit -m 'Publish official X embeds with unchanged public accounts and local edit protection [skip ci]'
             git pull --rebase origin main
             git push
           fi
-      - name: Verify the real public page, live source responses, and mobile layout
-        if: github.event_name != 'schedule'
-        run: python nabd/studio-src/tests/verify_live.py nabd
-      - name: Retain diagnostics and browser screenshots
+      - name: Check public sources without account authentication
+        if: always()
+        run: test ! -f nabd/v2-src/probe.py || python nabd/v2-src/probe.py
+      - name: Verify genuine official embeds on the public deployment
+        if: github.event_name != 'schedule' && success()
+        run: python nabd/embed-src/verify_live.py
+      - name: Retain test reports and screenshots
         if: always() && github.event_name != 'schedule'
         uses: actions/upload-artifact@v4
         with:
-          name: nabd-studio-verification
+          name: nabd-embed-verification
           path: |
-            nabd/studio-local-tests.json
-            nabd/studio-local-*.png
-            nabd/studio-verification.json
-            nabd/studio-live-*.png
-            nabd/studio-source-check.json
+            nabd/local-tests.json
+            nabd/local-*.png
+            nabd/embed-local-tests.json
+            nabd/embed-local-*.png
+            nabd/embed-verification.json
+            nabd/embed-live-*.png
+            nabd/provider-check-v2.json
           retention-days: 7
-      - name: Record diagnostics only, even when tests fail
-        if: always() && github.event_name != 'schedule'
+      - name: Record diagnostics without changing the unrelated root site
+        if: always()
         run: |
-          for file in nabd/studio-local-tests.json nabd/studio-verification.json nabd/studio-source-check.json; do
+          git config user.name 'Nabd wall bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for file in nabd/local-tests.json nabd/embed-local-tests.json nabd/embed-verification.json nabd/provider-check-v2.json; do
             if [ -f "$file" ]; then git add "$file"; fi
           done
           if ! git diff --cached --quiet; then
-            git commit -m 'Record Studio verification without claiming platform view increases [skip ci]'
+            git commit -m 'Record official embed verification; no view-count increases claimed [skip ci]'
             git push
           fi
