@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-03T22:27:07.420090+00:00",
+  "checked_at": "2026-10-04T02:01:25.411469+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -74,10 +74,8 @@
     {
       "handle": "NoraRawas",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 20,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
