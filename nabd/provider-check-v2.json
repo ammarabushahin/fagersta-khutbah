@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-06T16:17:46.261538+00:00",
+  "checked_at": "2026-10-06T21:16:51.758083+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -32,8 +32,10 @@
     {
       "handle": "QamarAlbarodi",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
@@ -44,8 +46,10 @@
     {
       "handle": "AmaniBarazi",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 19,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
@@ -58,7 +62,7 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 21,
+        "post_count": 20,
         "cors": "*"
       },
       "facebook": {
@@ -84,8 +88,10 @@
     {
       "handle": "kamiliabal19551",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 19,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
@@ -103,27 +109,31 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "SalmaRashwani",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "remamuraad",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
