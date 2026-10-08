@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-08T00:15:22.609457+00:00",
+  "checked_at": "2026-10-08T06:19:01.745309+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -39,12 +39,24 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "AmaniBarazi",
+      "x": {
+        "ok": false,
+        "http_status": 404
+      },
+      "facebook": {
+        "http_status": 200,
+        "login_or_gate_detected": true,
+        "verified_timeline_fetched": false
+      }
+    },
+    {
+      "handle": "amirabaniomaya2",
       "x": {
         "http_status": 200,
         "ok": true,
@@ -58,26 +70,16 @@
       }
     },
     {
-      "handle": "amirabaniomaya2",
-      "x": {
-        "ok": false,
-        "http_status": 404
-      },
-      "facebook": {
-        "http_status": 200,
-        "login_or_gate_detected": false,
-        "verified_timeline_fetched": false
-      }
-    },
-    {
       "handle": "NoraRawas",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -98,14 +100,12 @@
     {
       "handle": "YomnaKadi",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 20,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -114,20 +114,22 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 20,
+        "post_count": 22,
         "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "remamuraad",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 21,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
