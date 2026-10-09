@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-08T19:59:06.896775+00:00",
+  "checked_at": "2026-10-09T00:27:06.394428+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -76,12 +76,12 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 18,
+        "post_count": 20,
         "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -102,14 +102,12 @@
     {
       "handle": "YomnaKadi",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 19,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -118,12 +116,12 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 22,
+        "post_count": 21,
         "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
