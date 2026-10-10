@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-10T00:04:35.693316+00:00",
+  "checked_at": "2026-10-10T06:00:22.470618+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -32,8 +32,10 @@
     {
       "handle": "QamarAlbarodi",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
@@ -116,7 +118,7 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 21,
+        "post_count": 20,
         "cors": "*"
       },
       "facebook": {
