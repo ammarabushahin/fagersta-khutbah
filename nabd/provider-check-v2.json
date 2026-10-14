@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-14T10:38:55.785756+00:00",
+  "checked_at": "2026-10-14T15:32:53.232412+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -116,8 +116,10 @@
     {
       "handle": "SalmaRashwani",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 22,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
