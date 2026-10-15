@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-15T00:58:01.847419+00:00",
+  "checked_at": "2026-10-15T05:56:32.344476+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -39,7 +39,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -53,7 +53,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -81,7 +81,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -109,7 +109,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -123,7 +123,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
