@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-29T14:26:50.928710+00:00",
+  "checked_at": "2026-10-29T19:54:07.149587+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -118,7 +118,7 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 21,
+        "post_count": 22,
         "cors": "*"
       },
       "facebook": {
