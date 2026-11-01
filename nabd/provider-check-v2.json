@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-01T09:47:36.398921+00:00",
+  "checked_at": "2026-11-01T16:50:03.902839+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -39,19 +39,21 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "AmaniBarazi",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -72,12 +74,14 @@
     {
       "handle": "NoraRawas",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -105,7 +109,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -114,12 +118,12 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 20,
+        "post_count": 21,
         "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
