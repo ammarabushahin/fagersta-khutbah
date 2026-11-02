@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-02T00:52:39.831156+00:00",
+  "checked_at": "2026-11-02T07:44:42.583016+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -60,8 +60,10 @@
     {
       "handle": "amirabaniomaya2",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
@@ -79,7 +81,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
@@ -107,27 +109,31 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "SalmaRashwani",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 20,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": false,
+        "login_or_gate_detected": true,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "remamuraad",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 22,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
