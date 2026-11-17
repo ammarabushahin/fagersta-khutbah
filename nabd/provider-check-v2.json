@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-16T17:29:45.785687+00:00",
+  "checked_at": "2026-11-17T01:06:22.740403+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -37,7 +37,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -51,7 +51,7 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
@@ -77,17 +77,15 @@
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "kamiliabal19551",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 20,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
@@ -98,36 +96,34 @@
     {
       "handle": "YomnaKadi",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 20,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "SalmaRashwani",
       "x": {
-        "ok": false,
-        "http_status": 404
+        "http_status": 200,
+        "ok": true,
+        "post_count": 22,
+        "cors": "*"
       },
       "facebook": {
         "http_status": 200,
-        "login_or_gate_detected": true,
+        "login_or_gate_detected": false,
         "verified_timeline_fetched": false
       }
     },
     {
       "handle": "remamuraad",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 21,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
