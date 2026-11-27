@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-27T15:38:45.726922+00:00",
+  "checked_at": "2026-11-27T23:45:37.325135+00:00",
   "authentication_used": false,
   "x_account_count": 10,
   "facebook_source_count": 10,
@@ -32,10 +32,8 @@
     {
       "handle": "QamarAlbarodi",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 20,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
@@ -48,7 +46,7 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 21,
+        "post_count": 20,
         "cors": "*"
       },
       "facebook": {
@@ -74,10 +72,8 @@
     {
       "handle": "NoraRawas",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 20,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
@@ -88,10 +84,8 @@
     {
       "handle": "kamiliabal19551",
       "x": {
-        "http_status": 200,
-        "ok": true,
-        "post_count": 19,
-        "cors": "*"
+        "ok": false,
+        "http_status": 404
       },
       "facebook": {
         "http_status": 200,
@@ -104,7 +98,7 @@
       "x": {
         "http_status": 200,
         "ok": true,
-        "post_count": 20,
+        "post_count": 21,
         "cors": "*"
       },
       "facebook": {
